@@ -1,0 +1,65 @@
+\begin{thebibliography}{1}
+\providecommand{\url}[1]{\texttt{#1}}
+\providecommand{\urlprefix}{URL }
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi:\discretionary{}{}{}#1}\else
+  \providecommand{\doi}{doi:\discretionary{}{}{}\begingroup
+  \urlstyle{rm}\Url}\fi
+\providecommand{\bibAnnoteFile}[1]{%
+  \IfFileExists{#1}{\begin{quotation}\noindent\textsc{Key:} #1\\
+  \textsc{Annotation:}\ \input{#1}\end{quotation}}{}}
+\providecommand{\bibAnnote}[2]{%
+  \begin{quotation}\noindent\textsc{Key:} #1\\
+  \textsc{Annotation:}\ #2\end{quotation}}
+\providecommand{\eprint}[2][]{\url{#2}}
+
+\bibitem{salomon}
+Salomon D, Motta G, Bryant D (2009) Handbook of Data Compression.
+\newblock London: Springer, 1359 pp.
+\bibAnnoteFile{salomon}
+
+\bibitem{salomon2}
+Salomon D (2007) Data Compression: The Complete Reference.
+\newblock Number v. 10 in Data compression: the complete reference. London:
+  Springer-Verlag New York Incorporated.
+\bibAnnoteFile{salomon2}
+
+\bibitem{lynch}
+Lynch C (2008) Big data: How do your data grow?
+\newblock Nature 455: 28--29.
+\bibAnnoteFile{lynch}
+
+\bibitem{yemliha2007compiler}
+Yemliha T, Chen G, Ozturk O, Kandemir M, Degalahal V (2007) Compiler-directed
+  code restructuring for operating with compressed arrays.
+\newblock In: Proceedings of the 20th International Conference on VLSI Design
+  held jointly with 6th International Conference: Embedded Systems. Citeseer,
+  pp. 221--226.
+\bibAnnoteFile{yemliha2007compiler}
+
+\bibitem{dodson1991sparse}
+Dodson D, Grimes R, Lewis J (1991) Sparse extensions to the fortran basic
+  linear algebra subprograms.
+\newblock ACM Transactions on Mathematical Software (TOMS) 17: 253--263.
+\bibAnnoteFile{dodson1991sparse}
+
+\bibitem{van2011numpy}
+Van Der~Walt S, Colbert S, Varoquaux G (2011) The numpy array: a structure for
+  efficient numerical computation.
+\newblock Computing in Science \& Engineering 13: 22--30.
+\bibAnnoteFile{van2011numpy}
+
+\bibitem{big}
+Kane MJ, Emerson JW (2012) bigmemory: Manage massive matrices with shared
+  memory and memory-mapped files.
+\newblock \urlprefix\url{http://CRAN.R-project.org/package=bigmemory}.
+\newblock R package version 4.3.0.
+\bibAnnoteFile{big}
+
+\bibitem{bodden2007arithmetic}
+Bodden E, Clasen M, Kneis J (2007) Arithmetic coding revealed.
+\newblock In: Sable Technical Report 2007-5, Sable Research Group, School of
+  Computer Science, (McGill University, Montr{\'e}al.
+\bibAnnoteFile{bodden2007arithmetic}
+
+\end{thebibliography}
