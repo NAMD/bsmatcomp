@@ -250,44 +250,28 @@ So far the VLB method is more wasteful than the SM, but when we add $M_{1,4} =25
  We used a total of 87 bits to store matrix $m$ with the VLB method instead of 80 bits using the SM method. However, as shall be seen later, the VLB method will be the most efficient for most matrices.
  
  \subsection*{Compression Efficiency}
- To compare the two compression methods proposed, we can calculate their efficiencies. However since they depend of the data being compressed, we will describe below how to  calculate the efficienty given the data for both methods. Figure 
+ Compression efficiency depends of the data being compressed. Below, a formula for calculating compression efficiency is derived for both methods. They will be based on the following ratio:
  
- \subsubsection*{Method 1}
- Let $M_{r \times c}$ be the matrix we wish to compress. we can define the efficiency of the compression as:
  \begin{equation}\label{eq:eff1}
-  \eta_1=\frac{bits\, alocated-bits\, used}{bits\,alocated}
+  \eta=\frac{bits\, alocated-bits\, used}{bits\,alocated}
  \end{equation}
-
-Equation \ref{eq:eff1} represent the compression ratio achieved by the method. In comparison with a conventional allocation (64-bit integers) we can rewrite equation \ref{eq:eff1} as:
+ 
+ Where \textit{bits alocated} above mean total bits required for standard storage of the matrix, without compression, while bits used mean total bits requires to store the matrix after compression.
+ \subsubsection*{SM Method}
+ Let $M_{r \times c}$ be the matrix we wish to compress. In comparison with a conventional allocation (64-bit integers) we can apply equation \ref{eq:eff1} to caluculate the efficiency of the SM method:
 
 \begin{align}\label{eq:22}
  \eta_1 &= \frac{64 \times rc - b(max M) \times rc}{64 \times rc}\nonumber\\
- &= \frac{64  - b }{64}
+ &= \frac{64  - b(max M) }{64}
 \end{align}
 
-As we can see in (\ref{eq:22}), $\eta_1$ does not depend on size of the matrix, only on the bit-length of $\max M$ (equation \ref{eq:19}). According to equation \ref{eq:22} if $b(\max M)=64$, $\eta_1$ will be 0, i.e. no compression is possible. This leads to a very interesting optimization oportunity: divide the entire matrix by the greatest common divisor  of its elements. On the other extreme, if the matrix is composed exclusively of 0s and 1s, maximal compression is achievable, $\eta_1=1$.
-
-\begin{equation} \label{eq:19}
- 0000000000000000000000000000000000\underbrace{1111111111}_{1023}\underbrace{\overbrace{000000000}^{\text{Wasted}}1}_{1}\underbrace{\overbrace{000000000}^{\text{Wasted}}0}_{0}
-\end{equation}
-
-\begin{figure}[h]
- \centering
- \psfrag{e}{$\xi$}
- \includegraphics[scale=0.5]{fig01}
- \caption{Compression efficiency of method 1 behavior with respect to bit number.}
- \label{fig:01}
-\end{figure}
+As we see in \ref{eq:22}, $\eta_1$ does not depend on size of the matrix, only on the bit-length of $\max M$. If $b(\max M)=64$, $\eta_1$ is 0, i. e. no compression is possible. On the other extreme, if the matrix is composed exclusively of 0s and 1s, maximal compression is achievable, $\eta_1=1$.
  
- \subsubsection*{Method 2}
+ \subsubsection*{VLB Method}
  
- For the second method, compression depends on the value of each element of the matrix. Thus to compute its efficiency, we shal modify equation \ref{eq:eff1}. We'll start by grouping the elements by bit length, since in this method, bit-lentgh variability greatly affects the compression ratio.
+ For the VLB method, compression depends on the value of each element of the matrix. In this method bit-lentgh variability affects the compression ratio, so the formula will have to include this information.
 
-Again consider the matrix $M_{r \times c}$, only the $rc$ elements are now divided into $g$ groups, with $f_i$ numbers of bit-length $b_i = b(m_i)$ each. Let $k = b(b(\max M))$, i.e., the bit length of the bit-length of $\max M$. The efficiency $\eta_2$ is then defined as shown in \ref{eq:24}. Equation \ref{eq:20} can help us visualize it.
-
-\begin{equation} \label{eq:20}
- 0000000000000000000000000000000000000000\underbrace{1111111111}_{1023}\underbrace{1010}_{10}\underbrace{1}_{1}\underbrace{0001}_{1}\underbrace{0}_{0}\underbrace{0001}_{1}
-\end{equation}
+Let the $rc$ elements of the matrix $M_{r \times c}$ be divided into $g$ groups, each with $f_i$ numbers of bit-length $b_i = b(m_i)$. Thus $f_i$ is the frequency of each bit-length present in $M$. Let $k = b(b(\max M))$, i.e., the bit length of the bit-length of $\max M$. The efficiency $\eta_2$ is shown below.
 
 \begin{equation}\label{eq:24}
  \eta_2 = \frac{64 \times rc - \sum_{i=1}^{g} ( b_i + k ) \times f_i }{64 \times rc} 
@@ -307,11 +291,10 @@ We can further simplify equation \ref{eq:24} to get at shorter expression for th
 % Results and Discussion can be combined.
 \section*{Results}
 
-Consider a matrix $M$ such that $m_{i,j} \in \mathbb{Z}$. In this section we will examine and compare the efficiency of the two compression methods described.
+\paragraph{Random Matrix Generation.}
+In both methods, compression eficiency depends on the distribution of the bit-lengths $b(m_{i,j})$. Thus, in this section, a method to generate a variety of random bit-length distributions is proposed.
 
-Since the efficiency of both methods depend on the distribution of the bit lengths $b(m_{i,j})$, we will explore a variety of distributions and try to cover the most common cases.
-
-For simplicity we will model the distribution of  as a mixture $X$ of two Beta distributions ,$ B_1 \sim Beta(\alpha_1,\beta_1)$ and $B_2 \sim Beta(\alpha_2,\beta_2)$, whose probability function is shown in equation (eq.\ref{eq:mixture}). Since the Beta distribution is defined only in the interval $[0,1] \subset \mathbb{R}$ , we applied a simple transformation (\ref{eq:transf}) to the mixture in order to map it to the interval of $[1,64] \subset \mathbb{Z}$
+For simplicity we will model the distribution of  as a mixture $X$ of two Beta distributions ,$ B_1 \sim Beta(\alpha_1,\beta_1)$ and $B_2 \sim Beta(\alpha_2,\beta_2)$, whose probability function is shown in equation (eq.\ref{eq:mixture}). Since the Beta distribution is defined only in the interval $[0,1] \subset \mathbb{R}$ , we applied a simple transformation ($\lfloor 64 \times x \rfloor + 1$) to the mixture in order to map it to the interval of $[1,64] \subset \mathbb{Z}$
 
 \begin{equation}\label{eq:mixture}
  F(x) =  w \, Beta(\alpha_1,\beta_1) + (1-w)\,Beta(\alpha_2,\beta_2)
@@ -325,15 +308,11 @@ The intention of using this mixture was to find a simple way to represent a larg
  Var(X) &= w Var(B_1) + (1-w) Var(B_2) + w (1-w) (E(B_1)^2 - E(B_2)^2)
 \end{align}
 
-\begin{equation}\label{eq:transf}
-   \lfloor 64 \times x \rfloor + 1
-\end{equation}
-
 In order to explore the compression efficiency of both methods, we generated samples from the mixture defined above, varying its parameters. From now on, when we mention Beta distribution we will mean the transformed version defined above.
 
-Given any matrix generated by our mixture distribution, we can use equation \ref{eq:22} and \ref{eq:25}, to determine the compression efficiency of methods 1 and 2, respectively. 
+From now on we will apply equations \ref{eq:22} and \ref{eq:25}, to determine the compression efficiency of methods SM and VLB for random matrices generated as describe above. 
 
-With $w=0$, ie, our mixture is reduce to a single Beta distribution. In Figure \ref{fig:02},
+With $w=0$, a single Beta distribution is used. In Figure \ref{fig:02},
 we show some distributions of bit-lengths for some combinations of $\alpha_1$ and $\beta_1$. From the figure it can be seen that we can generate just about any kind of unimodal distributions in the interval $[1,64]$.
  
 
