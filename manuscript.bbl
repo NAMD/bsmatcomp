@@ -29,6 +29,11 @@ Lynch C (2008) Big data: How do your data grow?
 \newblock Nature 455: 28--29.
 \bibAnnoteFile{lynch}
 
+\bibitem{gaber2005mining}
+Gaber M, Zaslavsky A, Krishnaswamy S (2005) Mining data streams: a review.
+\newblock ACM Sigmod Record 34: 18--26.
+\bibAnnoteFile{gaber2005mining}
+
 \bibitem{yemliha2007compiler}
 Yemliha T, Chen G, Ozturk O, Kandemir M, Degalahal V (2007) Compiler-directed
   code restructuring for operating with compressed arrays.

@@ -97,3 +97,14 @@ url = {http://CRAN.R-project.org/package=bigmemory},
   year={2007},
   organization={Citeseer}
 }
+
+@article{dodson1991sparse,
+  title={Sparse extensions to the Fortran basic linear algebra subprograms},
+  author={Dodson, D.S. and Grimes, R.G. and Lewis, J.G.},
+  journal={ACM Transactions on Mathematical Software (TOMS)},
+  volume={17},
+  number={2},
+  pages={253--263},
+  year={1991},
+  publisher={ACM}
+}
