@@ -256,7 +256,7 @@ So far the VLB method is more wasteful than the SM, but when we add $M_{1,4} =25
   \eta=\frac{bits\, alocated-bits\, used}{bits\,alocated}
  \end{equation}
  
- Where \textit{bits alocated} above mean total bits required for standard storage of the matrix, without compression, while bits used mean total bits requires to store the matrix after compression.
+ Where \textit{bits alocated} above mean total bits required for standard storage of the matrix, without compression, while bits used mean total bits requires to store the matrix after compression. From nowon the efficiencies are denoted by $\eta_1$ for the SM method and by $\eta_2$ for the VLB method. 
  \subsubsection*{SM Method}
  Let $M_{r \times c}$ be the matrix we wish to compress. In comparison with a conventional allocation (64-bit integers) we can apply equation \ref{eq:eff1} to caluculate the efficiency of the SM method:
 
@@ -334,7 +334,7 @@ we show some distributions of bit-lengths for some combinations of $\alpha_1$ an
   \label{fig:02}
 \end{figure}
 
-As we are sampling the from set of all possible distributions of bit-length, represented byt the mixture of betas presented above, in order to make our results more general, we will base our analysis on the expected bit-length of a sample, since the efficiency of both methods  depend on it. So, from equations \ref{eq:22} and \ref{eq:25}, the expected efficiencies become: 
+As we are sampling from a large set distributions of bit-length, represented by the mixture of betas presented above, in order to make our results more general, we will base our analysis on the expected bit-length of a sample, since the efficiency of both methods depends on it. So, from equations \ref{eq:22} and \ref{eq:25}, the expected efficiencies become: 
  
 \begin{equation}\label{eq:56}
  E(\eta_1) = 1 - \frac{k}{64}
@@ -344,13 +344,13 @@ As we are sampling the from set of all possible distributions of bit-length, rep
  E(\eta_2) = 1 - \frac{E(b)}{64} - \frac{k}{64}
 \end{equation}
 
-where k in the expression of $\eta_2$ is set to 7 (the bit-length required to represent the largest possible bit-length: 64). In \ref{eq:56}, $k$ is the bit-length of the greatest element, or in the worst case, 64.
+where k in \ref{eq:57}, is set to 7 (the bit-length required to represent the largest possible bit-length: 64). In \ref{eq:56}, $k$ is the bit-length of the greatest element, or in the worst case, 64.
 
 We will use the difference $D=E(\eta_1)-E(\eta_2)$ to compare the efficiency of the two methods. Thus a positive $D$ will favor method $1$ while a negative $D$ favors method $2$.
 
-For the numeric experiments, we generate $3$ samples of size $10000$, from which we calculate the expected compression efficiency, using equations \ref{eq:56} and \ref{eq:57}. the values presented in tables and figures below are averages of the efficiencies of the three samples. 
+The expected compression efficiency in the following numeric experiments, will be calculated from $3$ matrices of dimension $10000$, generated as described, and presented in tables and figures below. 
  
-In Figure \ref{fig:03}, we can see the distribution of efficiencies and their difference for a sample generated from a single Beta distribution of bit-lengths. We can see that both methods can achieve efficiencies greater than 80\% for matrices with very small numbers. We also see in figure \ref{fig:03} that method 2 is more efficient in the majority of cases.
+In Figure \ref{fig:03}, we can see the distribution of efficiencies and their difference for a sample generated from a single Beta distribution of bit-lengths. Note that both methods can achieve efficiencies greater than 80\% for matrices with very small numbers. Also note that the VLB method is more efficient in the majority of cases.
  
 \begin{figure}[h]
   \centering
@@ -371,13 +371,13 @@ In Figure \ref{fig:03}, we can see the distribution of efficiencies and their di
   \label{fig:03}
 \end{figure}
  
-Now let's analyze matrices whose elements have bit lengths sampled from a mixture of beta distributions, $B_1$ and $B_2$. For this mixture $B$ we set $w = 0.5$, i.e., the mixture will have half the numbers generated from the distribution $B_1 \sim Beta(\alpha_1,\beta_1)$ and the other part distribution $B_2 \sim Beta(\alpha_2,\beta_2)$. The expected value for this mixture is shown in equation \ref{eq:58}.
+Now let $w = 0.5$, i. e., matrices will have elements with bit-lengths comming from a mixture of beta distributions, $B_1\sim Beta(\alpha_1,\beta_1)$ and $B_2\sim Beta(\alpha_2,\beta_2)$. The expected value for this mixture is shown in equation \ref{eq:58}.
  
 \begin{equation}\label{eq:58}
  E(B) = 0.5 E(B_1) + 0.5 E(B_2)
 \end{equation}
  
-We must also redefine the calculations of efficiency for the mixture samples. Equation \ref{eq:59} shows the expected efficiency for method 1. Now, instead of having the efficiency being a function of greatest bit-length in the sample (denoted as  $k$ in \ref{eq:56} and \ref{eq:57}), it will be a function of $max\{E(B_1),E(B_2)\}$. We do the same for method​ 2 (equation \ref{eq:60})​. 
+For bit-lengths coming from a mixture ($w>0$), let the expected efficiencies for the SM and VLB methods be as given by equations \ref{eq:59} and \ref{eq:60}. So now, instead of having the efficiency be a function of greatest bit-length in the sample (denoted as  $k$ in \ref{eq:56} and \ref{eq:57}), it will be a function of $max\{E(B_1),E(B_2)\}$.
 
 \begin{equation}\label{eq:59}
  E(\eta_1) = 1 - \frac{max\{E(B_1),E(B_2)\}}{64}
@@ -387,11 +387,11 @@ We must also redefine the calculations of efficiency for the mixture samples. Eq
  E(\eta_2) = 1 - 0.5\frac{E(B_1)}{64} - 0.5\frac{E(B_2)}{64} - \frac{max\{E(B_1),E(B_2)\}}{64}
 \end{equation}
  
-As before, we generate 3 samples of size $10000$ for each parameterization, calculate the average efficiencies (equations \ref{eq:59} and \ref{eq:60}) and their diference $D$.
+As before, we generate 3 matrices of dimension $10000$ for each parameterization, calculate the average efficiencies (equations \ref{eq:59} and \ref{eq:60}) and their diference $D$.
 
-Before we move on to the efficiency results and analyses, let's first inspect our samples from the mixture of transformed Beta distributions. Figures \ref{fig:02A} and \ref{fig:02B}, show a few parameterizations and their resulting sample distributions. It is important to note that from the mixture we can now generate bimodal distributions as well as the unimodal types tested before. Since we are making statements about efficiency as a function of the expected bit-length, it is important to verify if these statements hold for bimodal  distributions as well.
+Before moving on to efficiency results and analyses, let's first inspect samples from the mixture of transformed Beta distributions. Figures \ref{fig:02A} and \ref{fig:02B}, show a few parameterizations and their resulting sample distributions. It is important to note that from the mixture we can now generate bimodal distributions as well as the unimodal types tested before. Since we are making statements about efficiency as a function of the expected bit-length, it is important to verify if these statements hold for bimodal  distributions as well.
 
-After sampling uniformly ($[1,5,9,\ldots,64]$, $n=65536$) the parameter space and comparing efficiencies, we summarized the results on table \ref{tab:06}. In it we see how many parameterizations (from our sample) favor each method. We can also look at the distribution of efficiencies on our samples for each method (figure \ref{fig:1415}), which clearly demonstrate the greater expected efficiency of method 2 (figure \ref{fig:15}).
+After sampling uniformly ($[1,5,9,\ldots,64]$, $n=65536$) the bit-length space and comparing efficiencies, we summarized the results on table \ref{tab:06}. In it we see how many parameterizations (from our sample) favor each method. We can also look at the distribution of efficiencies on our samples for each method (figure \ref{fig:1415}), which clearly demonstrate the greater expected efficiency of method 2 (figure \ref{fig:15}).
 
 \begin{figure}[h]
   \centering
@@ -434,7 +434,7 @@ After sampling uniformly ($[1,5,9,\ldots,64]$, $n=65536$) the parameter space an
  \caption{Efficiency comparison of methods I and II for parameters covering uniformly the support of $B$. Column $n$ shows the number of parameter combinations with which each method has superior compression.}
  \begin{tabular}{ccc}
   \hline 
-  Methods  & n   & Percentage \\
+  Methods  & n   & Method wins \\
   \hline
   I	   & 592	& 0.9034\% \\
   II	   & 64944	& 99.0966\% \\
@@ -460,7 +460,7 @@ After sampling uniformly ($[1,5,9,\ldots,64]$, $n=65536$) the parameter space an
 \end{figure}
 
 
-As we have shown, method is more effective compressing most integer datasets up to 64bits in size. This is due to its ability to exploit the variance in the data set and reduce the waste of bits in the representation of some numbers. In specific cases where the variance in the data null or too small, method I will be more efficient. As a matter of fact, for matrices where all elements have the same bit-length, method I will always be better, regardless of bit-length (figures \ref{fig18} and \ref{fig19}), The only exception if for bit-length 64 where neither method is able to compress the data. 
+As we have shown, the VLB method is more effective compressing most integer datasets up to 64bits in size. This is due to its ability to exploit the variance in the data set and reduce the waste of bits in the representation of some numbers. In specific cases where the variance in the data null or too small, method I will be more efficient. As a matter of fact, for matrices where all elements have the same bit-length, method I will always be better, regardless of bit-length (figures \ref{fig18} and \ref{fig19}), The only exception if for bit-length 64 where neither method is able to compress the data. 
 
 
 
@@ -472,15 +472,11 @@ As we have shown, method is more effective compressing most integer datasets up 
   \label{fig:1819}
 \end{figure}
 
-The two methods presented allow the storage and information manipulation in the compressed form, which provides an data managing large amounts optimization. The next step in the work development is the implementation of the proposed methods, as well as tests to be performed on data large volumes.
-
 \section*{Discussion}
 
-\subsection*{Which method to use?}
+\subsection*{Calculating Efficiencies}
 
-To determine the best compression method to apply, it's necessary to inspect the distribution of bit-lengths of matrix elements. When matrix elements are small or have nearly-constant bit-length, Method I is best, otherwise, the second method should be chosen.
-
-
+To determine the best compression method to apply, it's necessary to inspect the distribution of bit-lengths of matrix elements. When matrix elements are small or have nearly-constant bit-length, the SM Method is best, otherwise, the VLB method should be chosen.
 
 As an example, let $M_{r\times c}$ be a integer matrix such that the half of its elements have bit-length $1$ and the other half $64$. Recalling equation \ref{eq:25}, now we have two groups of elements (by bit-length), $b_1=1 $, $b_2=64$ and $f_i = \frac{rc}{2}$ for $i = 1 \text{ and } 2$. As the greatest bit-length is $64$, then $k=7$. Compression efficiency $\eta_2$ can be calculated using Equation \ref{eq:25}. After plugging in our numbers, we obtain a compression of $38.29\%$.
 
@@ -504,7 +500,7 @@ As an example, let $M_{r\times c}$ be a integer matrix such that the half of its
  \eta_2 \approx 38.29\%
 \end{equation*}
 
-The efficiency of method II is influenced by the relative size of the bit-length groups. In this first example we considered only two groups, each comprised of half the matrix elements. Let's now vary the relative frequency of the groups, $\frac{f_i}{rc}$, while sticking to two groups. Let's also assume that $\frac{f_i}{rc}$ is a good approximation to the probability of a given bit-length in a matrix, which we will denote by $p_i$.
+The efficiency of the VLB method is influenced by the relative size of the bit-length groups. In this first example we considered only two groups, each comprised of half the matrix elements. Let's now vary the relative frequency of the groups, $\frac{f_i}{rc}$, while sticking to two groups. Let's also assume that $\frac{f_i}{rc}$ is a good approximation to the probability of a given bit-length in a matrix, which we will denote by $p_i$.
 
 With this definition we can rewrite the equation \ref{eq:25}, which becomes \ref{eq:37}. In Equation \ref{eq:37}, the $\frac{f_i}{rc}$ is replaced by $p_i$, representing the probability of elements from group $i$ in matrix M.
 
@@ -553,7 +549,7 @@ Thus, when $p_1=0.1111$ and $p_2=0.8889$ the efficiency is minimal for the secon
  \caption{Combinations $p_1$ and $p_2$ to calculate the efficiency.}
  \begin{tabular}{ccc}
   \hline 
-  $p_1$  & $p_2$ & Efficiency \\
+  $p_1$  & $p_2$ & $\eta_2$ \\
   \hline
   0.0	&1.0    &-0.109 \\
   0.1	&0.9	&-0.010 \\
@@ -574,9 +570,9 @@ Thus, when $p_1=0.1111$ and $p_2=0.8889$ the efficiency is minimal for the secon
 So far, we have examined only two groups (hence two probabilities) of bit-length for the sake of simplicity. Before we generalize to probability distributions let's take a quick look at the efficiencies for more groups, with uniform probability:
 
 \begin{itemize}
-  \item 3 number groups that require numbers 1, 32 and 64 bits, efficiency $\zeta=0.3854$,
-  \item 5 number groups that require numbers 1, 16, 32, 48 and 64 bits, efficiency $\zeta=0.3875$,
-  \item 8 number groups that require numbers 1, 8, 16, 24, 32, 40, 48, 56 and 64 bits, efficiency $\zeta=0.3888$
+  \item 3 groups with bit-lengths 1, 32 and 64 bits, efficiency $\eta_2=0.3854$,
+  \item 5 groups with bit-lengths 1, 16, 32, 48 and 64 bits, efficiency $\eta_2=0.3875$,
+  \item 8 groups with bit-lengths 1, 8, 16, 24, 32, 40, 48, 56 and 64 bits, efficiency $\eta_2=0.3888$
 \end{itemize}
 
 When the distribution of the group probabilities is uniform, i.e. the groups have approximately the same size, efficiency is basically the same, regardless of the number of groups.
@@ -584,18 +580,32 @@ When the distribution of the group probabilities is uniform, i.e. the groups hav
 Now we can leverage the notion of bit-length probabilities, and study efficiency when bit-lengths follow some  commonly used discrete probability distributions: Discrete Uniform, Binomial and Poisson. For all the experiments, we assume $k=7$, that is, the maximum possible bit-length is 64 bits. Thus, efficiency obtained will not be the best possible, since for that we would need assume small values of $k$ (equation \ref{eq:37}). 
 
 \subsection*{Discrete Uniform}
-The discrete uniform distribution has two parameters, $a$ and $b$ representing the minimum and maximum value of the distribution. For our case we will use $U(a=1,b=64)$, which means bit-lengths may take values in the set $\{1, 2, 3, $\ldots$, 64\}$ with equal probability, i.e., $\frac{1}{64}$. 
+Let the bit-lengths of the matrices be distribute according to the Uniform distribution $U(a=1,b=64)$, which means bit-lengths may take values in the set $\{1, 2, 3, $\ldots$, 64\}$ with equal probability, i.e., $\frac{1}{64}$. 
 
-For the Poisson distribution, we use Poisson($\lambda$) with $\lambda$ being the expected bit-length in the sample. 
+\paragraph{Theoretical Efficiency:}
+Let the random variable $B \sim U(a=1,b=64)$ represent the  bit-length of the elements of matrix $M$. Then $E(b_i) = \sum_{i} b_i \times p(b_i) = \frac{a+b}{2}$.  Applying this result to the expected compression efficiency of method II (equation \ref{eq:37}), we have 
 
-To calculate the efficiency, we generated a sample with 100 ($M_{10 \times 10}$), 10,000 ($M_{100 \times 100}$) and 1,000,000 ($M_{1,000 \times 1.000}$) numbers . The average efficiency (table \ref{tab:03}) is calculated from a 1000 replicates of each sample size.
+\begin{equation}\label{eq:44}
+ E(\eta_2) = 1 - \frac{E(B)}{64} - \frac{k}{64} 
+\end{equation}
+
+assuming all bit-lengths are possible, i.e., $a=1$ and $b=64$, and hence $k=7$, we can calculate $\eta_2$:
+
+\begin{equation}\label{eq:45}
+ E(\eta_2) = 1 - \frac{\frac{1+64}{2}}{64} - \frac{7}{64} \approx 38.28\% 
+\end{equation}
+
+This result agrees with the numerical estimates presented in table \ref{tab:03}.
+
+\paragraph{Numerical Estimates:}
+To calculate the efficiency, we generated a matrices with 100 ($M_{10 \times 10}$), 10,000 ($M_{100 \times 100}$) and 1,000,000 ($M_{1,000 \times 1.000}$) elements . The average efficiency (table \ref{tab:03}) is calculated from a 1000 replicates of each matrix size.
 
 \begin{table}[h]
   \centering
   \caption{Compression efficiency of method II of samples with bit-lengths comming from a Discrete Uniform distribution $U(a=1,b=64)$. Average efficiency were calculated over a 1000 replicates.}
  \begin{tabular}{cc}
     \hline
-    Sample size & Avg. efficiency \\
+    Matrix size & Avg. efficiency \\
     \hline
      100	& 0.3760938 \\
      10000 	& 0.3795953 \\
@@ -607,9 +617,19 @@ To calculate the efficiency, we generated a sample with 100 ($M_{10 \times 10}$)
 
 \subsection*{Binomial Distribution}
 
-For the binomial distribution, we will use $Bin(n, p=0.5)$, with the number of trials $n$ representing the greatest possible bit-length in the matrix, and $p=0.5$ giving us an expected bit-length of 32.
+For the binomial distribution, we will use $Bin(n, p)$, with the number of trials $n$ representing the greatest possible bit-length in the matrix, with $np$ giving us an expected bit-length.
 
-For these experiments, the parameter n represents the maximum bit-length of matrix elements and takes values in $\{1, 8, 16, 32, 64\}$. In this case, we evaluate the efficiency as a function of the parameter $n$, and sample size. Even though efficiency does not depend on matrix size, we tried different sizes to test the stability of the compression algorithm. Results are shown in Table \ref{tab:04}. As expected smaller expected bit lengths lead to higher compression efficiencies. However, for the case in which the elements require 64 bits, the efficiency is negative. [REMOVE AFTER FIXING TABLE]This result indicates that using the second method, when elements require 64 bit this becomes impractical, because it would be require more memory to allocate the compressed matrix.[REMOVE]
+\paragraph{Theoretical Efficiency:}
+Let bit-length $(B)$ be a random variable with Binomial distribution, $B \sim B(n=64,p=0.5)$, $E(b_i) = \sum_{i} b_i \times p(b_i) = n \times p$ and the eficiency becomes (with $k=7$):
+
+\begin{align}\label{eq:47}
+ E(\eta_2) &= 1 - \frac{64 \times p }{64} - \frac{k}{64}  \\
+  &= 1 - \frac{64 \times 0.5 }{64} - \frac{7}{64} \approx 39.05\% \nonumber
+\end{align}
+
+Which again agrees with estimates in Table \ref{tab:04}.
+\paragraph{Numerical Estimates:}
+For these experiments, the parameter n represents the maximum bit-length of matrix elements and takes values in $\{1, 8, 16, 32, 64\}$. In this case, we evaluate the efficiency as a function of the parameter $n$, and matrix size. Even though efficiency does not depend on matrix size, we tried different sizes to test the stability of the compression algorithm. Results are shown in Table \ref{tab:04}. As expected, smaller bit-lengths lead to higher compression efficiencies. However, for the case in which the elements require 64 bits, the efficiency is negative. [REMOVE AFTER FIXING TABLE]This result indicates that using the second method, when elements require 64 bit this becomes impractical, because it would be require more memory to allocate the compressed matrix.[REMOVE]
 
 \begin{table}[h]
   \centering
@@ -631,16 +651,27 @@ For these experiments, the parameter n represents the maximum bit-length of matr
  \label{tab:04}
 \end{table}
 \subsection*{Poisson Distribution}
-With bit-length derived from a Poisson($\lambda$), the parameter $\lambda$ corresponds to the expected bit-length. Values ​​greater than 64 generated in this simulation were considered as being equal to 64. The results for this simulation can be seen in Table \ref{tab:05}. Note that increasing the bit number to represent numbers increases, there is a loss of efficiency in the compression process. Another interesting fact is the emergence of a negative efficiency. In this case, for values ​​generated with a $\lambda=64$, the second method requires more memory to allocate the matrix formed by elements generated from this distribution.
+With bit-length derived from a Poisson($\lambda$), the parameter $\lambda$ corresponds to the expected bit-length. For the purpose of this analysis this Poisson distribution is truncated at 64. 
+\paragraph{Theoretical Efficiency:}
+Let bit-length $B \sim (\lambda=32)$. In this case,$E(b_i) = \lambda$, with $k=7$,  the efficiency becomes:
+
+\begin{align}\label{eq:49}
+ E(\eta_2) &= 1 - \frac{\lambda}{64} - \frac{k}{64} \\
+ &= 1 - \frac{32}{64} - \frac{7}{64} \approx 39.06\%
+\end{align}
+
+This result is in accordance to Table \ref{tab:05}.
+\paragraph{Numerical Estimates:}
+The results for this simulation can be seen in Table \ref{tab:05}. Note that increasing the bit number to represent numbers increases, there is a loss of efficiency in the compression process. Another interesting fact is the emergence of a negative efficiency. In this case, for values ​​generated with a $\lambda=64$, the second method requires more memory to allocate the matrix formed by elements generated from this distribution.
 
 \begin{table}[h]
   \centering
   \caption{Compression efficiency with bit-lengths distributed according to a Poisson distribution ($\lambda$), where $\lambda$ represents the expected bit-length. [REMOVE LAST LINE]}
  \begin{tabular}{cccc}
     \hline
-			& 	&Efficiency         & \\
+			& 	&Efficiency $\eta_2$      & \\
     \hline
-			&  	&Size sample& \\
+			&  	&Matrix Size& \\
     Expected bit-length ($\lambda$)		& 100	& 1,000		    & 1,000,000 \\
     \hline
      1	& 0.8746875 & 0.8749859   & 0.8749834 \\
@@ -653,40 +684,10 @@ With bit-length derived from a Poisson($\lambda$), the parameter $\lambda$ corre
  \label{tab:05}
 \end{table}
 
-With bit-length as a random variable, we can generalize the results about the compression efficiency as a function of expected bit-length
-
-Let the random variable $B \sim U(a=1,b=64)$ represent the  bit-length of the elements of matrix $M$. Then $E(b_i) = \sum_{i} b_i \times p(b_i) = \frac{a+b}{2}$.  Applying this result to the expected compression efficiency of method II (equation \ref{eq:37}), we have 
-
-\begin{equation}\label{eq:44}
- E(\eta_2) = 1 - \frac{E(B)}{64} - \frac{k}{64} 
-\end{equation}
-
-assuming all bit-lengths are possible, i.e., $a=1$ and $b=64$, and hence $k=7$, we can calculate $\eta_2$:
-
-\begin{equation}\label{eq:45}
- E(\eta_2) = 1 - \frac{\frac{1+64}{2}}{64} - \frac{7}{64} \approx 38.28\% 
-\end{equation}
-
-This result agrees with the numerical estimates presented in table \ref{tab:03}. We can do the same for the case where bit-length $(B)$ is a random variable with Binomial and Poisson distributions. In the case of Binomial, $B \sim B(n=64,p=0.5)$, $E(b_i) = \sum_{i} b_i \times p(b_i) = n \times p$ and the eficiency becomes (with $k=7$):
-
-\begin{align}\label{eq:47}
- E(\eta_2) &= 1 - \frac{64 \times p }{64} - \frac{k}{64}  \\
-  &= 1 - \frac{64 \times 0.5 }{64} - \frac{7}{64} \approx 39.05\% \nonumber
-\end{align}
-
-Which again agrees with estimates in Table \ref{tab:04}. 
-
-Lastly, for $B$ distributed as Poisson$(\lambda=32)$ case,$E(b_i) = \lambda$, $k=7$, and the efficiency becomes:
-
-\begin{align}\label{eq:49}
- E(\eta_2) &= 1 - \frac{\lambda}{64} - \frac{k}{64} \\
- &= 1 - \frac{32}{64} - \frac{7}{64} \approx 39.06\%
-\end{align}
-
-This result is again in accordance to Table \ref{tab:05}. These results show that a good compression is guaranteed when bit-lengths are distributed according to the tested distributions regardless of sample size.
+These results show that a good compression is guaranteed when bit-lengths are distributed according to the tested distributions regardless of sample size.
 
 [devemos incluir um estudo sobre a variância?]
-
+\section{Conclusion}
 In this paper we have focused in the compression of matrix data, since this is one of the most important application the authors foresee. However, the compression methodology presented can be applied to any numerical data structure, with gains to performance and memory footprint[citar tese Crysttian e possíveis artigos derivados]. 
 
 Further discussions about doing computation with such compressed data-structures will be the subject of another manuscript (in preparation) in which we will present details about the implementation of the compression algorithm, and benchmarks on classical linear algebra tasks such as those in Linpack[ref].
