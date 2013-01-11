@@ -78,7 +78,7 @@ Fl\'{a}vio Code\c{c}o Coelho$^{2}$,
 \\
 \bf{2} Fl\'{a}vio Code\c{c}o Coelho Applied Mathematics School, Getulio Vargas Foundation, Rio de Janeiro, RJ, Brazil
 \\
-$\ast$ E-mail: Corresponding author@institute.edu
+$\ast$ E-mail: Corresponding crysttian.paixao@fgv.br
 \end{flushleft}
 
 % Please keep the abstract between 250 and 300 words
@@ -113,7 +113,7 @@ In this paper we present two methods for the lossless compression of (numerical)
 
 To maintain mathematical equivalence with the original data for any arithmetic operations, we need to  maintain the structure of the matrix, i.e., the ability to acess any element given its row $i$ and column $j$ and also the numeric nature of its elements. In order to achieve compression we decided to exploit inefficiencies in the conventional way matrices are allocated in memory. The examples in this paper will be restricted to matrices with positive integer elements.
 
-The compression method is as follows. Let $M_{r \times c}$ be a matrix, in which $r$ is the number of rows and $c$ the number of columns. Each element of this matrix, called $m_{ij}$, is a positive integer. In digital computers, all information is stored as binary code (base 2 numbers). However the conventional way to store arrays of integers is on a memory block sequence of fixed size (power of 2 bit numbers), one for each element. The maximum size of a block is equal to the word size of the processor, which for most current CPUs is 64 bits. Some special number such as complex number may be encoded as two blocks instead of one. The size of the chunk of memory allocated to each number will determine their maximum  size (for integers) or their precision (for floating-point numbes). So for matrix $M$, the total memory allocated, assuming chunks of 64 bits, is given by $\mathcal{B} = r \times c \times 64$.
+The compression method is as follows. Let $M_{r \times c}$ be a matrix, in which $r$ is the number of rows and $c$ the number of columns. Each element of this matrix, called $m_{ij}$, is a positive integer. In digital computers, all information is stored as binary code (base 2 numbers). However the conventional way to store arrays of integers is on a memory block sequence of fixed size (power of 2 numbers of bit), one for each element. The maximum size of a block is equal to the word size of the processor, which for most current CPUs is 64 bits. Some special number such as complex number may be encoded as two blocks instead of one. The size of the chunk of memory allocated to each number will determine their maximum  size (for integers) or their precision (for floating-point numbes). So for matrix $M$, the total memory allocated, assuming chunks of 64 bits, is given by $\mathcal{B} = r \times c \times 64$.
 
 The number of bits allocated $\mathcal{B}$, is larger than the absolute minimum number of bits required to represent all the elements of $M$, since smaller integers, when converted to base 2, require less digits. From now on, when the numerical base will be explicitly notated when necessary to avoid confusion between binary and decimal integers.  
 
@@ -124,7 +124,7 @@ So it is evident that for any matrix whose greatest element requires less than 6
 
 \subsubsection*{Method 1: The Supreme Minimum (SM)}
 
-The SM method consists in determining the value of the greatest element of matrix $M$, which coincides with its supremum, $max M == \sup M$  and determine the minimum bit number, $b(\sup M$)(Equation \ref{eq:01}), required to store it. We will use capital roman letters to denote uncompressed matrices and the corresponding lower case letter for the compressed version.
+The SM method consists in determining the value of the greatest element of matrix $M$, which coincides with its supremum, $max M == \sup M$  and determine the minimum number of bits, $b(\sup M$)(Equation \ref{eq:01}), required to store it. We will use capital roman letters to denote uncompressed matrices and the corresponding lower case letter for the compressed version.
 
 \begin{equation} \label{eq:01}
  b(\sup M) \approx \begin{cases}
@@ -135,7 +135,7 @@ The SM method consists in determining the value of the greatest element of matri
 
 The allocation of memory still happens in the usual way, i.e., in fixed size 64-bit chunks, only that now, in the space required for a single 64 bit integer, we can store for example, an entire $8\times 8$ matrix of $0_{10}$ and $1_{10}$. 
 
-Let's look at a concrete example: suppose that the greatest value to be stored in a matrix $M$ is $\max M=1023$. Therefore, the bit number required to represent it is $10$ $(1111111111)$. Let the first 8 elements of $M$ be:
+Let's look at a concrete example: suppose that the greatest value to be stored in a matrix $M$ is $\max M=1023$. Therefore, the number of bits required to represent it is $10$ $(1111111111)$. Let the first 8 elements of $M$ be:
 
 \begin{equation} \label{eq:02}
   M = \begin{bmatrix}
@@ -144,7 +144,7 @@ Let's look at a concrete example: suppose that the greatest value to be stored i
   \end{bmatrix}
 \end{equation}
 
-These elements of $M$, in binary, are shown in Table \ref{tab:01}. It is evident that the bit number required to represent any other element must be lower or equal to $10$. From now on the minimum number of bits required to represent a base 10 integer will be refered to as its bit-length.
+These elements of $M$, in binary, are shown in Table \ref{tab:01}. It is evident that the number of bits required to represent any other element must be lower or equal to $10$. From now on the minimum number of bits required to represent a base 10 integer will be refered to as its bit-length.
 
 \begin{table}[h]
  \centering
@@ -427,7 +427,7 @@ After sampling uniformly ($[1,5,9,\ldots,64]$, $n=65,536$) the bit-length space 
   \subfigure[$\alpha_1=1,\beta_1=16,\alpha_2=1,\beta_2=49$]{
   \includegraphics[scale=0.28,angle=-90]{fig16}
   }
-  \caption{Histograms constructed from samples with 10,000 elements, generated from the combination of two distributions Betas  with $\lambda=0.5$. Below each histogram is possible to verify the parameters used.}
+  \caption{Histograms constructed from samples with 10,000 elements, generated from the mixture of two Beta distributions with $w=0.5$. Below each histogram are the parameters of the mixture.}
   \label{fig:13141516}
 \end{figure}
 
@@ -597,11 +597,11 @@ assuming all bit-lengths are possible, i.e., $a=1$ and $b=64$, and hence $k=7$, 
 This result agrees with the numerical estimates presented in Table \ref{tab:03}.
 
 \paragraph{Numerical Estimates:}
-To calculate the VLB efficiency, we generated a matrices with 100 ($M_{10 \times 10}$), 10,000 ($M_{100 \times 100}$) and 1,000,000 ($M_{1,000 \times 1,000}$) elements with 1, 8, 16, 32 and 64 bit numbers.  The average efficiency (Table \ref{tab:03}) is calculated from a 1,000 replicates of each matrix size. É possível verificar que quanto menor for o número de bits necessários para representar os elementos da matriz, maior será o nivel de compactação.
+To calculate the VLB efficiency, we generated a matrices with 100 ($M_{10 \times 10}$), 10,000 ($M_{100 \times 100}$) and 1,000,000 ($M_{1,000 \times 1,000}$) elements with 1, 8, 16, 32 and 64 number of bitss.  The average efficiency (Table \ref{tab:03}) is calculated from a 1,000 replicates of each matrix size. As expected the compression effiency gets better with lower expected bit-length.
 
 \begin{table}[h]
   \centering
-  \caption{Compression efficiency of VLB method of samples with bit-lengths coming from a Discrete Uniform distribution $U(a=1,b=64)$. Average efficiency ($\overline{\eta_2}\pm\textrm{standard deviation}$) were calculated over a 1,000 replicates.}
+  \caption{Compression efficiency of VLB method of samples with bit-lengths coming from a Discrete Uniform distribution $U(a=1,b=64)$. Average efficiency ($\overline{\eta_2}\pm\textrm{SD}$) were calculated over a 1,000 replicates.}
  \begin{tabular}{cccc}
     \hline
     & &Matrix sizes& \\
@@ -621,7 +621,7 @@ To calculate the VLB efficiency, we generated a matrices with 100 ($M_{10 \times
 
 \subsection*{Binomial Distribution}
 
-For the binomial distribution, we will use $Bin(n, p)$, with the number of trials $n$ representing the greatest possible bit-length in the matrix, with $np$ giving us an expected bit-length.
+For the binomial distribution, we will use $Bin(n, p)$, with the number of trials $n$ representing the greatest possible bit-length in the matrix, and $np$ giving us the expected bit-length.
 
 \paragraph{Theoretical Efficiency:}
 Let bit-length $(B)$ be a random variable with Binomial distribution, $B \sim B(n=64,p=0.5)$, $E(b_i) = \sum_{i} b_i \times p(b_i) = n \times p$ and the eficiency becomes (with $k=7$):
@@ -662,14 +662,14 @@ With bit-length derived from a Poisson($\lambda$), the parameter $\lambda$ corre
 \paragraph{Theoretical Efficiency:}
 Let bit-length $B \sim Poisson(\lambda=32)$. In this case,$E(b_i) = \lambda$, with $k=7$,  the efficiency becomes:
 
-\begin{align}\label{eq:49}
- E(\eta_2) &= 1 - \frac{\lambda}{64} - \frac{k}{64} \\
- &= 1 - \frac{32}{64} - \frac{7}{64} \approx 39.06\%
+\begin{align}
+ E(\eta_2) &= 1 - \frac{\lambda}{64} - \frac{k}{64} \label{eq:49} \\
+ &= 1 - \frac{32}{64} - \frac{7}{64} \approx 39.06\% \label{eq:50}
 \end{align}
 
 This result is in accordance to Table \ref{tab:05}.
 \paragraph{Numerical Estimates:}
-The results for this simulation can be seen in \ref{tab:05}. Note that increasing the bit number to represent numbers increases, there is a loss of efficiency in the compression process. Another interesting fact is the emergence of a negative efficiency. In this case, for values ​​generated with a $\lambda=64$, the second method requires more memory to allocate the matrix formed by elements generated from this distribution.
+The results for this simulation can be seen in \ref{tab:05}. Note that increasing the number of bits to represent numbers increases, there is a loss of efficiency in the compression process. Another interesting fact is the emergence of a negative efficiency. In this case, for values ​​generated with a $\lambda=64$, the second method requires more memory to allocate the matrix formed by elements generated from this distribution. Para realizar essa simulação para $\lambda=64$, inúmeros valores seriam gerados acima de 64. O maior valor de $\lambda$, o qual faz com que a eficiênica seja mínima é 57. Esse valor pode ser calculado igualando a Equação \ref{eq:50} a 0. Logo, o maior valor esperado para o número de bits utilizado na Tabela \ref{tab:05} é o 57.
 
  \begin{table}[h]
    \centering
@@ -685,7 +685,7 @@ The results for this simulation can be seen in \ref{tab:05}. Note that increasin
       8 	& 0.7654$\pm$0.0046 	& 0.7656$\pm$0.0005 & 0.7656$\pm$0.0000 \\ 
       16 	& 0.6405$\pm$0.0064 	& 0.6406$\pm$0.0006 & 0.6406$\pm$0.0001 \\ 
       32 	& 0.3908$\pm$0.009 	& 0.3906$\pm$0.0009 & 0.3906$\pm$0.0001 \\ 
-      64 	& 0.4086$\pm$0.0456 	& 0.4073$\pm$0.0046 & 0.4072$\pm$0.0005 \\ 
+      57 	& 0.4086$\pm$0.0456 	& 0.4073$\pm$0.0046 & 0.4072$\pm$0.0005 \\ 
       \hline
   \end{tabular}
   \label{tab:05}
