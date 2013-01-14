@@ -101,7 +101,7 @@ Most if not all existing lossless compression methods were developed under the f
 
 With the growth of data volumes and analytical demands, creative solutions are needed to efficiently store as well as consume it on demand. This issue is present in many areas of application, ranging from business to science\cite{lynch}, and is being called the \textit{Big Data} phenomenon. In the world of Big Data, the need to analyze data immediately after its coming into existence became the norm. And this analysis must take place, efficiently, within the confines of (RAM) memory. This kind of analyses are what is now known as streaming data analysis\cite{gaber2005mining}. Given a sufficiently dense stream of data, compression an decompression costs may become prohibitive. So having a way to compress data and keeping it compressed for the entire course of the analytical pipeline, is very desirable.
 
-This paper will focus solely on numerical data which for the purpose of the applications is organized as   matrices. This is a most common data structure found in computational data analysis environments. The matrices compressed according to the methodologies proposed here should be able to undergo the same mathematical operations as the original uncompressed matrices. e.g. linear algebra manipulations. This way, the cost of compression is reduced to a single event of compression and no need of decompression except when displaying the results for human reading. The idea of operating with compressed arrays is relatively new\cite{yemliha2007compiler}, and it has yet to find mainstream applications to the field of numerical computations. One application which employs a form of compression is the sparse matrix linear algebra algorithms\cite{dodson1991sparse}, in this case there is no alteration in the standard encoding of the data, but only the non-zero elements of the matrices are stored and operated upon. 
+This paper will focus solely on numerical data which for the purpose of the applications is organized as   matrices. This is a most common data structure found in computational data analysis environments. The matrices compressed according to the methodologies proposed here should be able to undergo the same mathematical operations as the original uncompressed matrices, e.g. linear algebra manipulations. This way, the cost of compression is reduced to a single event of compression and no need of decompression except when displaying the results for human reading. The idea of operating with compressed arrays is relatively new\cite{yemliha2007compiler}, and it has yet to find mainstream applications to the field of numerical computations. One application which employs a form of compression is the sparse matrix linear algebra algorithms\cite{dodson1991sparse}, in this case there is no alteration in the standard encoding of the data, but only the non-zero elements of the matrices are stored and operated upon. 
 
 Larger than RAM data structures can render traditional analytical algorithms impracticable. Currently, the technique most commonly used when dealing with large matrices for numerical computations, is memory mapping\cite{van2011numpy,big}. In memory mapping the matrix is allocated in a virtual contiguous address space which extends from memory into disk. Thus, larger than memory data structures can be manipulated as if they were in memory.  This technique has a big performance penalty due to lower access speeds of disk when compared to RAM. 
 
@@ -191,7 +191,7 @@ bitstring_1 = 000000000000000000000000000000000000000000000000000000\underbrace{
  \begin{equation*}\label{eq:06}
 bitstring_1 = 0000\underbrace{0000001010}_{10}\underbrace{0000000001}_{1}\underbrace{0100000000}_{256}\underbrace{1011010001}_{721}\underbrace{1111111111}_{1023}\underbrace{1110000100}_{900} 
  \end{equation*}
- \item Element 7 does not fit on the remaining 4 bits of the first bitstring. So it will straddle two bitstrings, i.e., it is divided in two segments $a$ and $b$, $a$ is written on the first bitstring and $b$ on the second.
+ \item Element $M_{1,7}=700=1010111100$ does not fit on the remaining 4 bits of the first bitstring. So it will straddle two bitstrings, i.e., it is divided in two segments $a$ and $b$, $a$ is written on the first bitstring and $b$ on the second.
  \begin{equation*}\label{eq:07}
   \underbrace{\underbrace{0000010100}_{20}\overbrace{101011}^{b}}_{bitstring_2}|\underbrace{\overbrace{1100}^{a}\underbrace{0000001010}_{10}\underbrace{0000000001}_{1}\hdots}_{bitstring_1}
 \end{equation*}
@@ -258,14 +258,14 @@ So far the VLB method is more wasteful than the SM, but when we add $M_{1,4} =25
  
  Where \textit{bits alocated} above mean total bits required for standard storage of the matrix, without compression, while bits used mean total bits requires to store the matrix after compression. From now on the efficiencies are denoted by $\eta_1$ for the SM method and by $\eta_2$ for the VLB method. 
  \subsubsection*{SM Method}
- Let $M_{r \times c}$ be the matrix we wish to compress. In comparison with a conventional allocation (64-bit integers) we can apply Equation \ref{eq:14} to caluculate the efficiency of the SM method:
+ Let $M_{r \times c}$ be the matrix we wish to compress. In comparison with a conventional allocation (64-bit integers), we can apply Equation \ref{eq:14} to caluculate the efficiency of the SM method:
 
 \begin{align}\label{eq:15}
  \eta_1 &= \frac{64 \times rc - b(max M) \times rc}{64 \times rc}\nonumber\\
  &= \frac{64  - b(max M) }{64}
 \end{align}
 
-As we see in \ref{eq:15}, $\eta_1$ does not depend on size of the matrix, only on the bit-length of $\max M$. If $b(\max M)=64$, $\eta_1$ is 0, i. e., no compression is possible. On the other extreme, if the matrix is composed exclusively of 0s and 1s, maximal compression is achievable, $\eta_1=1$.
+As we see in \ref{eq:15}, $\eta_1$ does not depend on size of the matrix, only on the bit-length of $\max M$. If $b(\max M)=64$, $\eta_1$ is 0, i.e., no compression is possible. On the other extreme, if the matrix is composed exclusively of 0s and 1s, maximal compression is achievable, $\eta_1=1$.
  
  \subsubsection*{VLB Method}
  
@@ -347,7 +347,7 @@ As we are sampling from a large set distributions of bit-length, represented by 
  E(\eta_2) = 1 - \frac{E(b)}{64} - \frac{k}{64}
 \end{equation}
 
-\noindent where k in \ref{eq:21}, is set to 7 (the bit-length required to represent the largest possible bit-length: 64). In \ref{eq:20}, $k$ is the bit-length of the greatest element, or in the worst case, 64.
+\noindent where k, in (\ref{eq:21}), is set to 7 (the bit-length required to represent the largest possible bit-length: 64). In (\ref{eq:20}), $k$ is the bit-length of the greatest element, or in the worst case, 64.
 
 We will use the difference $D=E(\eta_1)-E(\eta_2)$ to compare the efficiency of the two methods. Thus a positive $D$ will favor SM method while a negative $D$ favors VLB method.
 
@@ -369,7 +369,7 @@ In Figure \ref{fig:06070809}, we can see the distribution of efficiencies and th
    \subfigure[SM$\geq$VLB Efficiency ($\eta_1 \geq \eta_2$)]{
    \includegraphics[scale=0.18,clip]{fig08}
    }
-  \caption{Comparing compression efficiency of methods 1 and 2. Color scale in (a), (b) and (c) represent average bit-length. In (a) we can see the difference $D = \eta_1 - \eta_2$. It can be seen that for most combination of $\alpha$ and $\beta$, $D<0$, meaning the second method is more efficent to compress a sample of numbers with bit-lengths coming from a $Beta(\alpha,\beta)$ distribution. However, there is a small region in parameter space, which is shown in white on (d), where the first method is more efficient. This region corresponds to the dots in red in (a), where the average bit-length is higher. In panels (b) and (c), we can see the efficiencies of SM and VLB methods, respectively.}
+  \caption{Comparing compression efficiency of methods 1 and 2. Color scale in (a), (b) and (c) represent average bit-length. In (a) we can see the difference $D = \eta_1 - \eta_2$. It can be seen that for most combination of $\alpha$ and $\beta$, $D<0$, meaning the second method is more efficent to compress a sample of numbers with bit-lengths coming from a $Beta(\alpha,\beta)$ distribution. However, there is a small region in parameter space, which is shown in white on (d), where the SM method is more efficient. This region corresponds to the dots in red in (a), where the average bit-length is higher. In panels (b) and (c), we can see the efficiencies of SM and VLB methods, respectively.}
   \label{fig:06070809}
 \end{figure}
  
@@ -393,7 +393,7 @@ As before, we generate 3 matrices of dimension $10,000$ for each parameterizatio
 
 Before moving on to efficiency results and analyses, let's first inspect samples from the mixture of transformed Beta distributions. Figures \ref{fig:09101112} and \ref{fig:13141516}, show a few parameterizations and their resulting sample distributions. It is important to note that from the mixture we can now generate bimodal distributions as well as the unimodal types tested before. Since we are making statements about efficiency as a function of the expected bit-length, it is important to verify if these statements hold for bimodal  distributions as well.
 
-After sampling uniformly ($[1,5,9,\ldots,64]$, $n=65,536$) the bit-length space and comparing efficiencies, we summarized the results on Table \ref{tab:02}. In it we see how many parameterizations (from our sample) favor each method. We can also look at the distribution of efficiencies on our samples for each method (figure \ref{fig:1718}), which clearly demonstrate the greater expected efficiency of method VLB (figure \ref{fig:18}).
+After sampling uniformly ($[1,5,9,\ldots,64]$, $n=65,536$) the bit-length space and comparing efficiencies, we summarized the results on Table \ref{tab:02}. In it we see how many parameterizations (from our sample) favor each method. We can also look at the distribution of efficiencies on our samples for each method (Figure \ref{fig:1718}), which clearly demonstrate the greater expected efficiency of method VLB (Figure \ref{fig:18}).
 
 \begin{figure}[h]
   \centering
@@ -461,7 +461,7 @@ After sampling uniformly ($[1,5,9,\ldots,64]$, $n=65,536$) the bit-length space 
   \label{fig:1718}
 \end{figure}
 
-As we have shown, the VLB method is more effective compressing most integer datasets up to 64 bits in size. This is due to its ability to exploit the variance in the data set and reduce the waste of bits in the representation of some numbers. In specific cases where the variance in the data null or too small, method I will be more efficient. As a matter of fact, for matrices where all elements have the same bit-length, SM method  will always be better, regardless of bit-length (figures \ref{fig19} and \ref{fig20}), The only exception if for bit-length 64 where neither method is able to compress the data. 
+As we have shown, the VLB method is more effective compressing most integer datasets up to 64 bits in size. This is due to its ability to exploit the variance in the data set and reduce the waste of bits in the representation of some numbers. In specific cases where the variance in the data null or too small, method I will be more efficient. As a matter of fact, for matrices where all elements have the same bit-length, SM method  will always be better, regardless of bit-length (Figures \ref{fig19} and \ref{fig20}), The only exception if for bit-length 64 where neither method is able to compress the data. 
 
 \begin{figure}[h]
   \centering
@@ -645,7 +645,7 @@ For these experiments, the parameter n represents the maximum bit-length of matr
      & &Efficiency& \\
      \hline
      & &Sample size& \\
-     Expected bit-length $(n/2)$ &100 &1,000 &1,000,000 \\
+     Expected bit-length $(np)$ &100 &1,000 &1,000,000 \\
      \hline
      1 &0.8828$\pm$0.0004&0.8828$\pm$0.0004&0.8828$\pm$0.0000\\ 
      8 &0.8283$\pm$0.0022&0.8281$\pm$0.0002&0.8281$\pm$0.0000\\ 
@@ -660,7 +660,7 @@ For these experiments, the parameter n represents the maximum bit-length of matr
 \subsection*{Poisson Distribution}
 With bit-length derived from a Poisson($\lambda$), the parameter $\lambda$ corresponds to the expected bit-length. For the purpose of this analysis this Poisson distribution is truncated at 64. 
 \paragraph{Theoretical Efficiency:}
-Let bit-length $B \sim Poisson(\lambda=32)$. In this case,$E(b_i) = \lambda$, with $k=7$,  the efficiency becomes:
+Let bit-length $B \sim Poisson(\lambda=32)$. In this case, $E(b_i) = \lambda$, with $k=7$,  the efficiency becomes:
 
 \begin{align}
  E(\eta_2) &= 1 - \frac{\lambda}{64} - \frac{k}{64} \label{eq:49} \\
@@ -669,7 +669,7 @@ Let bit-length $B \sim Poisson(\lambda=32)$. In this case,$E(b_i) = \lambda$, wi
 
 This result is in accordance to Table \ref{tab:05}.
 \paragraph{Numerical Estimates:}
-The results for this simulation can be seen in \ref{tab:05}. Note that increasing the number of bits to represent numbers increases, there is a loss of efficiency in the compression process. Another interesting fact is the emergence of a negative efficiency. In this case, for values ​​generated with a $\lambda=64$, the second method requires more memory to allocate the matrix formed by elements generated from this distribution. Para realizar essa simulação para $\lambda=64$, inúmeros valores seriam gerados acima de 64. O maior valor de $\lambda$, o qual faz com que a eficiênica seja mínima é 57. Esse valor pode ser calculado igualando a Equação \ref{eq:50} a 0. Logo, o maior valor esperado para o número de bits utilizado na Tabela \ref{tab:05} é o 57. (Eu trunquei a série que era gerada, para valores maiores que 64, eles eram convertidos para 64, e o resultado é o mesmo do 57)
+The results for this simulation can be seen in \ref{tab:05}. Note that increasing the number of bits to represent numbers increases, there is a loss of efficiency in the compression process. In this case we did not simulate for $\lambda=64$ since a large portion of the samples would fall above the maximum bit-length we are considering for this analysis. 
 
  \begin{table}[h]
    \centering
@@ -685,7 +685,6 @@ The results for this simulation can be seen in \ref{tab:05}. Note that increasin
       8 	& 0.7654$\pm$0.0046 	& 0.7656$\pm$0.0005 & 0.7656$\pm$0.0000 \\ 
       16 	& 0.6405$\pm$0.0064 	& 0.6406$\pm$0.0006 & 0.6406$\pm$0.0001 \\ 
       32 	& 0.3908$\pm$0.0087 	& 0.3906$\pm$0.0009 & 0.3906$\pm$0.0001 \\ 
-      57 	& 0.0121$\pm$0.0099 	& 0.0118$\pm$0.0010 & 0.0118$\pm$0.0001 \\
       \hline
   \end{tabular}
   \label{tab:05}
@@ -697,6 +696,8 @@ These results show that a good compression is guaranteed when bit-lengths are di
 In this paper, we have focused in the compression of matrix data, since this is one of the most important application the authors foresee. However, the compression methodology presented can be applied to any numerical data structure, with gains to performance and memory footprint[citar tese Crysttian e possíveis artigos derivados]. 
 
 Further discussions about doing computation with such compressed data-structures will be the subject of another manuscript (in preparation) in which we will present details about the implementation of the compression algorithm, and benchmarks on classical linear algebra tasks such as those in Linpack[ref].
+
+For the compression calculations presented in this paper we limited bit-lenght of integers to 64 bits. However the compression would work in the same way as discussed for computer architectures with larger word sizes.
 
 Representation of floating point numbers is also possible within the proposed compression framework, but at the expense of precision in their representation. Although this may sound like a limitation, when we take into consideration that most experimental data have fewer ``significant'' digits than the maximal precision available in modern computers, fairly good compression may still be achievable for floats.
 
