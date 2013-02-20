@@ -1,0 +1,861 @@
+%
+% Hello! Here's how this works:
+%
+% You edit the source code here on the left, and the preview on the
+% right shows you the result within a few seconds.
+%
+% Bookmark this page and share the URL with your co-authors. They can
+% edit at the same time!
+%
+% You can upload figures, bibliographies, custom classes and
+% styles using the files menu.
+%
+% If you're new to LaTeX, the wikibook at
+% http://en.wikibooks.org/wiki/LaTeX
+% is a great place to start, and there are some examples in this
+% document, too.
+%
+% We're still in beta. Please leave some feedback using the link at
+% the top left of this page. Enjoy!
+%
+\documentclass[12pt]{article}
+
+\usepackage[english]{babel}
+\usepackage[utf8x]{inputenc}
+\usepackage{amsmath}
+\usepackage{graphicx}
+
+\usepackage[normalem]{ulem}
+
+\title{Your Paper}
+\author{You}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Your abstract.
+\end{abstract}
+
+\section{Introduction}
+
+Inicialmente vamos considerar as operações elementares (soma, subtração, divisão
+e multiplicação) a serem realizadas nos elementos armazenados na matriz de
+bitstring. Sendo essa matriz gerada pelos métodos SM ou VLB. Ressalta-se que os
+números e resultados das operações são descritos no formato inteiro.
+
+Para realizar essas operações torna-se necessário avaliar o comportamento dos
+bits dos números envolvidos. Quando uma das operações mencionadas é utilizada,
+os bits dos números envolvidos são manipulados para chegar ao resultados final.
+Em um computador essas operações são realizadas na base binária, diferente do
+caso tradicional, no qual para fazer uma conta, a realizamos na base decimal. A
+principal característica que deve-se considerar é a quantidade de bits
+nacessários para armazenar o valor resultante da operação. Para isso, vamos
+utilizar exemplos, de tal forma que as operações gerem resultados, os quais
+demandem a maior quantidade de bits.
+
+A primeira operação a ser avaliada é a soma. Na base binária o comportamento do
+carry é o mesmo da decimal, porém o que muda é a base. A soma 1+1 resulta em 0 e
+gera um carry de 1. Em decimal, seria a mesma coisa de realizar a operação 5 +
+5, que gera um carry de 1 para ser somado a dezena.  As demais contas são $1 + 0
+= 1$, $0 + 1 = 1$ e $0 + 0 = 0$. Considere $n_1=7$ e $n_2=8$, a soma em decimal
+e binário é realizada na Tabela \ref{tab:01}. Observe que quando ocorre a soma
+$1 + 1$, gera-se um carry para ser adicionado a soma dos bits à esquerda. Ao
+todo foram gerados 3 bits de carry. Já na Tabela \ref{tab:02}, podemos verificar
+a soma de $7 + 7$, que gera um número com 4 bits. Conclui-se que o resultado
+soma, demanda 1 bit a mais do que o número de bits para representar o maior
+valor envolvido na operação. Para representar o resultado, nesse caso o número
+7, demanda 3 bits,logo o resultado demanda 4. Isso só é válido para o pior caso,
+note que 7 demanda 3 bits, o qual é adicionado a 7, que também demanda 3 
+bits, logo resultado irá demandar 4 bits. Pode ocorrer que na soma, a mesma
+quantidade de bits do maior elemento, por exemplo a soma 1 + 2, seja mentida,
+sem o acréscimo de 1 bits ao resultado. Por exemplo, o número 1 demanda 1 bit, o
+número 2, 2 bits, o resultado 3, demanda 2 bits.
+
+\begin{table}[ht]
+	\centering
+    \caption{Comparacao da soma em base decimal e binaria.}
+    \begin{tabular}{crrrc}
+    \hline
+    	  & Decimal & & Binario & Numero de Bits \\
+    \hline      
+    Carry & 	& & \textit{11100} & \\
+    $n_1$ & 7   & & 111 & 3 \\
+    $n_2$ & \underline{10}	& & \underline{1010} & 4 \\
+    Total & 17	& & 10001 & 5 \\
+    \hline
+	\end{tabular}
+    \label{tab:01}
+\end{table}
+
+\begin{table}[ht]
+	\centering
+    \caption{Comparacao da soma em base decimal e binaria.}
+    \begin{tabular}{crrrc}
+    \hline
+    	  & Decimal & & Binario & Numero de Bits \\
+    \hline      
+    Carry & 	& & \textit{1110} & \\
+    $n_1$ & 7   & & 111 & 3 \\
+    $n_1$ & \underline{~7}	& & \underline{111} & 3 \\
+    Total & 14	& & 1110 & 4 \\
+    \hline
+	\end{tabular}
+    \label{tab:02}
+\end{table}
+
+A próxima operação a ser representada é a subtração. Dependendo dos números
+envolvidos na operação, o resultado pode ser negativo. Com isso, gera-se a
+demanda de armazenar os números em um formato que contemple o sinal. A forma
+mais utilizada para realizar isso é o complemento de 2 - C2 (ref). O número
+representado nessa forma, demanda 1 bit a mais para representar o seu sinal.
+Vamos realizar a operação $n_2 - n_1$, que pode ser representada por $n_2 +
+(-n_1)$. Isso permite que as mesmas instruções para a soma, possam ser
+utilizadas para a subtração. Para que isso possa ser feito, torna-se necessário
+representar os números envolvidos no formato C2. Para passar um número para o
+formato C2, deve-se seguir seguintes passos:
+
+\begin{itemize}
+	\item Representa-se o número com um bit a mais que o necessário, por
+exemplo o número 7, demanda 3 bits, no formato C2, demandará 4 bits. Como o -7
+será adicionado ao 10, os números devem ser representados por 5 bits ( 4 bits
+para representar o 10 mais um bit para o sinal). Logo, 7 será representados por
+00111. Aqui o número está no formato C1. Esse é outro formato utilizado, o
+problema é que o número 0 possui duas representações nesse formato. Essas duas
+representações gera uma demanda para verificar qual dos formatos de zeros está
+presente, já o C2 possui apenas uma.
+    \item Inverte-se os valores dos bits do número 7, nesse caso de 00111 para
+11000
+	\item Ao resultado da inversão soma-se 1. Nesse caso 11000 + 1 irá
+resultar em 11001. Logo 11001 é a representação para -7 no formato C2.
+\end{itemize}
+
+Uma vez realizada a conversão, basta executar o processo de soma como já
+mencionado. O resultado está representado na Tabela \ref{tab:03}. Observe que é
+executado uma soma com os números envolvidos. Ambos demandam 5 bits para serem
+representados por causa do C2. O mais importante é o bit, que é gerado mais à
+esquerda pelo carry no resultado, é descartado(overflow, número 1 cortado). Isso
+ocorre pois os números envolvidos na operação demandam 5 bits e não 6 bits. Para
+usar o formato C2, deve-se converter os números para o mesmo tamanho.
+
+Essa operação seria possível, sem que fosse utilizado o C2, pois 10 é maior que
+7, logo não demandaria sinal. A operação está representada na Tabela
+\ref{tab:04}. Observe que ocorre um carry para compensar os valores. Na operação
+0 - 1, demanda um carry do número a esquerda, esse carry tem o valor de 2, ao
+ser removido o valor 1, resultado em 1.
+
+\begin{table}[ht]
+	\centering
+    \caption{Comparacao da soma em base decimal e binaria.}
+    \begin{tabular}{crrrc}
+    \hline
+    	  & Decimal & & Binario & Numero de Bits \\
+    \hline      
+    Carry & 	& & \textit{110000} & \\
+    $n_2$ & 10	& & 01010 & 5 \\
+    $+(-n_1)$ & \underline{+(-7)} & & \underline{11001} & 5 \\
+    Total & 3	& & \sout{1}00011 & 5 \\
+    \hline
+	\end{tabular}
+    \label{tab:03}
+\end{table}
+
+\begin{table}[ht]
+	\centering
+    \caption{Comparacao da soma em base decimal e binaria.}
+    \begin{tabular}{crrrc}
+    \hline
+    	  & Decimal & & Binario & Numero de Bits \\
+    \hline      
+    Carry & 	& & \textit{0111} & \\
+    $n_2$ & 10	& & 1010 & 4 \\
+    $-n_1$ & \underline{-7} & & \underline{111} & 3 \\
+    Total & 3	& & 11 & 2\\
+    \hline
+	\end{tabular}
+    \label{tab:04}
+\end{table}
+
+Para a subtração, o resultado no pior caso, irá demandar o mesmo número de bits
+do maior valor envolvido na operação, considerando o formato C2 ou não. Como
+exemplo, considere $n_3=1$, logo o resutlado da operação $n_2 - n_1$ irá
+demandar 3 bits, como pode ser verificado na Tabela \ref{tab:05}.
+
+\begin{table}[ht]
+	\centering
+    \caption{Comparacao da soma em base decimal e binaria.}
+    \begin{tabular}{crrrc}
+    \hline
+    	  & Decimal & & Binario & Numero de Bits \\
+    \hline      
+    Carry & 	& & \textit{000} & \\
+    $n_1$ & 7	& & 111 & 3 \\
+    $-n_3$ & \underline{-1} & & \underline{1} & 1 \\
+    Total & 6	& & 110 & 3\\
+    \hline
+	\end{tabular}
+    \label{tab:05}
+\end{table}
+
+A multiplicação pode ser realizada da mesma forma que a soma e a subtração. Ela
+nada mais é que o resultado de múltiplas somas. Por exemplo, a operação $2
+\times 3 = 3 + 3 = 2 + 2 + 2$, ou seja 3 somado 2 vezes ou 2 somados 3 vezes.
+Vamos calcular a multiplicação $n_1 \times n_2$, a qual a operação está
+representada na Tabela \ref{tab:06}. Observe que são realizadas duas a duas, as
+somas, da mesma forma que o computador realiza a operação.
+
+\begin{table}[ht]
+	\centering
+    \caption{Comparacao da soma em base decimal e binaria.}
+    \begin{tabular}{crrrc}
+    \hline
+    	  & Decimal & & Binario & Numero de Bits \\
+    \hline      
+    $n_2$ & 10	& & 1010 & 3 \\
+    $n_1$ & \underline{$\times 7$} & & \underline{111} & 1 \\
+    & & & 1010  & \\
+    & & & \underline{1010\ } & \\
+    & & & $11110$ & \\
+    & & & \underline{1010\ \ } & \\
+    Total& 70 & & 1000110 & 7\\
+    \hline
+	\end{tabular}
+    \label{tab:06}
+\end{table}
+
+Na multiplicação o comportamento do número de bits é diferente da soma e da
+subtração. No pior caso, o resultado é representado com o número de bits
+resultante da soma do número de bits de cada número envolvido na operação. Na
+operação $n_2 \times n_2$, ou seja $7 \times 7$, o resultado da operação, 49,
+demanda 6 bits para ser representado, pois 49 em binário é 110001.
+
+Caso na multiplicação esteja envolvido algum número com sinal, torna-se
+necessário utilizar o complemento C2. Para ilustrar essa operação, vamos
+realizar a operação $n_2 \times -n_1$. Lembrando que 10 e -7, no formato C2, são
+ iguais à 01010 e 11001, respectivamente. Na Tabela \ref{tab:07} é possível
+verificar a operação. A diferença básica é que os bits de sinal (em negrito),
+posicionados mais à esquerda, não são utilizados para executar as somas
+sucessivas. Apenas no final, esses bits são utilizados. Como 0 representa o
+positivo e 1, o negativo, o resultado terá sinal negativo. O resto das operações
+são iguais as operações já comentadas anteriormente. O número de bits
+necessários para representar o resultado, no pior caso, é igual a soma do número
+de bits envolvidos na multiplicação, sem contar o sinal, mais um bit, em
+decorrência do sinal do resultado.
+
+\begin{table}[ht]
+	\centering
+    \caption{Comparacao da soma em base decimal e binaria.}
+    \begin{tabular}{crrrc}
+    \hline
+    	  & Decimal & & Binario & Numero de Bits \\
+    \hline      
+    $n_2$ & 10	& & \textbf{0}1010 & 5 \\
+    $\times -1n_1$ & \underline{$\times -7$} & & \underline{\textbf{1}1001} & 5
+\\
+    & & & 1010  & \\
+    & & & \underline{0000\ } & \\
+    & & & $01010$ & \\
+    & & & \underline{0000\ \ } & \\
+    & & & 001010 & \\
+    & & & \underline{1010\ \ \ } & \\
+    Total& -70 & & \textbf{1}1011010 & 8\\
+    \hline
+	\end{tabular}
+    \label{tab:07}
+\end{table}
+
+A divisão, ao contrário da multiplicação, demanda que seja executada sucessivas
+subtrações até encontrar um determinado resto. Quando exato, esse resto vale
+zero. Para ilustar o comportamento dos bits, considere $n_4=50$ na operação $n_4
+/ n_2$. O resultado está descrito na Tabela \ref{tab:08}. Observe que ocorre
+sucessivas subtrações em binário. O número de bits necessário para representar o
+resultado da divisão, no pior caso, é igual o número de bits do dividento,
+quando o dividendo é maior que o divisor. A cada subtração executada, soma-se 1
+ao quociente, que inicialmente vale 0. O processo de subtração acaba quando o
+valor do resto é zero.
+
+\begin{table}[ht]
+	\centering
+    \caption{Comparacao da soma em base decimal e binaria.}
+    \begin{tabular}{crrrrr}
+    \hline
+    	  & Decimal & & Binario & Quociente Decimal & Quociente Binario \\
+    \hline  
+    $n_4$ & 50 					& & 110010
+&0& 000 \\
+    $n_2$ & \underline{-10} 	& & \underline{001010}  &\underline{+1}&
+\underline{+001} \\
+    Resto & 40      			& & 101000  			&1& 001
+\\
+    $n_2$ & \underline{-10} 	& & \underline{001010}  &\underline{+1}&
+\underline{+001} \\
+    Resto & 30      			& & 011110  			&2& 010
+\\
+    $n_2$ & \underline{-10} 	& & \underline{001010}  &\underline{+1}&
+\underline{+001} \\
+    Resto & 20      			& & 010100  			&3& 011
+\\
+    $n_2$ & \underline{-10} 	& & \underline{001010}  &\underline{+1}&
+\underline{+001} \\
+    Resto & 10      			& & 001010  			&4& 100
+\\
+    $n_2$ & \underline{-10} 	& & \underline{001010}  &\underline{+1}&
+\underline{+001} \\
+    Resto & 0      				& & 000000
+&5& 101 \\
+    \hline
+	\end{tabular}
+    \label{tab:07}
+\end{table}
+
+O mesmo ocorre quando o dividendo ou dividor possuem sinal. Para efetuar a
+divisão com números que possuam sinal, torna-se necessário utilizar o C2. Vamos
+ilustrar o processo, considerando a divisão $-n_4 / n_2$. Quando o dividendo vai
+ser subtraído o valor do divisor, quando no formato C2, o divisor deve ser
+convertido para C2. E ao invés de usar a subtração, realiza-se a soma. E como
+feito no caso da divisão sem sinal, a operação de soma termina, quando o resto é
+igual a zero. O processo de divisão de número com sinais pode ser visualizado no
+Tabela \ref{tab:08}. O quociente é 5, mas devido a diferença de sinais, esse
+deve ser convertido para -5.
+
+\begin{table}[ht]
+	\centering
+    \caption{Comparacao da soma em base decimal e binaria.}
+    \begin{tabular}{crrrrr}
+    \hline
+    	  & Decimal & & Binario & Quociente Decimal & Quociente Binario \\
+    \hline  
+    $n_4$ & -50 					& & 1001110
+&0& 000 \\
+    $n_2$ & \underline{+10} 	& & \underline{001010}  &\underline{+1}&
+\underline{+001} \\
+    Resto & -40      			& & 1011000  			&1& 001
+\\
+    $n_2$ & \underline{+10} 	& & \underline{001010}  &\underline{+1}&
+\underline{+001} \\
+    Resto & -30      			& & 1100010 			&2& 010
+\\
+    $n_2$ & \underline{+10} 	& & \underline{001010}  &\underline{+1}&
+\underline{+001} \\
+    Resto & -20      			& & 1101100  			&3& 011
+\\
+    $n_2$ & \underline{+10} 	& & \underline{001010}  &\underline{+1}&
+\underline{+001} \\
+    Resto & -10      			& & 1110110  			&4& 100
+\\
+    $n_2$ & \underline{+10} 	& & \underline{001010}  &\underline{+1}&
+\underline{+001} \\
+    Resto & 0      				& & 0000000
+&5& 101 \\
+    \hline
+	\end{tabular}
+    \label{tab:08}
+\end{table}
+
+Apresentamos até agora as quatro operações elementares, as quais verificamos o
+comportamento dos bits. Resumidamente podemos inferir sobre o comportamento do
+número de bits, sem sinal, no pior caso que reflete a utilização de bits, da
+seguinte forma:
+
+\begin{itemize}
+\item Soma: demanda 1 bits a mais que o número de bits para representar o maior
+valor presente na operação;
+\item Subtração: demanda a mesma quantidade de bits para representar o do maior
+valor presente na operação;
+\item Multiplicação: demanda é igual a soma dos bits dos números envolvidos na
+operação;
+\item Divisão: demanda a mesma quantidade de bits do dividendo;
+\end{itemize}
+
+Quando os números apresentam sinal, eles demandam 1 bits a mais para o sinal.
+Nesse caso, na multiplicação, para o pior caso, o número de bits para
+representar o resultando será a soma do número de bits dos números envolvidos,
+menos 1.
+
+Até o momento, as operações elementares foram executas apenas com números. Agora
+será demonstrado a sua aplicação sobre as tiras de bits. Essas tiras de bits são
+geradas pelos métodos SM ou VLB, os quais promovem a compactação dos dados e
+armazenam diversos números com economia de espaço em tiras de bits.  
+
+Antes de demonstrarmos o procedimento, algumas regras devem ser contempladas
+para que as operações possam ser realizadas. A primeira é que quando existir um
+número com sinal, todos os números deverão ser representados na forma de
+complemento de 2, como consequencia, existirá a demanda de 1 bit para cada
+número armazenado na tira. As operações só podem resultar números inteiros, pois
+a forma de armazenamento discutida atende apenas essa configuração.
+
+Para demonstrar a aplicação envolvendo tiras de bits, vamos considerar duas
+matrizes A e B, ambos as dimensões $3 \times 4$. Sendo definidas por:
+
+\begin{equation}
+	A = \begin{bmatrix}
+			1 & 3 & 5 & 8\\ 
+			12 &14  & 6 & 9\\ 
+			3 & 7 & 10 & 11
+		\end{bmatrix}
+\end{equation}
+
+e
+
+\begin{equation}
+	B = \begin{bmatrix}
+			1  & 3  & 7 & 9\\ 
+			1  &3   & 14 & 15\\ 
+			20 & 30 & 2 & 1
+		\end{bmatrix}
+\end{equation}
+
+Após o processo de compressão, as matrizes A e B, antes com dimensão $3 \times
+4$, passam a ter dimensão $3 \times 1$. A matriz A e B após a compressão pelo
+método SM, podem ser visualizada em decinal e binário nas Equações \ref{eq:01} e
+\ref{eq:02}. As tiras possuem tamanhos de 4 bits e 5 bits, para as regiões de
+armazenamento, para a matriz A e B, respectivamente. Os "$\ldots$" representam
+os zeros omitidos em cada tira, pois os elementos são armazenados apenas em uma
+tira com 64 bits, na qual apenas alguns bits são utilizados, restando apenas
+zeros em desuso.
+
+\begin{equation}\label{eq:01}
+	AA = \begin{bmatrix}
+			4952\\ 
+			52841\\ 
+			14251
+		\end{bmatrix} 
+        =
+        \begin{bmatrix}
+			\ldots0001001101011000\\ 
+			\ldots1100111001101001\\ 
+			\ldots0011011110101011
+		\end{bmatrix}
+        =
+        \begin{bmatrix}
+\ldots\underbrace{0001}_{1}\underbrace{0011}_{3}\underbrace{0101}_{5}\underbrace
+{1000}_{8}\\
+\ldots\underbrace{1100}_{12}\underbrace{1110}_{14}\underbrace{0110}_{6}
+\underbrace{1001}_{9}\\ 
+\ldots\underbrace{0011}_{3}\underbrace{0111}_{7}\underbrace{1010}_{10}
+\underbrace{1011}_{11}
+		\end{bmatrix}
+\end{equation}
+
+e
+
+\begin{equation}\label{eq:02}
+	BB = \begin{bmatrix}
+			36073\\ 
+			36303\\ 
+			686145
+		\end{bmatrix}
+        =
+         \begin{bmatrix}
+			\ldots00001000110011101001\\ 
+			\ldots00001000110111001111\\ 
+			\ldots10100111100001000001
+		\end{bmatrix}
+        =
+        \begin{bmatrix}
+
+\ldots\underbrace{00001}_{1}\underbrace{00011}_{3}\underbrace{00111}_{7}
+\underbrace{01001}_{59}\\
+\ldots\underbrace{00001}_{1}\underbrace{00011}_{3}\underbrace{01110}_{14}
+\underbrace{01111}_{15}\\
+\ldots\underbrace{10100}_{20}\underbrace{11110}_{30}\underbrace{00010}_{2}
+\underbrace{00001}_{1}
+		\end{bmatrix}
+\end{equation}
+
+Considere apenas a tira armazenada na primeira linha de cada matriz (AA e BB).
+Observe que para obter os valores de ambas as tiras, torna-se necessário
+conhecer o tamanho da região que os valores foram armazenados. Isso ocorre, pois
+elas foram geradas pelo método SM, o qual determina essa região. Para obter
+esses valores, de forma otimizada, torna-se necessário utilizar o que
+denominamos de máscara. A máscará irá permitir obter os valores armazenados
+dentro das tirar, de forma otimizada. Para esse exemplo, para otimizar as
+operações, a máscara irá coletar os valores da primeira e terceira região ao
+mesmo tempo, o que otimiza o processo. A máscara é armazenada em uma tira com o
+mesmo tamanho da tira que está armazenada nas matrizes. A máscara mencionada,
+para ser aplicada na matriz AA, está representada na Equação \ref{eq:06}. Para
+coletar as informações da segunda e quarta região da matriz AA, deve-se usar a
+máscara descrita na equação \ref{eq:07}. Já para a matriz BB deve-se usar as
+máscaras das equações \
+ref{eq:08} e \ref{eq:09}, para coletar as informações das primeira e terceira
+regiões e da segunda e quarta regiões, respectivamente.
+
+\begin{equation}\label{eq:06}
+\text{máscara da matriz AA para posições 1 e 3} = \ldots0000111100001111
+\end{equation}
+
+\begin{equation}\label{eq:07}
+\text{máscara da matriz AA para posições 2 e 4} = \ldots1111000011110000
+\end{equation}
+
+\begin{equation}\label{eq:08}
+\text{máscara da matriz BB para posições 1 e 3} = \ldots00000111110000011111
+\end{equation}
+
+\begin{equation}\label{eq:09}
+\text{máscara da matriz BB para posições 2 e 4} = \ldots11111000001111100000
+\end{equation}
+
+Uma vez definida a máscara, vamos aplicá-la na matriz A e B, para obter os
+valores armazenados na primeira e terceira regiões. Para usar a máscará, deve-se
+utilizar a função booleana AND. Vamos chamar de tempA e tempB, os valores
+coletados. O processo de coleta está ilustrado nas equações \ref{eq:10} e
+\ref{eq:11}. As região está destacadas. Verifique que apenas as regiões, na qual
+a máscara possui apenas 1 são preservadas, isso faz com que apenas esses valores
+sejam obtidos.
+
+%\begin{equation}\label{eq:10}
+  \begin{align*}
+   A[1,1]			&=	\ldots0001|0011|0101|1000\\
+   \text{máscara A}	&=	\ldots0000|1111|0000|1111\\
+   tempA 			&=	\ldots0000|0011|0000|1000
+  \end{align*}
+%\end{equation}
+
+%\begin{equation}\label{eq:11}
+  \begin{align*}
+   B[1,1]			&= \ldots00001|00011|00111|01001 \\
+   \text{máscara B}	&= \ldots00000|11111|00000|11111 \\
+   tempB 			&= \ldots00000|00011|00000|01001
+  \end{align*}
+%\end{equation}
+
+Suponha que desejamos calcular a soma das duas matrizes e armazená-las em uma
+matriz S. Para isso as regiões das tiras tempA e tempB devem ter o mesmo
+tamanho. Como para a soma, na pior das hipóteses, demanda-se 1 bit a mais que o
+maior valor armazenado, aqui esse valor é representado pela região na qual os
+valores são armazenados. Nesse caso, a região da tira resultante irá ter tamanho
+de 6 bits. As tiras, com as regiões corrigidas, são representadas nas equações
+\ref{eq:12} e \ref{eq:13}. Os bits inseridos para compensar o tamanho das
+regiões estão em negrito.
+
+\begin{equation}\label{eq:12}
+tempA =  \ldots\textbf{00}0000\textbf{00}0011\textbf{00}0000\textbf{00}1000
+\end{equation}
+
+\begin{equation}\label{eq:13}
+tempB =  \ldots\textbf{0}00000\textbf{0}00011\textbf{0}00000\textbf{0}01001
+\end{equation}
+
+Com as regiões igualadas, basta executar a operacão $S[1,1] = tempA + tempB$.
+Realizando o mesmo processo com tempA e tempB, mas na segunda e quarta região,
+podemos efetuar a operação soma de forma paralela, pois torna-se possível
+realizar 2 operações em paralelo, e o melhor, o resultado, nesse caso aa tira
+S[1,1], já está na forma compactada.
+
+\begin{align*}
+ tempA&= \ldots000001|000011|000101|001000\\
+ tempB&= \ldots000001|000011|000111|001001\\
+ S[1,1]&=\ldots000010|000110|001100|010001
+\end{align*}
+
+Na equação X, pode-se observar o resultado da soma para S[2,1] e S[3,1].
+
+\begin{align*}
+ tempA&= \ldots001100|001110|000110|001001\\
+ tempB&= \ldots000001|000011|001110|001111\\
+ S[2,1]&=\ldots001101|010001|010100|011000
+\end{align*}
+
+\begin{align*}
+ tempA&= \ldots000011|000111|001010|001011 \\
+ tempB&= \ldots010100|011110|000010|000001 \\
+ S[3,1]&=\ldots010111|100101|001100|001100
+\end{align*}
+
+Logo, como resultado da operação S= A + B, temos:
+
+\begin{equation}
+	S = \begin{bmatrix}
+			549649\\ 
+			274889\\ 
+			6181644
+		\end{bmatrix}
+        =
+         \begin{bmatrix}
+			\ldots000010000110001100010001\\
+			\ldots000001000011000111001001\\
+			\ldots010111100101001100001100
+		\end{bmatrix}
+        =
+        \begin{bmatrix}
+
+\ldots\underbrace{000010}_{2}\underbrace{000110}_{6}\underbrace{001100}_{12}
+\underbrace{010001}_{17}\\	
+ \ldots\underbrace{001101}_{13}\underbrace{010001}_{17}\underbrace{010100}_{20}
+\underbrace{011000}_{24}\\
+ \ldots\underbrace{010111}_{23}\underbrace{100101}_{37}\underbrace{001100}_{12}
+\underbrace{001100}_{12}
+		\end{bmatrix}
+\end{equation}
+
+A operação de subtração pode ser realizada, mas para isso será utilizado a
+notação de complemento 2 - C2. Suponha que se deseja calcular $D = B - A$. Essa
+operação pode ser realizada da mesma forma, utilizando uma operação de soma $D =
+B + (-A)$, em que $-A$ será a matriz na forma C2. A matriz A na forma de
+complemento de 2, pode ser visualizada na Equação X. Ressalta-se que a os
+elementos serão calculados com 6 dígitos para serem armazenados nas tiras.
+
+\begin{equation}
+	-A = \begin{bmatrix}
+			4952\\ 
+			52841\\ 
+			14251
+		\end{bmatrix} 
+        =
+        \begin{bmatrix}
+   			\ldots111111111101111011111000\\ 
+			\ldots110100110010111010110111\\ 
+			\ldots111101111001110110110101
+		\end{bmatrix}
+        =
+        \begin{bmatrix}
+ \ldots\underbrace{111111}_{-1}\underbrace{111101}_{-3}\underbrace{111011}_{-5}
+\underbrace{111000}_{-8}\\
+\ldots\underbrace{110100}_{-12}\underbrace{110010}_{-14}\underbrace{111010}_{-6}
+\underbrace{110111}_{-9}\\
+\ldots\underbrace{111101}_{-3}\underbrace{111001}_{-7}\underbrace{110110}_{-10}
+\underbrace{110101}_{-11}
+		\end{bmatrix}
+\end{equation}
+
+Para realizar a operação  $D = B + (-A)$, basta usar uma máscara para adequar as
+regiões que armazenam número na matriz B e realizar a operação como soma de C2.
+
+Como exemplo, vamos ilustrar a soma $B[1,1] + (-A[1,1])$, $B[2,1] + (-A[2,1])$ e
+$B[3,1] + (-A[3,1])$ . Utilizaremos o tempB, que correnponde a primeira linha da
+matriz B, ajustada para C2. Os números 1, destacados, são overflows e são
+removidos para não influenciarem no processamento. O resultado da operação $D =
+B + (-A)$ está representado abaixo:
+
+\begin{align*}
+	tempB	&=\ldots000001|000011|000111|001001\\
++(-A[1,1])	&=\ldots111111|111101|111011|111000\\
+	D[1,1]
+&=\ldots\sout{1}000000|\sout{1}000000|\sout{1}000010|\sout{1}000001
+\end{align*}
+
+\begin{align*}
+	tempB &= \ldots000001|000011|001110|001111\\
++(-A[2,1])&= \ldots110100|110010|111010|110111\\ 
+D[2,1]	  &= \ldots110101|110101|\sout{1}001000|\sout{1}000110
+\end{align*}
+
+\begin{align*}
+tempB	  &= \ldots010100|011110|000010|000001 \\
++(-A[3,1])&= \ldots111101|111001|110110|110101\\ 
+D[3,1]	  &= \ldots\sout{1}010001|\sout{1}110111|\sout{1}111000|110110
+\end{align*}
+
+Removendo os overflows a matriz D, essa fica definida como:
+
+\begin{equation}
+	D = \begin{bmatrix}
+			129\\ 
+			14111238\\ 
+			4685366
+		\end{bmatrix} 
+        =
+        \begin{bmatrix}
+   			\ldots000000000000000010000001 \\
+			\ldots110101110101001000000110 \\
+			\ldots010001110111111000110110
+		\end{bmatrix}
+        =
+        \begin{bmatrix}
+ \ldots\underbrace{000000}_{0}\underbrace{000000}_{0}\underbrace{000010}_{2}
+\underbrace{000001}_{1} \\ 			 
+ \ldots\underbrace{110101}_{-11}\underbrace{110101}_{-11}\underbrace{001000}_{8}
+\underbrace{000110}_{6} \\
+ \ldots\underbrace{010001}_{17}\underbrace{110111}_{23}\underbrace{111000}_{-8}
+\underbrace{110110}_{-10}
+		\end{bmatrix}
+\end{equation}
+
+A multiplicação de matrizes é outra operação que é possível realizar com
+matrizes de bitstring. Agora vamos calcuar o produto matricial $P = A \times
+B^{t}$, sendo $B^t$ a matriz transposta da matriz B. Logo, temos que solucionar:
+
+\begin{equation}
+	P = A \times B = \begin{bmatrix}
+			1 & 3 & 5 & 8\\ 
+			12 &14  & 6 & 9\\ 
+			3 & 7 & 10 & 11
+		\end{bmatrix}
+        \times
+		\begin{bmatrix}
+			1 & 1  & 20\\ 
+            3 & 3  & 30\\
+            7 & 14 & 2\\
+            9 & 15 & 1
+		\end{bmatrix}
+\end{equation}
+
+Utilizando as matrizes AA e BB, que correspondem as formas comprimidas das
+matrizes A e B, respectivamente, vamos cacular o produto. A multiplicação de
+matrizes bitstring ($\times\times$) fica definida como:
+
+\begin{equation}
+	P = AA \times BB = \begin{bmatrix}
+			4952\\ 
+			52841\\ 
+			14251
+		\end{bmatrix} 
+        \times\times
+        \begin{bmatrix}
+			36073 & 36303 & 686145
+		\end{bmatrix}
+\end{equation}
+
+Na equação X, as matrizes AA e BB estão no formato de bitstring.
+
+\begin{equation}
+	P = AA \times BB = 
+    	\begin{bmatrix}
+
+\ldots\underbrace{0001}_{1}\underbrace{0011}_{3}\underbrace{0101}_{5}\underbrace
+{1000}_{8}\\
+
+\ldots\underbrace{1100}_{12}\underbrace{1110}_{14}\underbrace{0110}_{6}
+\underbrace{1001}_{9}\\ 
+
+\ldots\underbrace{0011}_{3}\underbrace{0111}_{7}\underbrace{1010}_{10}
+\underbrace{1011}_{11}
+		\end{bmatrix}
+\end{equation}
+\begin{equation}
+        \times\times \\
+        \begin{bmatrix}
+
+\ldots\underbrace{00001}_{1}\underbrace{00011}_{3}\underbrace{00111}_{7}
+\underbrace{01001}_{9}  &
+
+\ldots\underbrace{00001}_{1}\underbrace{00011}_{3}\underbrace{01110}_{14}
+\underbrace{01111}_{15} & 	
+
+\ldots\underbrace{10100}_{20}\underbrace{11110}_{30}\underbrace{00010}_{2}
+\underbrace{00001}_{1}
+		\end{bmatrix}
+\end{equation}
+
+
+Agora vamos demonstrar o cálculo do primeiro elemento da matriz P. A operação a
+ser realizada envolvendo as matrizes A e B, para calcular o primeiro elemento, é
+$1 \times 1 + 3 \times 3 + 5 \times 7 + 8 \times 9$. O mesmo ocorre em uma
+matriz de bitstring. Mas nesse caso os elementos devem ser obtidos das tiras,
+multiplicados e somandos para gerar o novo elemento. Para isso vamos ilustrar o
+processo. Novamente podemos utilizar a máscara A e máscara B para realizar a
+obtenção dos valores, como realizado em X e X. Uma vez que os valores foram
+obtidos, pode-se executar a multiplicação deles e posterior armazenagem. Suponha
+que tempA e tempB, armazenam os valores referentes as regiões 1 e 3, dos
+elementos A[1,1] e B[1,1]. Para que seja possível armazenar os valores, torna-se
+necessário calcular o tamanho da região que irá conter os valores. Como já
+demosntrado, para a multiplicação, no pior caso, a região equivale a soma das
+regiões das tiras de bitstring que estão sendo multiplicadas, nesse caso 4 e 5.
+Logo, a região teria que ter tamanho 9. Porém são realizadas 3 somas, e para
+cada uma delas, a região aumenta em 1 bit, logo a região para armazenar os
+produtos demanda 
+12 bits. Definido o tamano da região, vamos apenas realizar os cálculos e
+armazenálos na tira do produto. A multiplicação dos valores armazenados em tempA
+e tempB estão ilustrados nas Equações de  X até XX. Esses valores são
+armazenados nas variáveis temporárias tempPi, i = 1 até 4, que e que i
+corresponde a região dos números envolvidos no processo. Uma vez calculado os
+produtos, basta somá-los para obter o resultado. 
+
+\begin{align*}
+ tempA&= \ldots0001|0011|0101|1000\\
+ tempB&= \ldots00001|00011|00111|01001\\
+\end{align*}
+
+\begin{align*}
+ tempA&= \ldots\textbf{0001}|0011|0101|1000\\
+ tempB&= \ldots\textbf{00001}|00011|00111|01001\\
+ tempP1&= \ldots000000001
+\end{align*}
+
+\begin{align*}
+ tempA&= \ldots0001|\textbf{0011}|0101|1000\\
+ tempB&= \ldots00001|\textbf{00011}|00111|01001\\
+ tempP2&= \ldots000001001
+\end{align*}
+
+\begin{align*}
+ tempA&= \ldots0001|0011|\textbf{0101}|1000\\
+ tempB&= \ldots00001|00011|\textbf{00111}|01001\\
+ tempP3&= \ldots000100011
+\end{align*}
+
+\begin{align*}
+ tempA&= \ldots0001|0011|0101|\textbf{1000}\\
+ tempB&= \ldots00001|00011|00111|\textbf{01001}\\
+ tempP4&= \ldots001001000
+\end{align*}
+
+
+
+\begin{align*}
+ tempP1&= \ldots0000000001 \\
+ tempP2&= \ldots0000001001 \\
+   soma&= \ldots0000001010 \text{ (10 bits)}
+\end{align*}
+
+\begin{align*}
+ tempP3&= \ldots00000100011 \\
+   soma&= \ldots00000001010 \\
+   soma&= \ldots00000101101 \text{ (11 bits)}
+\end{align*}
+
+\begin{align*}
+ tempP4&= \ldots000001001000 \\
+ soma&=   \ldots000000101101 \\
+ soma&=   \ldots000001110101 \text{ (12 bits)}
+\end{align*}
+
+Portanto, o primeiro valor a ser armazenado na matriz P[1,1], na quarta região,
+é $000001010101$. A matriz P, após realizar todas as operações, fica definida
+como
+
+\begin{equation}
+	P = \begin{bmatrix}
+			1426882688\\ 
+			2970686121\\ 
+			3239350573
+		\end{bmatrix} 
+        =
+        \begin{bmatrix}
+   			\ldots000001010101000011001000000010000000 \\
+			\ldots000010110001000100010001001010101001\\
+			\ldots000011000001000101001001000100101101
+		\end{bmatrix}
+\end{equation}
+\begin{equation}
+        =
+        \begin{bmatrix}
+
+\ldots\underbrace{000001010101}_{117}\underbrace{000011001000}_{200}\underbrace{
+000010000000}_{128}\\ 			 
+
+\ldots\underbrace{000010110001}_{177}\underbrace{000100010001}_{273}\underbrace{
+001010101001}_{681}\\ 			 
+
+\ldots\underbrace{000011000001}_{193}\underbrace{000101001001}_{329}\underbrace{
+000100101101}_{301} 			 
+		\end{bmatrix}
+\end{equation}
+
+Com os elementos armazenados na matriz P, pode-se verificar que  já estão no
+formato comprimido, o que torna a utilização da memória otimizada. A operação de
+divisão para matrizes é realizada usando uma inversa em um produto. Como até
+agora tratamos apenas de números inteiros, essa operação será estudada em outro
+trabalho.
+
+Nos exemplo demonstrados, foi utilizado apenas as matrizes de bitstring criadas
+a partir do método SM, mas o mesmo procedimento pode ser aplicado ao método VLB.
+A diferença é que o resultado será armazenado no formato VLB.
+
+Assim, foi demonstrado que para as operações elementares e para as operações de
+soma, subtração e multiplicação de matrizes o formato de compressão de bits
+string opde ser realizado.
+
+
+\end{document}
