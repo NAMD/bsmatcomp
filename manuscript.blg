@@ -5,45 +5,45 @@ The style file: plos2009.bst
 Database file #1: plos.bib.bib
 Reallocated singl_function (elt_size=4) to 100 items from 50.
 Warning--empty pages in bodden2007arithmetic
-You've used 9 entries,
+You've used 10 entries,
             2441 wiz_defined-function locations,
-            599 strings with 5931 characters,
-and the built_in function-call counts, 6280 in all, are:
-= -- 554
-> -- 96
+            605 strings with 6031 characters,
+and the built_in function-call counts, 6946 in all, are:
+= -- 619
+> -- 100
 < -- 2
-+ -- 48
-- -- 24
-* -- 495
-:= -- 723
-add.period$ -- 21
-call.type$ -- 9
-change.case$ -- 13
++ -- 50
+- -- 25
+* -- 552
+:= -- 806
+add.period$ -- 23
+call.type$ -- 10
+change.case$ -- 14
 chr.to.int$ -- 0
-cite$ -- 19
-duplicate$ -- 647
-empty$ -- 677
-format.name$ -- 31
-if$ -- 1413
+cite$ -- 21
+duplicate$ -- 715
+empty$ -- 749
+format.name$ -- 32
+if$ -- 1562
 int.to.chr$ -- 0
-int.to.str$ -- 9
-missing$ -- 96
-newline$ -- 61
-num.names$ -- 9
-pop$ -- 154
+int.to.str$ -- 10
+missing$ -- 104
+newline$ -- 66
+num.names$ -- 10
+pop$ -- 160
 preamble$ -- 1
 purify$ -- 0
 quote$ -- 0
-skip$ -- 73
+skip$ -- 75
 stack$ -- 0
-substring$ -- 749
-swap$ -- 185
+substring$ -- 851
+swap$ -- 201
 text.length$ -- 2
 text.prefix$ -- 0
 top$ -- 0
 type$ -- 0
 warning$ -- 1
-while$ -- 43
-width$ -- 10
-write$ -- 115
+while$ -- 47
+width$ -- 12
+write$ -- 126
 (There was 1 warning)

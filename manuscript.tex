@@ -83,7 +83,20 @@ $\ast$ E-mail: Corresponding crysttian.paixao@fgv.br
 
 % Please keep the abstract between 250 and 300 words
 \section*{Abstract}
-
+The biggest cost of
+computing with large matrices in any modern computer is related to memory
+latency and bandwidth. The average latency of modern RAM reads is 150 times
+greater than a clock step of the processor\cite{alted2010modern}. Throughput is
+a little better but still 25 times slower than the CPU can consume. The
+application of bitstring compression allows for larger matrices to be moved
+entirely to the cache memory of the computer, which has much better latency and
+bandwidth (average latency of L1 cache is 3 to 4 clock steps). This allows for
+massive performance gains as well as the ability to simulate much larger models
+efficiently. In this work, we propose a methodology to compress matrices in such
+a way that they retain their mathematical properties. Considerable compression
+of the data is also achieved in the process Thus allowing for the computation of
+much larger linear problems within the same memory constraints when compared
+with the traditional representation of matrices.
 % Please keep the Author Summary between 150 and 200 words
 % Use first person. PLoS ONE authors please skip this step. 
 % Author Summary not valid for PLoS ONE submissions.   
@@ -714,7 +727,7 @@ We would like to thank Claudia Torres Code\c{c}o, Paulo Cezar Carvalho and Moacy
 % The bibtex filename
 \bibliography{plos.bib}
 
-\section*{Figure Legends}
+%\section*{Figure Legends}
 %\begin{figure}[!ht]
 %\begin{center}
 %%\includegraphics[width=4in]{figure_name.2.eps}
@@ -728,7 +741,7 @@ We would like to thank Claudia Torres Code\c{c}o, Paulo Cezar Carvalho and Moacy
 %\end{figure}
 
 
-\section*{Tables}
+%\section*{Tables}
 %\begin{table}[!ht]
 %\caption{
 %\bf{Table title}}

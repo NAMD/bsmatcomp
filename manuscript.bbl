@@ -1,4 +1,4 @@
-\begin{thebibliography}{1}
+\begin{thebibliography}{10}
 \providecommand{\url}[1]{\texttt{#1}}
 \providecommand{\urlprefix}{URL }
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -12,6 +12,11 @@
   \begin{quotation}\noindent\textsc{Key:} #1\\
   \textsc{Annotation:}\ #2\end{quotation}}
 \providecommand{\eprint}[2][]{\url{#2}}
+
+\bibitem{alted2010modern}
+Alted F (2010) Why modern cpus are starving and what can be done about it.
+\newblock Computing in Science \& Engineering 12: 68--71.
+\bibAnnoteFile{alted2010modern}
 
 \bibitem{salomon}
 Salomon D, Motta G, Bryant D (2009) Handbook of Data Compression.
