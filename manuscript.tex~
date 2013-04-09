@@ -67,7 +67,7 @@
 % Title must be 150 characters or less
 \begin{flushleft}
 {\Large
-\textbf{Computable Compressed Matrices}
+\textbf{Computable Bitstring-compressed Matrices}
 }
 % Insert Author names, affiliations and corresponding author email.
 \\
@@ -86,17 +86,17 @@ $\ast$ E-mail: Corresponding crysttian.paixao@fgv.br
 The biggest cost of
 computing with large matrices in any modern computer is related to memory
 latency and bandwidth. The average latency of modern RAM reads is 150 times
-greater than a clock step of the processor. Throughput is a little better but
-still 25 times slower than the CPU can consume. The application of bitstring
-compression allows for larger matrices to be moved entirely to the cache memory
-of the computer, which has much better latency and bandwidth (average latency of
-L1 cache is 3 to 4 clock steps). This allows for massive performance gains as
-well as the ability to simulate much larger models efficiently. In this work,
-we propose a methodology to compress matrices in such a way that they retain
-their mathematical properties. Considerable compression of the data is also
-achieved in the process Thus allowing for the computation of much larger linear
-problems within the same memory constraints when compared with the traditional
-representation of matrices.
+greater than a clock step of the processor\cite{alted2010modern}. Throughput is
+a little better but still 25 times slower than the CPU can consume. The
+application of bitstring compression allows for larger matrices to be moved
+entirely to the cache memory of the computer, which has much better latency and
+bandwidth (average latency of L1 cache is 3 to 4 clock steps). This allows for
+massive performance gains as well as the ability to simulate much larger models
+efficiently. In this work, we propose a methodology to compress matrices in such
+a way that they retain their mathematical properties. Considerable compression
+of the data is also achieved in the process Thus allowing for the computation of
+much larger linear problems within the same memory constraints when compared
+with the traditional representation of matrices.
 % Please keep the Author Summary between 150 and 200 words
 % Use first person. PLoS ONE authors please skip this step. 
 % Author Summary not valid for PLoS ONE submissions.   
@@ -335,16 +335,16 @@ With $w=0$, a single Beta distribution is used. In Figure \ref{fig:01020304}, we
 \begin{figure}[ht]
   \centering
   \subfigure[$\alpha=1,\beta_1=1$]{
-  \includegraphics[scale=0.25,angle=-90,clip]{fig01}
+%   \includegraphics[scale=0.25,angle=-90,clip]{fig01}
   }
   \subfigure[$\alpha=1,\beta=32$]{
-  \includegraphics[scale=0.25,angle=-90,clip]{fig02}
+%   \includegraphics[scale=0.25,angle=-90,clip]{fig02}
   }
   \subfigure[$\alpha=32,\beta=1$]{
-  \includegraphics[scale=0.25,angle=-90,clip]{fig03}
+%   \includegraphics[scale=0.25,angle=-90,clip]{fig03}
   }
   \subfigure[$\alpha=64,\beta=64$]{
-  \includegraphics[scale=0.25,angle=-90]{fig04}
+%   \includegraphics[scale=0.25,angle=-90]{fig04}
   }
   \caption{Histograms constructed from samples with 10,000 elements, generated from a Beta distribution. Below each histogram is possible to verify the parameters used.}
   \label{fig:01020304}
@@ -371,16 +371,16 @@ In Figure \ref{fig:06070809}, we can see the distribution of efficiencies and th
 \begin{figure}[h]
   \centering
    \subfigure[SM-VLB  Difference ($D = \eta_1 - \eta_2$)]{ 
-   \includegraphics[scale=0.18,clip]{fig07}
+%    \includegraphics[scale=0.18,clip]{fig07}
    }
    \subfigure[SM Efficiency  ($\eta_1$)]{
-   \includegraphics[scale=0.18,clip]{fig06}
+%    \includegraphics[scale=0.18,clip]{fig06}
    }
    \subfigure[VBL Efficiency ($\eta_2$)]{
-   \includegraphics[scale=0.18,clip]{fig05}
+%    \includegraphics[scale=0.18,clip]{fig05}
    }
    \subfigure[SM$\geq$VLB Efficiency ($\eta_1 \geq \eta_2$)]{
-   \includegraphics[scale=0.18,clip]{fig08}
+%    \includegraphics[scale=0.18,clip]{fig08}
    }
   \caption{Comparing compression efficiency of methods 1 and 2. Color scale in (a), (b) and (c) represent average bit-length. In (a) we can see the difference $D = \eta_1 - \eta_2$. It can be seen that for most combination of $\alpha$ and $\beta$, $D<0$, meaning the second method is more efficent to compress a sample of numbers with bit-lengths coming from a $Beta(\alpha,\beta)$ distribution. However, there is a small region in parameter space, which is shown in white on (d), where the SM method is more efficient. This region corresponds to the dots in red in (a), where the average bit-length is higher. In panels (b) and (c), we can see the efficiencies of SM and VLB methods, respectively.}
   \label{fig:06070809}
@@ -411,16 +411,16 @@ After sampling uniformly ($[1,5,9,\ldots,64]$, $n=65,536$) the bit-length space 
 \begin{figure}[h]
   \centering
   \subfigure[$\alpha_1=1,\beta_1=1,\alpha_2=1,\beta_2=1$]{
-  \includegraphics[scale=0.28,angle=-90,clip]{fig09}
+%   \includegraphics[scale=0.28,angle=-90,clip]{fig09}
   }
   \subfigure[$\alpha_1=1,\beta_1=32,\alpha_2=32,\beta_2=1$]{
-  \includegraphics[scale=0.28,angle=-90,clip]{fig10}
+%   \includegraphics[scale=0.28,angle=-90,clip]{fig10}
   }
   \subfigure[$\alpha_1=32,\beta_1=32,\alpha_2=32,\beta_2=32$]{
-  \includegraphics[scale=0.28,angle=-90,clip]{fig11}
+%   \includegraphics[scale=0.28,angle=-90,clip]{fig11}
   }
   \subfigure[$\alpha_1=64,\beta_1=32,\alpha_2=32,\beta_2=64$]{
-  \includegraphics[scale=0.28,angle=-90]{fig12}
+%   \includegraphics[scale=0.28,angle=-90]{fig12}
   }
   \caption{Histograms constructed from samples with 10,000 elements, generated from the mixture of two Beta distributions with $w=0.5$. Below each histogram are the parameters of the mixture.}
   \label{fig:09101112}
@@ -429,16 +429,16 @@ After sampling uniformly ($[1,5,9,\ldots,64]$, $n=65,536$) the bit-length space 
 \begin{figure}[h]
   \centering
   \subfigure[$\alpha_1=64,\beta_1=48,\alpha_2=1,\beta_2=48$]{
-  \includegraphics[scale=0.28,angle=-90]{fig13}
+%   \includegraphics[scale=0.28,angle=-90]{fig13}
   }
   \subfigure[$\alpha_1=16,\beta_1=46,\alpha_2=49,\beta_2=64$]{
-  \includegraphics[scale=0.28,angle=-90]{fig14}
+%   \includegraphics[scale=0.28,angle=-90]{fig14}
   }
   \subfigure[$\alpha_1=16,\beta_1=16,\alpha_2=16,\beta_2=49$]{
-  \includegraphics[scale=0.28,angle=-90]{fig15}
+%   \includegraphics[scale=0.28,angle=-90]{fig15}
   }
   \subfigure[$\alpha_1=1,\beta_1=16,\alpha_2=1,\beta_2=49$]{
-  \includegraphics[scale=0.28,angle=-90]{fig16}
+%   \includegraphics[scale=0.28,angle=-90]{fig16}
   }
   \caption{Histograms constructed from samples with 10,000 elements, generated from the mixture of two Beta distributions with $w=0.5$. Below each histogram are the parameters of the mixture.}
   \label{fig:13141516}
@@ -463,11 +463,11 @@ After sampling uniformly ($[1,5,9,\ldots,64]$, $n=65,536$) the bit-length space 
 \begin{figure}[h]
   \centering
   \subfigure[Efficiency histogram of the SM method ]{
-  \includegraphics[scale=0.25,angle=-90]{fig17}
+%   \includegraphics[scale=0.25,angle=-90]{fig17}
   \label{fig:17}
   }
   \subfigure[Efficiency histogram of the VLB method ]{
-  \includegraphics[scale=0.25,angle=-90]{fig18}
+%   \includegraphics[scale=0.25,angle=-90]{fig18}
   \label{fig:18}
   }
   \caption{Efficiency histograms of the SM and VLB methods. Note that the VLB method has a greater average efficiency than SM method .}
@@ -706,9 +706,16 @@ The results for this simulation can be seen in \ref{tab:05}. Note that increasin
 These results show that a good compression is guaranteed when bit-lengths are distributed according to the tested distributions regardless of sample size.
 
 \section{Conclusion}
-In this paper, we have focused in the compression of matrix data, since this is one of the most important application the authors foresee. However, the compression methodology presented can be applied to any numerical data structure, with gains to performance and memory footprint[citar tese Crysttian e possíveis artigos derivados]. 
+In this paper, we have focused in the compression of matrix data, since this is
+one of the most important application the authors foresee. However, the
+compression methodology presented can be applied to any numerical data
+structure, with gains to performance and memory footprint\cite{teseCrysttian}. 
 
-Further discussions about doing computation with such compressed data-structures will be the subject of another manuscript (in preparation) in which we will present details about the implementation of the compression algorithm, and benchmarks on classical linear algebra tasks such as those in Linpack[ref].
+Further discussions about doing computation with such compressed data-structures
+will be the subject of another manuscript (in preparation) in which we will
+present details about the implementation of the compression algorithm, and
+benchmarks on classical linear algebra tasks such as those in
+Linpack\cite{dongarra1979linpack}.
 
 For the compression calculations presented in this paper we limited bit-lenght of integers to 64 bits. However the compression would work in the same way as discussed for computer architectures with larger word sizes.
 
@@ -721,7 +728,9 @@ Representation of floating point numbers is also possible within the proposed co
 
 % Do NOT remove this, even if you are not including acknowledgments
 \section*{Acknowledgments}
-We would like to thank Claudia Torres Code\c{c}o, Paulo Cezar Carvalho and Moacyr Silva for fruitful discussions and key ideas which helped improve the manuscript.
+We would like to thank Claudia Torres Code\c{c}o, Moacyr Silva and Paulo
+Cezar Carvalho for fruitful discussions and key ideas which helped improve the
+manuscript.
 
 %\section*{References}
 % The bibtex filename

@@ -130,3 +130,25 @@ url = {http://CRAN.R-project.org/package=bigmemory},
   year={2010},
   publisher={IEEE}
 }
+
+@book{flores1963logic,
+  title={The logic of computer arithmetic},
+  author={Flores, Ivan},
+  volume={1063},
+  year={1963},
+  publisher={Prentice-Hall}
+}
+@book{dongarra1979linpack,
+  title={LINPACK users' guide},
+  author={Dongarra, Jack J},
+  number={8},
+  year={1979},
+  publisher={Siam}
+}
+@PHDTHESIS{teseCrysttian,
+AUTHOR ={Crysttian Arantes Paix\~{a}o},
+TITLE =        {Bitstring model for study of the propagation Dengue fever},
+SCHOOL =       {Federal University of Lavras},
+YEAR =         {2012},
+type =         {Doctorate},
+}

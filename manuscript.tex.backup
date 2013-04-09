@@ -67,7 +67,7 @@
 % Title must be 150 characters or less
 \begin{flushleft}
 {\Large
-\textbf{Computable Compressed Matrices}
+\textbf{Computable Bitstring-compressed Matrices}
 }
 % Insert Author names, affiliations and corresponding author email.
 \\
@@ -83,7 +83,20 @@ $\ast$ E-mail: Corresponding crysttian.paixao@fgv.br
 
 % Please keep the abstract between 250 and 300 words
 \section*{Abstract}
-
+The biggest cost of
+computing with large matrices in any modern computer is related to memory
+latency and bandwidth. The average latency of modern RAM reads is 150 times
+greater than a clock step of the processor\cite{alted2010modern}. Throughput is
+a little better but still 25 times slower than the CPU can consume. The
+application of bitstring compression allows for larger matrices to be moved
+entirely to the cache memory of the computer, which has much better latency and
+bandwidth (average latency of L1 cache is 3 to 4 clock steps). This allows for
+massive performance gains as well as the ability to simulate much larger models
+efficiently. In this work, we propose a methodology to compress matrices in such
+a way that they retain their mathematical properties. Considerable compression
+of the data is also achieved in the process Thus allowing for the computation of
+much larger linear problems within the same memory constraints when compared
+with the traditional representation of matrices.
 % Please keep the Author Summary between 150 and 200 words
 % Use first person. PLoS ONE authors please skip this step. 
 % Author Summary not valid for PLoS ONE submissions.   
@@ -669,7 +682,7 @@ Let bit-length $B \sim Poisson(\lambda=32)$. In this case, $E(b_i) = \lambda$, w
 
 This result is in accordance to Table \ref{tab:05}.
 \paragraph{Numerical Estimates:}
-The results for this simulation can be seen in \ref{tab:05}. Note that increasing the number of bits to represent numbers increases, there is a loss of efficiency in the compression process. In this case we did not simulate for $$ [Para realizar essa simulação para $\lambda=64$, inúmeros valores seriam gerados acima de 64. O maior valor de $\lambda$, o qual faz com que a eficiênica seja mínima é 57. Esse valor pode ser calculado igualando a Equação \ref{eq:50} a 0. Logo, o maior valor esperado para o número de bits utilizado na Tabela \ref{tab:05} é o 57. (Eu trunquei a série que era gerada, para valores maiores que 64, eles eram convertidos para 64, e o resultado é o mesmo do 57)
+The results for this simulation can be seen in \ref{tab:05}. Note that increasing the number of bits to represent numbers increases, there is a loss of efficiency in the compression process. In this case we did not simulate for $\lambda=64$ since a large portion of the samples would fall above the maximum bit-length we are considering for this analysis. 
 
  \begin{table}[h]
    \centering
@@ -697,6 +710,8 @@ In this paper, we have focused in the compression of matrix data, since this is 
 
 Further discussions about doing computation with such compressed data-structures will be the subject of another manuscript (in preparation) in which we will present details about the implementation of the compression algorithm, and benchmarks on classical linear algebra tasks such as those in Linpack[ref].
 
+For the compression calculations presented in this paper we limited bit-lenght of integers to 64 bits. However the compression would work in the same way as discussed for computer architectures with larger word sizes.
+
 Representation of floating point numbers is also possible within the proposed compression framework, but at the expense of precision in their representation. Although this may sound like a limitation, when we take into consideration that most experimental data have fewer ``significant'' digits than the maximal precision available in modern computers, fairly good compression may still be achievable for floats.
 
 % You may title this section "Methods" or "Models". 
@@ -706,13 +721,15 @@ Representation of floating point numbers is also possible within the proposed co
 
 % Do NOT remove this, even if you are not including acknowledgments
 \section*{Acknowledgments}
-We would like to thank Claudia Torres Code\c{c}o, Paulo Cezar Carvalho and Moacyr Silva for fruitful discussions and key ideas which helped improve the manuscript.
+We would like to thank Claudia Torres Code\c{c}o and Moacyr Silva and Paulo
+Cezar Carvalho for fruitful discussions and key ideas which helped improve the
+manuscript.
 
 %\section*{References}
 % The bibtex filename
 \bibliography{plos.bib}
 
-\section*{Figure Legends}
+%\section*{Figure Legends}
 %\begin{figure}[!ht]
 %\begin{center}
 %%\includegraphics[width=4in]{figure_name.2.eps}
@@ -726,7 +743,7 @@ We would like to thank Claudia Torres Code\c{c}o, Paulo Cezar Carvalho and Moacy
 %\end{figure}
 
 
-\section*{Tables}
+%\section*{Tables}
 %\begin{table}[!ht]
 %\caption{
 %\bf{Table title}}
