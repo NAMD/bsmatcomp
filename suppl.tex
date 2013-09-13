@@ -102,12 +102,14 @@ longer.
 
 \paragraph{Subtraction}
 Depending of the number involved in this operation, the result may be negative.
-This fact alone generates the need for an extra bit to represent the sign($+$ or
+This fact alone generates the need for an extra bit to represent the sign ($+$
+or
 $-$). The usual way to achieve this is to use the  two's complement
 \cite{flores1963logic} representation which has the advantage of making the
 addition subtraction and multiplication operation the same as those for unsigned
-binary numbers. To exemplify let's subtract $7$ from $10$. To make use of the
-same algorithm of the sum we represent the operation as $10+(-7)$. First we
+binary numbers. This algorithm is what is actually implemented in CPUs. To
+exemplify let's subtract $7$ from $10$. To make use of the
+same algorithm of the sum , we represent the operation as $10+(-7)$. First we
 need to convert the operands to two's complement representation (C2):
 
 \begin{itemize}
@@ -129,7 +131,8 @@ in C2, the operands must have the same bit-length so any overflow in the result
 must be discarded.
 
 This operation would be possible without the use of C2 representation as 10 is
-greater than 7 (see table \ref{tab:04} for this).
+greater than 7, and no signed integer is involved (see table \ref{tab:04} for
+this).
 
 \begin{table}[ht]
 	\centering
@@ -195,8 +198,8 @@ describes a simple multiplication.
     \hline
     	  & Decimal & & Binary & Bit-length \\
     \hline      
-    $n_2$ & 10	& & 1010 & 3 [VERIFICAR]\\
-    $n_1$ & \underline{$\times 7$} & & \underline{111} & 1 \\
+    $n_2$ & 10	& & 1010 & 4\\
+    $n_1$ & \underline{$\times 7$} & & \underline{111} & 3 \\
     & & & 1010  & \\
     & & & \underline{1010\ } & \\
     & & & $11110$ & \\
@@ -214,7 +217,7 @@ product is 6 bits long: $49$ which in binary is $110001$.
 
 If a signed integer is involved in the multiplication, we need to use C2
 representation. To illustrate this case let's calculate $10\times-7$. in C2,
-this opration becomes $01010\times11001$. Table \ref{tab:07} contains the
+this operation becomes $01010\times11001$. Table \ref{tab:07} contains the
 details. The basic difference is that the sign bits (in bold), positioned to
 the left, are not involved in the operation. Only in the end they are used to
 determine the sign of the product: $0$ meaning positive and $1$ negative. In
@@ -233,11 +236,11 @@ the factors plus 1 due to the sign.
     $\times -1n_1$ & \underline{$\times -7$} & & \underline{\textbf{1}1001} & 5
 \\
     & & & 1010  & \\
-    & & & \underline{0000\ } & \\
-    & & & $01010$ & \\
-    & & & \underline{0000\ \ } & \\
+    & & & + \underline{0000\ } & \\
+    & & & $\,01010$ & \\
+    & & & + \underline{0000\ \ } & \\
     & & & 001010 & \\
-    & & & \underline{1010\ \ \ } & \\
+    & & & + \underline{1010\ \ \ } & \\
     Total& -70 & & \textbf{1}1011010 & 8\\
     \hline
 	\end{tabular}
@@ -293,7 +296,7 @@ sign is applied at the end.
 &5& 101 \\
     \hline
 	\end{tabular}
-    \label{tab:07}
+    \label{tab:08}
 \end{table}
 
 So far we have examined the 4 fundamental arithmetic operations. In summary the
@@ -319,16 +322,16 @@ When operating with signed integers, an extra bit is used for the sign.
 The operations on single numbers (scalars) as exposed above are a simplification
 of the
 actual operations taking place on the bitstrings as we compute with compressed
-matrices. Additional details will be provided below when we discuss the
+matrices. Additional details will be provided below, when we discuss the
 operation with matrices. Note that we are restricting the example to operations
 which generate integer results. Handling of float operations and compression
 will be the subject of a subsequent paper.
 
 \begin{figure}[h]
  \centering
- \includegraphics[width=12cm]{./bitlength.png}
+%  \includegraphics[width=12cm]{./bitlength.png}
  % simples.png: 4800x3600 pixel, 600dpi, 20.32x15.24 cm, bb=0 0 576 432
- \caption{bitlength of the results for each of the four operations. The axes
+ \caption{Bit-length of the results for each of the four operations. The axes
 represent the values of the operands.}
  \label{fig:bitlength}
 \end{figure}
@@ -362,7 +365,7 @@ e
 After bitstring compression by the SM method, they become $3 \times 1$. They
 are show in decimal and binary from in \ref{eq:01} and
 \ref{eq:02}. The elements in $A$ and $B$ are 4 and 5 bits long, respectively
-(the ``supreme minimum''). the ellipses ("$\ldots$") in the binary matrix
+(the ``supreme minimum''). The ellipses (``$\ldots$'') in the binary matrix
 correspond the extra zeros to the left. Since the strings are written into 64
 bits integers, sometimes we end up with unused bits to the left.
 
@@ -510,8 +513,8 @@ $S[3,1]$.
 Therefore, as the final result of the operation $S= A +
 B$ we have:
 
-\begin{equation}
-	S = \begin{bmatrix}
+\begin{align}
+	S &= \begin{bmatrix}
 			549649\\ 
 			274889\\ 
 			6181644
@@ -522,9 +525,8 @@ B$ we have:
 			\ldots000001000011000111001001\\
 			\ldots010111100101001100001100
 		\end{bmatrix}
-        =
-        \begin{bmatrix}
-
+      \\ \nonumber
+      &= \begin{bmatrix}
 \ldots\underbrace{000010}_{2}\underbrace{000110}_{6}\underbrace{001100}_{12}
 \underbrace{010001}_{17}\\	
  \ldots\underbrace{001101}_{13}\underbrace{010001}_{17}\underbrace{010100}_{20}
@@ -532,7 +534,7 @@ B$ we have:
  \ldots\underbrace{010111}_{23}\underbrace{100101}_{37}\underbrace{001100}_{12}
 \underbrace{001100}_{12}
 		\end{bmatrix}
-\end{equation}
+\end{align}
 
 \paragraph{Subtraction}
 To perform the subtraction, we need to use C2 notation. Supose  we need to
@@ -541,8 +543,8 @@ converting it to an addition: $D = B + (-A)$, where $-A$ will be converted to
 C2 (equation \ref{eq:ac2}). Note the elements will be calculated with six
 digits.
 
-\begin{equation}\label{eq:ac2}
-	-A = \begin{bmatrix}
+\begin{align}\label{eq:ac2}
+	-A &= \begin{bmatrix}
 			4952\\ 
 			52841\\ 
 			14251
@@ -553,8 +555,8 @@ digits.
 			\ldots110100110010111010110111\\ 
 			\ldots111101111001110110110101
 		\end{bmatrix}
-        =
-        \begin{bmatrix}
+        \\\nonumber
+        &= \begin{bmatrix}
  \ldots\underbrace{111111}_{-1}\underbrace{111101}_{-3}\underbrace{111011}_{-5}
 \underbrace{111000}_{-8}\\
 \ldots\underbrace{110100}_{-12}\underbrace{110010}_{-14}\underbrace{111010}_{-6}
@@ -562,7 +564,7 @@ digits.
 \ldots\underbrace{111101}_{-3}\underbrace{111001}_{-7}\underbrace{110110}_{-10}
 \underbrace{110101}_{-11}
 		\end{bmatrix}
-\end{equation}
+\end{align}
 
 Now we apply the masks as before, but before we need to convert to C2 as well,
 in order to perform the addition.
@@ -593,8 +595,8 @@ D[3,1]	  &= \ldots\sout{1}010001|\sout{1}110111|\sout{1}111000|110110
 
 After the removal of the overflows, matrix $D$ becomes:
 
-\begin{equation}
-	D = \begin{bmatrix}
+\begin{align}
+	D &= \begin{bmatrix}
 			129\\ 
 			14111238\\ 
 			4685366
@@ -605,8 +607,8 @@ After the removal of the overflows, matrix $D$ becomes:
 			\ldots110101110101001000000110 \\
 			\ldots010001110111111000110110
 		\end{bmatrix}
-        =
-        \begin{bmatrix}
+      \\\nonumber
+        &=  \begin{bmatrix}
  \ldots\underbrace{000000}_{0}\underbrace{000000}_{0}\underbrace{000010}_{2}
 \underbrace{000001}_{1} \\ 			 
  \ldots\underbrace{110101}_{-11}\underbrace{110101}_{-11}\underbrace{001000}_{8}
@@ -614,7 +616,7 @@ After the removal of the overflows, matrix $D$ becomes:
  \ldots\underbrace{010001}_{17}\underbrace{110111}_{23}\underbrace{111000}_{-8}
 \underbrace{110110}_{-10}
 		\end{bmatrix}
-\end{equation}
+\end{align}
 
 \paragraph{Multiplication}
 Let's now examine matrix multiplication. Consider the product $P = A \times
@@ -666,21 +668,19 @@ compressed product becomes:
 \underbrace{1011}_{11}
 		\end{bmatrix}
 \end{equation}
+\begin{small}
 \begin{equation}
         \times\times \\
-        \begin{bmatrix}
-
+        \begin{bmatrix}\mathsf{
 \ldots\underbrace{00001}_{1}\underbrace{00011}_{3}\underbrace{00111}_{7}
-\underbrace{01001}_{9}  &
-
+\underbrace{01001}_{9}}  &\mathsf{
 \ldots\underbrace{00001}_{1}\underbrace{00011}_{3}\underbrace{01110}_{14}
-\underbrace{01111}_{15} & 	
-
+\underbrace{01111}_{15}} & \mathsf{
 \ldots\underbrace{10100}_{20}\underbrace{11110}_{30}\underbrace{00010}_{2}
-\underbrace{00001}_{1}
-		\end{bmatrix}
+\underbrace{00001}_{1}}
+        \end{bmatrix}\nonumber
 \end{equation}
-
+\end{small}
 To calculate $P[1,1]$ which in uncompressed form is $1 \times 1 + 3 \times 3 + 5
 \times 7 + 8 \times 9$, we first must extract the numbers from the bitstrings
 and then proceed with the linear combination. The extraction will make use of
@@ -750,8 +750,8 @@ where $i$ is the product being calculated.
 So, $P[1,1]$ is $000001010101$, and the entire matrix $P$ becomes:
 
 
-\begin{equation}
-	P = \begin{bmatrix}
+\begin{align}
+	P &= \begin{bmatrix}
 			1426882688\\ 
 			2970686121\\ 
 			3239350573
@@ -762,21 +762,16 @@ So, $P[1,1]$ is $000001010101$, and the entire matrix $P$ becomes:
 			\ldots000010110001000100010001001010101001\\
 			\ldots000011000001000101001001000100101101
 		\end{bmatrix}
-\end{equation}
-\begin{equation}
-        =
-        \begin{bmatrix}
-
+      \\ \nonumber
+        &=        \begin{bmatrix}
 \ldots\underbrace{000001010101}_{117}\underbrace{000011001000}_{200}\underbrace{
-000010000000}_{128}\\ 			 
-
+000010000000}_{128}\\
 \ldots\underbrace{000010110001}_{177}\underbrace{000100010001}_{273}\underbrace{
-001010101001}_{681}\\ 			 
-
+001010101001}_{681}\\
 \ldots\underbrace{000011000001}_{193}\underbrace{000101001001}_{329}\underbrace{
 000100101101}_{301} 			 
-		\end{bmatrix}
-\end{equation}
+        \end{bmatrix}
+\end{align}
 
 Again we can see that P is already in compressed form, which confirms that the
 entire operation was conducted without decompressing the data.

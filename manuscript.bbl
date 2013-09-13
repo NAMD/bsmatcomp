@@ -72,4 +72,14 @@ Bodden E, Clasen M, Kneis J (2007) Arithmetic coding revealed.
   Computer Science, (McGill University, Montr{\'e}al.
 \bibAnnoteFile{bodden2007arithmetic}
 
+\bibitem{teseCrysttian}
+Paix\~{a}o CA (2012) Bitstring model for study of the propagation Dengue fever.
+\newblock Phd thesis, Federal University of Lavras.
+\bibAnnoteFile{teseCrysttian}
+
+\bibitem{dongarra1979linpack}
+Dongarra JJ (1979) LINPACK users' guide.
+\newblock 8. Siam.
+\bibAnnoteFile{dongarra1979linpack}
+
 \end{thebibliography}
