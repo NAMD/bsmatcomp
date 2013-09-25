@@ -24,8 +24,6 @@
 
 \usepackage{color} 
 
-\usepackage[colorinlistoftodos]{todonotes}
-
 % Use doublespacing - comment out for single spacing
 %\usepackage{setspace} 
 %\doublespacing
@@ -98,105 +96,32 @@ $\ast$ E-mail: Corresponding author@institute.edu
 
 The term compression can be defined as the converting process a data file in another file so that the compressed file size is less than the original \cite{salomon}. In many cases, data compression is required so that transmission process by internet can occur, even filing and information processing contained in the data file. Although it may be necessary to compress this file can be allocated on a device, for example, data allocation in a computer memory for processing.
 
-Usually the techniques that involve data processing try to work around problems, 
-arise in this case the the data file size, to perform processing. At present and 
-due to the increased speed with which information is generated, it becomes 
-necessary to develop methods which allow such management information in large 
-scale, mostly so that no loss occurs. The information storage on a large scale, 
-especially in digital form, can assist in advancing science \cite{lynch}.  
+Usually the techniques that involve data processing try to work around problems, arise in this case the the data file size, to perform processing. At present and due to the increased speed with which information is generated, it becomes necessary to develop methods which allow such management information in large scale, mostly so that no loss occurs. The information storage on a large scale, especially in digital form, can assist in advancing science \cite{lynch}.
 
-There are different methods that perform this compression procedure, which can 
-be classified based on their characteristics. We highlight the main information 
-loss as characteristics during the compression process, the data manipulation 
-procedure, methodology used, among others \cite{salomon2}. 
+There are different methods that perform this compression procedure, which can be classified based on their characteristics. We highlight the main information loss as characteristics during the compression process, the data manipulation procedure, methodology used, among others \cite{salomon2}.
 
-If after compression, data suffer a information loss, this causes loss if the 
-file is uncompressed. The compressed data can not be recovered in its original 
-form. Therefore you can choose the method based on the ratio of the loss 
-characteristics. The data that can be recovered in spite of presenting 
-information loss do not invalidate its use. However, there are other processes 
-that the data must be recovered in full. 
+If after compression, data suffer a information loss, this causes loss if the file is uncompressed. The compressed data can not be recovered in its original form. Therefore you can choose the method based on the ratio of the loss characteristics. The data that can be recovered in spite of presenting information loss do not invalidate its use. However, there are other processes that the data must be recovered in full.
 
-According to the loss or not, the information manipulated, one can classify the 
-data types on which compression can occur. When there is information loss, so 
-that this does not undermine the use of the data, we have a method called 
-nondestructive. An example of the data manipulated in this method are sound 
-files (mp3), picture (JPEG) and movies (mpeg). As for the other data after being 
-compressed, it can not have losses, they are called non-destructive. The types 
-of manipulated file by this method are based on text and numbers 
-\cite{salomon,salomon2}. 
+According to the loss or not, the information manipulated, one can classify the data types on which compression can occur. When there is information loss, so that this does not undermine the use of the data, we have a method called nondestructive. An example of the data manipulated in this method are sound files (mp3), picture (JPEG) and movies (mpeg). As for the other data after being compressed, it can not have losses, they are called non-destructive. The types of manipulated file by this method are based on text and numbers \cite{salomon,salomon2}.
 
-There is another method classification compression with respect to how it is 
-done, its can be symmetrical or asymmetrical. In the case of symmetrical, time 
-compression and decompression of data occurs synchronously, ie, it take the same 
-time for being compressed and decompressed. In this classification, the fit into 
-based dictionary-algorithm, such as LZW, which use dictionaries for performing 
-the compression. Already another classification, the asymmetric demand different 
-times in implementing the compression and decompression processes, as an example 
-it can highlight the compressing audio method, mpeg \cite{salomon,salomon2}. 
+There is another method classification compression with respect to how it is done, its can be symmetrical or asymmetrical. In the case of symmetrical, time compression and decompression of data occurs synchronously, ie, it take the same time for being compressed and decompressed. In this classification, the fit into based dictionary-algorithm, such as LZW, which use dictionaries for performing the compression. Already another classification, the asymmetric demand different times in implementing the compression and decompression processes, as an example it can highlight the compressing audio method, mpeg \cite{salomon,salomon2}.
 
-Another feature that is considered to distinguish compression types is related 
-to the way in which the process runs. In this new approach, there are methods 
-that are considered adaptive and non-adaptive. As the compression process is 
-executed, the method can be adapted to optimize the processing. Considering this 
-new feature, we can highlight the Golomb code among and other as non-adaptive. 
-Already on the other hand, we have dictionary-based algorithms, LZ77 and LZ78, 
-and adaptive as those based on Huffman coding, arithmetic coding, and others, 
-can be both adaptive and non-adaptive \cite{salomon, salomon2}. 
+Another feature that is considered to distinguish compression types is related to the way in which the process runs. In this new approach, there are methods that are considered adaptive and non-adaptive. As the compression process is executed, the method can be adapted to optimize the processing. Considering this new feature, we can highlight the Golomb code among and other as non-adaptive. Already on the other hand, we have dictionary-based algorithms, LZ77 and LZ78, and adaptive as those based on Huffman coding, arithmetic coding, and others, can be both adaptive and non-adaptive \cite{salomon, salomon2}.
 
-Besides the problem involved with compression, there is another related to the 
-way in which data large volumes must be represented in memory. The procedures 
-described up to now, in large part only function to compress the data file and 
-in some cases access them. When these data should be accessed for manipulation, 
-there is a need to be represented, in the computer case, in memory. From there 
-arise a problem with the representation of this large volume of data in memory. 
-Among the many techniques developed to solve this problem, there is the 
-technique of memory-mapped files that seeks to use main memory to reference the 
-data file in disk as the data are requested, they are loaded into main memory. 
-This technique allows data large volumes can be handled, but still there is a 
-limit, in which case the memory size. Another problem is related to access time 
-data to disk, which is relatively higher compared to the memory access. Some 
-programming languages ​​like Python, R and other, allow the use of this feature. 
-In Python this feature is available in the standard library, already in the R 
-this feature can be used by the package bigmemmory \cite{big}. 
+Besides the problem involved with compression, there is another related to the way in which data large volumes must be represented in memory. The procedures described up to now, in large part only function to compress the data file and in some cases access them. When these data should be accessed for manipulation, there is a need to be represented, in the computer case, in memory. From there arise a problem with the representation of this large volume of data in memory. Among the many techniques developed to solve this problem, there is the technique of memory-mapped files that seeks to use main memory to reference the data file in disk as the data are requested, they are loaded into main memory. This technique allows data large volumes can be handled, but still there is a limit, in which case the memory size. Another problem is related to access time data to disk, which is relatively higher compared to the memory access. Some programming languages ​​like Python, R and other, allow the use of this feature. 
+In Python this feature is available in the standard library, already in the R this feature can be used by the package bigmemmory \cite{big}.
 
-In this paper, we present two methods that allow the compression of large data 
-sets, such as the type of big data, for direct manipulation of files into 
-memory. These methods allow direct access to data in compressed form, its 
-handling and recovery occurs without loss. The proposed method also allows to 
-use the techniques already presented to perform a subsequent compression process 
-only if these data should be stored on physical media. We describe the process 
-of compression and decompression, using as an example strips of bits to 
-represent numerical arrays, the method sparse string \cite{salomon,salomon2}, to 
-illustrate the methods. We also present a discussion of some results on the 
-characteristics of each proposed method and elucidated the best options in which 
-each can be applied. We have also emphasized that the methods allow information 
-to be accessed after the compression process, which allows the handling and 
-updating, if necessary. At the end of the paper we present their conclusions 
-about using of the proposed methods.
+In this paper we present two methods that allow the compression of large data sets, such as the type of big data, for direct manipulation of files into memory. These methods allow direct access to data in compressed form, its handling and recovery occurs without loss. The proposed method also allows to use the techniques already presented to perform a subsequent compression process only if these data should be stored on physical media. We describe the process of compression and decompression, using as an example strips of bits to represent numerical arrays, the method sparse string \cite{salomon,salomon2}, to illustrate the methods. We also present a discussion of some results on the characteristics of each proposed method and elucidated the best options in which each can be applied. We have also emphasized that the methods allow information to be accessed after the compression process, which allows the handling and updating, if necessary. At the end of the paper we present their conclusions about using of 
+the proposed methods.
 
 % Results and Discussion can be combined.
 \section*{Results}
 
-Consider a matrix such that the elements are integers. The results will be 
-presented that indicate the compression process propose two methods. These 
-methods create a new matrix, so that the values ​​of the original matrix are 
-stored in a new matrix, only using less computational resources, in this case 
-memory to be represented. 
+Consider a matrix such that the elements are integers. The results will be presented that indicate the compression process propose two methods. These methods create a new matrix, so that the values ​​of the original matrix are stored in a new matrix, only using less computational resources, in this case memory to be represented.
 
-To check the efficiency of these methods, at first, we consider that this 
-matrix is composed of numbers generated from random variables that follow a 
-probability distributions mixture. 
+To check the efficiency of these methods, we consider that this matrix is composed of numbers generated from random variables that follow a probability distributions mixture.
  
-Now for simplicity and functionality will be used by a probability distributions 
-mixture Beta. The probability density function (pdf) of the mixture of two Beta 
-distributions is shown in equation \ref{eq:52}. The shape parameters $\alpha$ 
-and $\beta$ will be correlated to the bit number to represent the values ​​in 
-the data matrix to be compressed. Already the parameter $\lambda$ defines the 
-proportion of each distribution make mixture. From this value range​​, one can 
-by distributing generate other and different sets of values ​​to fill the 
-matrix, then one can sweep all possibilities and estimating the efficiency of 
-the compression process. 
+Now for simplicity and functionality will be used by a probability distributions mixture Beta. The probability density function (pdf) of the mixture of two Beta distributions is shown in equation \ref{eq:52}. The shape parameters $\alpha$ and $\beta$ will be correlated to the bit number to represent the values ​​in the data matrix to be compressed. Already the parameter $\lambda$ defines the proportion of each distribution make mixture. From this value range​​, one can by distributing generate other and different sets of values ​​to fill the matrix, then one can sweep all possibilities and estimating the efficiency of the compression process.
 
 \begin{equation}\label{eq:52}
  f(x,\alpha_1,\beta_1,\alpha_2,\beta_2) = \lambda\frac{\Gamma(\alpha_1+\beta_1)}{\Gamma(\alpha_1)\Gamma(\beta_1)}x^{\alpha_1-1}(1-x)^{\beta_1-1} + (1-\lambda)\frac{\Gamma(\alpha_2+\beta_2)}{\Gamma(\alpha_2)\Gamma(\beta_2)}x^{\alpha_2-1}(1-x)^{\beta_2-1}
