@@ -62,6 +62,8 @@
 
 %% END MACROS SECTION
 
+\usepackage{todonotes}
+
 \begin{document}
 
 % Title must be 150 characters or less
@@ -104,51 +106,150 @@ with the traditional representation of matrices.
 
 \section*{Introduction}
 
-Data compression is traditionally used to reduce storage resources usage and/or transmission costs\cite{salomon}. Compression techniques can be classified into lossy and lossless. Examples of lossy data compression are MP3 (audio), JPEG (image) and MPEG (video). In this paper we discuss the use of lossless compression for numerical data structures such as numerical arrays to achieve compression without losing the mathematical properties of the original data.  
+Data compression is traditionally used to reduce storage resources usage and/or 
+transmission costs\cite{salomon}. Compression techniques can be classified into 
+lossy and lossless. Examples of lossy data compression are MP3 (audio), JPEG 
+(image) and MPEG (video). In this paper, we discuss the use of lossless 
+compression for numerical data structures such as numerical arrays to achieve 
+compression without losing the mathematical properties of the original data.
 
-Lossless compression methods usually exploit redundancies present in the data in order to find a shorter form of describing the same information content. For example, a dictionary-based compression, only stores the positions in which a given word occurs in a document, thus saving the space required to store all its repetitions\cite{salomon2}. 
+Lossless compression methods usually exploit redundancies present in the data in 
+order to find a shorter form of describing the same information content. For 
+example, a dictionary-based compression, only stores the positions in which a 
+given word occurs in a document, thus saving the space required to store all its 
+repetitions\cite{salomon2}.  
 
-Any kind of compression incurs some computational cost. Such costs often have to be paid twice since the data needs to be decompressed to be used for its original purpose. Sometimes computational costs are irrelevant, but the need to decompress for usage, can signify that the space saved with compression must be available when data is decompressed for usage, thus partially negating the advantages of compression.
+Any kind of compression incurs some computational cost. Such costs often have to 
+be paid twice since the data needs to be decompressed to be used for its 
+original purpose. Sometimes computational costs are irrelevant, but the need to 
+decompress for usage, can signify that the space saved with compression must be 
+available when data is decompressed for usage, thus partially negating the 
+advantages of compression. 
 
-Most if not all existing lossless compression methods were developed under the following usage paradigm: \textit{produce} $\rightarrow$ \textit{compress} $\rightarrow$ \textit{store} $\rightarrow$ \textit{uncompress} $\rightarrow$ \textit{use}. The focus of the present work is to allow a slightly different usage:  \textit{produce} $\rightarrow$ \textit{compress} $\rightarrow$ \textit{perform mathematical manipulations} and \textit{decompress} (only for human reading).
+Most if not all existing lossless compression methods were developed under the 
+following usage paradigm: \textit{produce} $\rightarrow$ \textit{compress} 
+$\rightarrow$ \textit{store} $\rightarrow$ \textit{uncompress} $\rightarrow$ 
+\textit{use}. The focus of the present work is to allow a slightly different 
+usage:  \textit{produce} $\rightarrow$ \textit{compress} $\rightarrow$ 
+\textit{perform mathematical manipulations} and \textit{decompress} (only for 
+human reading). 
 
-With the growth of data volumes and analytical demands, creative solutions are needed to efficiently store as well as consume it on demand. This issue is present in many areas of application, ranging from business to science\cite{lynch}, and is being called the \textit{Big Data} phenomenon. In the world of Big Data, the need to analyze data immediately after its coming into existence became the norm. And this analysis must take place, efficiently, within the confines of (RAM) memory. This kind of analyses are what is now known as streaming data analysis\cite{gaber2005mining}. Given a sufficiently dense stream of data, compression an decompression costs may become prohibitive. So having a way to compress data and keeping it compressed for the entire course of the analytical pipeline, is very desirable.
+With the growth of data volumes and analytical demands, creative solutions are 
+needed to efficiently store as well as consume it on demand. This issue is 
+present in many areas of application, ranging from business to 
+science\cite{lynch}, and is being called the \textit{Big Data} phenomenon. In 
+the world of Big Data, the need to analyze data immediately after its coming 
+into existence became the norm. And this analysis must take place, efficiently, 
+within the confines of (RAM) memory. This kind of analyses are what is now known 
+as streaming data analysis\cite{gaber2005mining}. Given a sufficiently dense 
+stream of data, compression an decompression costs may become prohibitive. So 
+having a way to compress data and keeping it compressed for the entire course of 
+the analytical pipeline, is very desirable. 
 
-This paper will focus solely on numerical data which for the purpose of the applications is organized as   matrices. This is a most common data structure found in computational data analysis environments. The matrices compressed according to the methodologies proposed here should be able to undergo the same mathematical operations as the original uncompressed matrices, e.g. linear algebra manipulations. This way, the cost of compression is reduced to a single event of compression and no need of decompression except when displaying the results for human reading. The idea of operating with compressed arrays is relatively new\cite{yemliha2007compiler}, and it has yet to find mainstream applications to the field of numerical computations. One application which employs a form of compression is the sparse matrix linear algebra algorithms\cite{dodson1991sparse}, in this case there is no alteration in the standard encoding of the data, but only the non-zero elements of the matrices are stored and operated upon. 
+This paper will focus solely on numerical data which for the purpose of the 
+applications is organized as matrices. This is a most common data structure 
+found in computational data analysis environments. The matrices compressed 
+according to the methodologies proposed here should be able to undergo the same 
+mathematical operations as the original uncompressed matrices, e.g. linear 
+algebra manipulations. This way, the cost of compression is reduced to a single 
+event of compression and no need of decompression, except when displaying the 
+results for human reading. The idea of operating with compressed arrays is 
+relatively new\cite{yemliha2007compiler}, and it has yet to find mainstream 
+applications to the field of numerical computations. One application which 
+employs a form of compression is the sparse matrix linear algebra 
+algorithms\cite{dodson1991sparse}, in this case there is no alteration in the 
+standard encoding of the data, but only the non-zero elements of the matrices 
+are stored and operated upon. 
 
-Larger than RAM data structures can render traditional analytical algorithms impracticable. Currently, the technique most commonly used when dealing with large matrices for numerical computations, is memory mapping\cite{van2011numpy,big}. In memory mapping the matrix is allocated in a virtual contiguous address space which extends from memory into disk. Thus, larger than memory data structures can be manipulated as if they were in memory.  This technique has a big performance penalty due to lower access speeds of disk when compared to RAM. 
+Larger than RAM data structures can render traditional analytical algorithms 
+impracticable. Currently, the technique most commonly used when dealing with 
+large matrices for numerical computations, is memory 
+mapping\cite{van2011numpy,big}. In memory, mapping the matrix is allocated in a 
+virtual contiguous address space which extends from memory into disk. Thus, 
+larger than memory data structures can be manipulated as if they were in memory. 
+This technique has a big performance penalty due to lower access speeds of disk 
+when compared to RAM. 
 
-In this paper we present two methods for the lossless compression of (numerical) arrays. The methods involve the encoding of the numbers as strings of bits of variable length. The methods resemble the arithmetic coding\cite{bodden2007arithmetic} algorithm, but is cheaper to compute. We describe the process of compression and decompression, and study their efficiency under different applications. We also discuss the efficiency of the compression as a function of the distribution of the elements of the matrix. 
+In this paper, we present two methods for the lossless compression of 
+(numerical) arrays. The methods involve the encoding of the numbers as strings 
+of bits of variable length. The methods resemble the arithmetic 
+coding\cite{bodden2007arithmetic} algorithm, but is cheaper to compute. We 
+describe the process of compression and decompression, and study their 
+efficiency under different applications. We also discuss the efficiency of the 
+compression as a function of the distribution of the elements of the matrix. 
+\todo{Inseri isso} Also presented are some results in relation to the 
+traditional method of matrix allocation. We also consider the 
+arithmetic operations to measure the efficiency of the proposed methodology.
 
 \section*{Methods}
 
 \subsection*{Matrix compression}
 
-To maintain mathematical equivalence with the original data for any arithmetic operations, we need to  maintain the structure of the matrix, i.e., the ability to acess any element given its row $i$ and column $j$ and also the numeric nature of its elements. In order to achieve compression we decided to exploit inefficiencies in the conventional way matrices are allocated in memory. The examples in this paper will be restricted to matrices with positive integer elements.
+To maintain mathematical equivalence with the original data for any arithmetic 
+operations, we need to maintain the structure of the matrix, ie, the ability 
+to access any element given its row $i$ and column $j$ and also the numeric 
+nature of its elements. In order to achieve compression, we decided to exploit 
+inefficiencies in the conventional way matrices are allocated in memory. 
+\todo{adicionei aqui} The analyzes presented in this article, in the first 
+moment, are related to arrays of positive integers, but can be applied to 
+integers and real numbers with some adaptations, which are presented in due 
+course. \todo{removi isso The examples in this paper will be restricted to 
+matrices with positive integer elements, but}	
 
-The compression method is as follows. Let $M_{r \times c}$ be a matrix, in which $r$ is the number of rows and $c$ the number of columns. Each element of this matrix, called $m_{ij}$, is a positive integer. In digital computers, all information is stored as binary code (base 2 numbers). However the conventional way to store arrays of integers is on a memory block sequence of fixed size (power of 2 numbers of bit), one for each element. The maximum size of a block is equal to the word size of the processor, which for most current CPUs is 64 bits. Some special number such as complex number may be encoded as two blocks instead of one. The size of the chunk of memory allocated to each number will determine their maximum  size (for integers) or their precision (for floating-point numbes). So for matrix $M$, the total memory allocated, assuming chunks of 64 bits, is given by $\mathcal{B} = r \times c \times 64$.
+The compression method is as follows. Let $M_{r \times c}$ be a matrix, in which 
+$r$ is the number of rows and $c$ the number of columns. Each element of this 
+matrix, called $m_{ij}$, is a positive integer. In digital computers, all 
+information is stored as binary code (base 2 numbers). However, the conventional 
+way to store arrays of integers is on a memory block sequence of fixed size 
+(power of 2 numbers of bit), one for each element. The maximum size of a block 
+is equal to the word size of the processor, which for most current CPUs is 64 
+bits. Some special number such as complex number may be encoded as two blocks 
+instead of one. The size of the chunk of memory allocated to each number will 
+determine their maximum  size (for integers) or their precision (for 
+floating-point numbers). So for matrix $M$, the total memory allocated, 
+assuming chunks of 64 bits, is given by $\mathcal{B} = r \times c \times 64$.
 
-The number of bits allocated $\mathcal{B}$, is larger than the absolute minimum number of bits required to represent all the elements of $M$, since smaller integers, when converted to base 2, require less digits. From now on, when the numerical base will be explicitly notated when necessary to avoid confusion between binary and decimal integers.  
+The number of bits allocated $\mathcal{B}$, is larger than the absolute minimum 
+number of bits required to represent all the elements of $M$, since smaller 
+integers, when converted to base 2, require less digits. From now on, when the 
+numerical base will be explicitly notated when necessary to avoid confusion 
+between binary and decimal integers. 
 
-Let's consider an extreme example: a matrix composed exclusively of 0s and 1s (base 10). If the matrix type is set to 64-bit integers, 63 bits will be wasted per element of the matrix, since the minimum number of bits needed to store such a matrix is $\mathfrak{b} = r \times c \times 1$. The potential economy of bits $\xi$ can be represented by $\xi = \mathcal{B} - \mathfrak{b} =  r \times c \times 63$.
+Let's consider an extreme example: a matrix composed exclusively of 0s and 1s 
+(base 10). If the matrix type is set to 64-bit integers, 63 bits will be wasted 
+per element of the matrix, since the minimum number of bits needed to store such 
+a matrix is $\mathfrak{b} = r \times c \times 1$. The potential economy of bits 
+$\xi$ can be represented by $\xi = \mathcal{B} - \mathfrak{b} =  r \times c 
+\times 63$. 
 
-
-So it is evident that for any matrix whose greatest element requires less than 64 bits (or the fixed type of the matrix) to be represented, potential memory savings will grow linearly with the size of the matrix.
+So it is evident that for any matrix whose greatest element requires less than 
+64 bits (or the fixed type of the matrix) to be represented, potential memory 
+savings will grow linearly with the size of the matrix.
 
 \subsubsection*{Method 1: The Supreme Minimum (SM)}
 
-The SM method consists in determining the value of the greatest element of matrix $M$, which coincides with its supremum, $max M == \sup M$  and determine the minimum number of bits, $b(\sup M$)(Equation \ref{eq:01}), required to store it. We will use capital roman letters to denote uncompressed matrices and the corresponding lower case letter for the compressed version.
+The SM method consists in determining the value of the greatest element of 
+matrix $M$, which coincides with its supremum, $max M == \sup M$  and determine 
+the minimum number of bits, $b(\sup M$)(Equation \ref{eq:01}), required to store 
+it. We will use capital roman letters to denote uncompressed matrices and the 
+corresponding lower case letter for the compressed version.
 
 \begin{equation} \label{eq:01}
  b(\sup M) \approx \begin{cases}
 	1, &  \text{ if } \sup M \in \{0,1\} \\ 
 	\lfloor \log_2(\sup M)  \rfloor + 1,  & \text{ if } \sup M > 1  
 	\end{cases}
-\end{equation}
+\end{equation}\todo{Será que não devemos trocar $\approx$ por = aqui? Note que 
+o número de bits não é aproximado e sim o exato.}
 
-The allocation of memory still happens in the usual way, i.e., in fixed size 64-bit chunks, only that now, in the space required for a single 64 bit integer, we can store for example, an entire $8\times 8$ matrix of $0_{10}$ and $1_{10}$. 
+The allocation of memory still happens in the usual way, ie, in fixed size 
+64-bit chunks, only that now, in the space required for a single 64 bit integer, 
+we can store for example, an entire $8\times 8$ matrix of $0_{10}$ and 
+$1_{10}$. 
 
-Let's look at a concrete example: suppose that the greatest value to be stored in a matrix $M$ is $\max M=1023$. Therefore, the number of bits required to represent it is $10$ $(1111111111)$. Let the first 8 elements of $M$ be:
+Let's look at a concrete example: suppose that the greatest value to be stored 
+in a matrix $M$ is $\max M=1023$. Therefore, the number of bits required to 
+represent it is $10$ $(1111111111)$. Let the first 8 elements of $M$ be:
 
 \begin{equation} \label{eq:02}
   M = \begin{bmatrix}
@@ -157,11 +258,14 @@ Let's look at a concrete example: suppose that the greatest value to be stored i
   \end{bmatrix}
 \end{equation}
 
-These elements of $M$, in binary, are shown in Table \ref{tab:01}. It is evident that the number of bits required to represent any other element must be lower or equal to $10$. From now on the minimum number of bits required to represent a base 10 integer will be refered to as its bit-length.
+These elements of $M$, in binary, are shown in Table \ref{tab:01}. It is 
+evident that the number of bits required to represent any other element must be 
+lower or equal to $10$. From now on the minimum number of bits required to 
+represent a base 10 integer will be refered to as its bit-length.
 
 \begin{table}[h]
  \centering
- \caption{Some elements of $M$ represented in binary base.}
+ \caption{The first 8 elements of $M$ represented in binary base.}
  \begin{tabular}{cccc} 
   \hline 
   Element & Value  & Binary & Bit length\\
@@ -179,9 +283,19 @@ These elements of $M$, in binary, are shown in Table \ref{tab:01}. It is evident
  \label{tab:01}
 \end{table}
 
-To store matrix $M$ it first has to be converted to base $2$ ($M_2$). Then it will be unraveled by column (column major, e.g. in Fortran) or by row (row major, e.g. in C) and its elements will be written as  fixed size adjacent chunks of memory. The size of each chunk is determined by the type associated with the matrix (typically 64 bits, but always a power of 2).
+To store matrix $M$ it first has to be converted to base $2$ ($M_2$). Then it 
+will be unraveled by column (column major, e.g. in Fortran) or by row (row 
+major, e.g. in C) and its elements will be written as fixed size adjacent chunks 
+of memory. The size of each chunk is determined by the type associated with the 
+matrix (typically 64 bits, but always a power of 2).
 
-According to the SM method, having determined that each element will require at most 10 bits, we can divide the memory block corresponding to a single 64 bit integer into six 10-bit chunks which can each hold a single element of $M$. These 64-bit blocks will be called a bitstring. The remaining 4 bits will be used later. The number of bitstrings needed will be $\lfloor \frac{\dim(M) *b(\sup M)} {64} \rfloor +1$, where $dim(M)$ is the dimension of the matrix or its number of elements.
+According to the SM method, having determined that each element will require at 
+most 10 bits, we can divide the memory block corresponding to a single 64 bit 
+integer into six 10-bit chunks, which can each hold a single element of $M$. 
+These 64-bit blocks will be called a bitstring. The remaining 4 bits will be 
+used later. The number of bitstrings needed will be $\lfloor \frac{\dim(M) 
+*b(\sup M)} {64} \rfloor +1$, where $dim(M)$ is the dimension of the matrix or 
+its number of elements.
 
 The final layout of the first 6 elements of $m$ in the first bitstring can be seen in \ref{eq:03}.
 
@@ -204,29 +318,50 @@ bitstring_1 = 000000000000000000000000000000000000000000000000000000\underbrace{
  \begin{equation*}\label{eq:06}
 bitstring_1 = 0000\underbrace{0000001010}_{10}\underbrace{0000000001}_{1}\underbrace{0100000000}_{256}\underbrace{1011010001}_{721}\underbrace{1111111111}_{1023}\underbrace{1110000100}_{900} 
  \end{equation*}
- \item Element $M_{1,7}=700=1010111100$ does not fit on the remaining 4 bits of the first bitstring. So it will straddle two bitstrings, i.e., it is divided in two segments $a$ and $b$, $a$ is written on the first bitstring and $b$ on the second.
+ \item Element $M_{1,7}=700=1010111100$ does not fit on the remaining 4 bits of 
+the first bitstring. So it will straddle two bitstrings, ie, it is divided in 
+two segments $a$ and $b$, $a$ is written on the first bitstring and $b$ on the 
+second.
  \begin{equation*}\label{eq:07}
   \underbrace{\underbrace{0000010100}_{20}\overbrace{101011}^{b}}_{bitstring_2}|\underbrace{\overbrace{1100}^{a}\underbrace{0000001010}_{10}\underbrace{0000000001}_{1}\hdots}_{bitstring_1}
 \end{equation*}
 \end{enumerate}
 
- Please notice that bitstrings are written from right to left.
+ Please, notice that bitstrings are written from right to left.
 
 \begin{equation*}\label{eq:8}
   \underbrace{0000010100}_{20}\underbrace{\overbrace{101011}^a|\overbrace{1100}^{b}}_{700}\underbrace{0000001010}_{10}\ldots
 \end{equation*}
 
-Thus the compressed matrix $m = M_2$ requires less memory than the conventional storage of $M$ as a 64-bit integer array.
+Thus the compressed matrix $m = M_2$ requires less memory than the conventional 
+storage of $M$ as a 64-bit integer array. An illustration of the compression 
+process and the allocation of the elements of matrix M in the matrix m is shown 
+in Figure \ref{fig:01}. Note that the matrix m has fewer columns that the 
+matrix M, then it demands less memory to be represented. We also emphasize that 
+the bits which represent the value 700 is divided in two parts and stored in 
+different strips in the matrix m.
 
 \subsubsection*{Method 2: Variable Length Blocks (VLB)}
 
-In the SM method, there is still waste of space since for elements smaller than the supremum, a number of bits remain unused.
+In the SM method, there is still waste of space since for elements smaller than 
+the supremum, a number of bits remain unused. 
 
-In the VBL method, the absolute minimal number of bits are used to store each value. However, if we are going to divide the biststrings into variable length chunks, we also need to reserve some extra bits to represent the size of each chunk, otherwise the elements cannot be recovered once they are stored.
+In the VBL method, the absolute minimal number of bits are used to store each 
+value. However, if we are going to divide the biststrings into variable length 
+chunks, we also need to reserve some extra bits to represent the size of each 
+chunk, otherwise the elements cannot be recovered once they are stored. 
 
-Lets use again the matrix described in Equation \ref{eq:02}, where  the largest element is number 1023. Now instead of assigning one chunk of the bitstring to each element of $m$, we will assign two chunks: the first will store the number of bits required to store the element and the second  will store the actual element. The first chunk will have a fixed size, in this case, 4 bits. These 4 bits are the required space to store the bit-length of $\sup M $, in this case, 10. 
+Lets use again the matrix described in Equation \ref{eq:02}, where  the largest 
+element is number 1023. Now instead of assigning one chunk of the bitstring to 
+each element of $m$, we will assign two chunks: the first will store the number 
+of bits required to store the element and the second  will store the actual 
+element. The first chunk will have a fixed size, in this case, 4 bits. These 4 
+bits are the required space to store the bit-length of $\sup M $, in this case, 
+10.  
 
-Lets go through VLB compression step-by-step. The largest element of $M$ is 1023. Its bit-length is 10 which in turn is 4 bits long in base 2 (1010). Thus the fixed size chunk is 4 bits long for every element.
+Lets go through VLB compression step-by-step. The largest element of $M$ is 
+1023. Its bit-length is 10 which in turn is 4 bits long in base 2 (1010). Thus 
+the fixed size chunk is 4 bits long for every element. 
 
 \begin{enumerate}
  \item The first element $M_{1,1}=900$ requires 10 bits to store, so we write $10$ in the first chunk and $900$ in the second.
@@ -736,7 +871,18 @@ manuscript.
 % The bibtex filename
 \bibliography{plos.bib}
 
-%\section*{Figure Legends}
+\section*{Figure Legends}
+
+\begin{figure}[htp]
+  \includegraphics[scale=0.3,clip]{fig01.pdf}
+  \caption{Representation of the compression process and allocation of 
+elements of matrix M in the matrix m. The strip of value 700 is divided in two 
+parts and stores in different strips in the matrix m.}
+  \label{fig:01}
+\end{figure}
+
+
+
 %\begin{figure}[!ht]
 %\begin{center}
 %%\includegraphics[width=4in]{figure_name.2.eps}
@@ -763,4 +909,3 @@ manuscript.
 % \end{table}
 
 \end{document}
-
