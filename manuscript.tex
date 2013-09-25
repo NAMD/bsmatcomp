@@ -379,7 +379,8 @@ the fixed size chunk is 4 bits long for every element.
 \end{equation*}
 \end{enumerate}
 
-So far the VLB method is more wasteful than the SM, but when we add $M_{1,4} =256$  we start to save some space.
+So far the VLB method is more wasteful than the SM, but when we add $M_{1,4} 
+=256$, we start to save some space.
 
 \begin{enumerate}
  \item[4.] Element $M_{1,4} =256$ is added.  
@@ -395,7 +396,10 @@ So far the VLB method is more wasteful than the SM, but when we add $M_{1,4} =25
 \end{equation*}
 \end{enumerate}
 
- We used a total of 87 bits to store matrix $m$ with the VLB method instead of 80 bits using the SM method. However, as shall be seen later, the VLB method will be the most efficient for most matrices.
+ We used a total of 87 bits to store matrix $m$ with the VLB method instead of 
+80 bits using the SM method. However, as shall be seen later, the VLB method 
+will be the most efficient for most matrices. \todo{adicionei} With the method 
+VLB the resulting matrix is smaller than the original matrix.
  
  \subsection*{Compression Efficiency}
  Compression efficiency depends of the data being compressed. Below, a formula for calculating compression efficiency is derived for both methods. They will be based on the following ratio:
