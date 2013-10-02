@@ -25,6 +25,7 @@
 \usepackage{amsmath}
 \usepackage{graphicx}
 \usepackage{cite}
+\usepackage{todonotes}
 
 \usepackage[normalem]{ulem}
 
@@ -40,30 +41,31 @@
 In this supplementary material we will explore basic arithmetic operations
 (addition, subtraction, division and multiplication) over the elements of
 bitstring compressed arrays. We will consider integer matrices compressed via
-both the SM and the VLB methods.
+both the SM and the VLB methods, \todo{inseri esse texto} but the proposed 
+methods can be applied to integers and real numbers with sign.
 
 In these operations, the most important aspect is the bit-length of the result
 in relation to those of the operands. As the operations are all done in
 binary, when the result bit-length increases, the resulting matrix will require
 more space to store and the operation in itself gets more complex, as in place
-operations are not possible. In the following examples we will explore these
+operations are not possible. In the following examples, we will explore these
 kinds of operations.
 
 \subsection{Operations with Scalars}
 
 \paragraph{Addition}
 
-In base 2 the carry over  behavior is the same as we observer when operating
+In base 2 the carry over behavior is the same as we observer when operating
 with decimals, only the base is different. Adding $1+1$ results in $0$ and a
 carry over of 1, this is similar to the decimal sum $5+5$ where we also have a
 carry over of 1. Other single digit additions in base 2 are: $1 + 0
 = 1$, $0 + 1 = 1$, and $0 + 0 = 0$. Consider the following addition $n_1+n_2$
 where $n_1=7$ and $n_2=10$. This addition is illustrated in table \ref{tab:01}
-in both decimal and binary. Note that when we add $1+1$, a carry over is
-generated to be added to bit on the left. In total we generate three bits in
+in both decimal and binary. Note that, when we add $1+1$, a carry over is
+generated to be added to bit on the left. In total, we generate three bits in
 carry over.
 
-In Table \ref{tab:02} we show the addition of $7 + 7$ which generates a 4 bits
+In Table \ref{tab:02}, we show the addition of $7 + 7$ which generates a 4 bits
 long number. In integer additions, the results may, in the very least, be as
 long (in bits) as the greatest operand (for example $1+2=3$), but is frequently
 longer.
@@ -83,10 +85,10 @@ longer.
 	\end{tabular}
     \label{tab:01}
 \end{table}
-
+\todo{Traduzi o título que estava em português.}
 \begin{table}[ht]
-	\centering
-    \caption{Comparacao da soma em base decimal e binaria.}
+    \centering
+    \caption{Comparison of the sum in binary and decimal base.}
     \begin{tabular}{crrrc}
     \hline
     	  & Decimal & & Binario & Bit-length \\
@@ -101,14 +103,14 @@ longer.
 \end{table}
 
 \paragraph{Subtraction}
+
 Depending of the number involved in this operation, the result may be negative.
 This fact alone generates the need for an extra bit to represent the sign ($+$
-or
-$-$). The usual way to achieve this is to use the  two's complement
+or $-$). The usual way to achieve this is to use the  two's complement
 \cite{flores1963logic} representation which has the advantage of making the
 addition subtraction and multiplication operation the same as those for unsigned
-binary numbers. This algorithm is what is actually implemented in CPUs. To
-exemplify let's subtract $7$ from $10$. To make use of the
+binary numbers. This algorithm \todo{removi is what} is actually implemented in 
+CPUs. To exemplify let's subtract $7$ from $10$. To make use of the
 same algorithm of the sum , we represent the operation as $10+(-7)$. First we
 need to convert the operands to two's complement representation (C2):
 
@@ -151,7 +153,7 @@ this).
 \end{table}
 
 \begin{table}[ht]
-	\centering
+    \centering
     \caption{Standard binary subtraction.}
     \begin{tabular}{crrrc}
     \hline
@@ -171,19 +173,19 @@ bits of the greatest operand, regardless of the use of C2 representation. As an
 example, consider the subtraction $7-1$ (table \ref{tab:05}).
 
 \begin{table}[ht]
-	\centering
-    \caption{Binary subtraction}
-    \begin{tabular}{crrrc}
+  \centering
+  \caption{Binary subtraction}
+  \begin{tabular}{crrrc}
     \hline
-    	  & Decimal & & Binary & Bit-length \\
+	  & Decimal & & Binary & Bit-length \\
     \hline      
     Carry over & 	& & \textit{000} & \\
     $n_1$ & 7	& & 111 & 3 \\
     $-n_3$ & \underline{-1} & & \underline{1} & 1 \\
     Total & 6	& & 110 & 3\\
     \hline
-	\end{tabular}
-    \label{tab:05}
+  \end{tabular}
+  \label{tab:05}
 \end{table}
 
 \paragraph{Multiplication}
@@ -192,26 +194,26 @@ techniques. For example: $2 \times 3 = 3 + 3 = 2 + 2 + 2$. Table \ref{tab:06}
 describes a simple multiplication.
 
 \begin{table}[ht]
-	\centering
-    \caption{Binary Multiplication}
-    \begin{tabular}{crrrc}
-    \hline
-    	  & Decimal & & Binary & Bit-length \\
-    \hline      
-    $n_2$ & 10	& & 1010 & 4\\
-    $n_1$ & \underline{$\times 7$} & & \underline{111} & 3 \\
-    & & & 1010  & \\
-    & & & \underline{1010\ } & \\
-    & & & $11110$ & \\
-    & & & \underline{1010\ \ } & \\
-    Total& 70 & & 1000110 & 7\\
-    \hline
-	\end{tabular}
-    \label{tab:06}
+  \centering
+  \caption{Binary Multiplication}
+  \begin{tabular}{crrrc}
+  \hline
+	& Decimal & & Binary & Bit-length \\
+  \hline      
+  $n_2$ & 10	& & 1010 & 4\\
+  $n_1$ & \underline{$\times 7$} & & \underline{111} & 3 \\
+  & & & 1010  & \\
+  & & & \underline{1010\ } & \\
+  & & & $11110$ & \\
+  & & & \underline{1010\ \ } & \\
+  Total& 70 & & 1000110 & 7\\
+  \hline
+      \end{tabular}
+  \label{tab:06}
 \end{table}
 
 In multiplication the behavior of the bit-length is different from the sum and
-subtraction. In the worst case the product has a bit-length which is the sum of
+subtraction. In the worst case, the product has a bit-length which is the sum of
 the bit-lengths of the factors. For example, in the product $7\times7$, the
 product is 6 bits long: $49$ which in binary is $110001$.
 
@@ -224,9 +226,8 @@ determine the sign of the product: $0$ meaning positive and $1$ negative. In
 the worst case the bit-length of the product is the sum of the bit-lengths of
 the factors plus 1 due to the sign.
 
-
 \begin{table}[ht]
-	\centering
+    \centering
     \caption{Multiplication involving a signed integer.}
     \begin{tabular}{crrrc}
     \hline
@@ -300,7 +301,7 @@ sign is applied at the end.
 \end{table}
 
 So far we have examined the 4 fundamental arithmetic operations. In summary the
-implication for memory allocation of the results are the folowing, in the worst
+implication for memory allocation of the results are the following, in the worst
 case scenarios:
 
 \begin{itemize}
@@ -308,41 +309,37 @@ case scenarios:
 operand;
 \item Subtraction: Requires the same number of bits as the greatest
 operand;
-\item Multiplication: Requires the sum of the bit-lenghts of the
+\item Multiplication: Requires the sum of the bit-lengths of the
 operands;
 \item Division: Requires the same bit-length as the dividend;
 \end{itemize}
 
-Figure \ref{fig:bitlength} shows the bit-lengths of results of the four
+\todo{adicionei esse trecho - As can be seen in} As can be seen in figure 
+\ref{fig:bitlength}, the bit-lengths of results of the four
 operations with integer operands up to 8 bits in length. The conclusions listed
 above, are visually emphasized in the figures.
 
 When operating with signed integers, an extra bit is used for the sign.
 
 The operations on single numbers (scalars) as exposed above are a simplification
-of the
-actual operations taking place on the bitstrings as we compute with compressed
-matrices. Additional details will be provided below, when we discuss the
-operation with matrices. Note that we are restricting the example to operations
-which generate integer results. Handling of float operations and compression
-will be the subject of a subsequent paper.
+of the actual operations taking place on the bitstrings as we compute with 
+compressed matrices. Additional details will be provided below, when we discuss 
+the operation with matrices. Note that we are restricting the example to 
+operations which generate integer results. Handling of float operations and 
+compression will be the subject of a subsequent paper.
 
 \begin{figure}[h]
  \centering
-%  \includegraphics[width=12cm]{./bitlength.png}
- % simples.png: 4800x3600 pixel, 600dpi, 20.32x15.24 cm, bb=0 0 576 432
+ \includegraphics[width=12cm]{./bitlength.png}
  \caption{Bit-length of the results for each of the four operations. The axes
 represent the values of the operands.}
  \label{fig:bitlength}
 \end{figure}
 
-
 \subsection{Operation on Bitstrings}
 
 To illustrate operations with bitstrings, consider the matrices $A$ an $B$,
 both $3 \times 4$:
-
-
 
 \begin{equation}
 	A = \begin{bmatrix}
@@ -352,7 +349,7 @@ both $3 \times 4$:
 		\end{bmatrix}
 \end{equation}
 
-e
+and
 
 \begin{equation}
 	B = \begin{bmatrix}
@@ -389,10 +386,10 @@ bits integers, sometimes we end up with unused bits to the left.
 \underbrace{1001}_{9}\\ 
 \ldots\underbrace{0011}_{3}\underbrace{0111}_{7}\underbrace{1010}_{10}
 \underbrace{1011}_{11}
-		\end{bmatrix}
+	\end{bmatrix}
 \end{equation}
 
-e
+and
 
 \begin{equation}\label{eq:02}
 	BB = \begin{bmatrix}
@@ -419,17 +416,15 @@ e
 \end{equation}
 
 Consider now just the bitstring stored in the first line of each matrix ($AA$
-and $BB$). To recover the original elements we need to now the bit-lengthof
+and $BB$). To recover the original elements we need to now the bit-length of
 the blocks of memory containing them, for the SM method they are all the same
 length. To obtain the values in an efficient way, we will use a binary mask.
 The mask will recover the first and third blocks at the same time to save time.
 The mask is stored as a bitstring the same length as those storing the matrix
 elements. The mask for the first and third elements of matrix $AA$ is depicted
-in \ref{eq:06}. To recover the second and fouth elements, we apply the mask
+in \ref{eq:06}. To recover the second and fourth elements, we apply the mask
 shown on \ref{eq:07}. For Matrix $BB$, see \ref{eq:08} and \ref{eq:09} for the
 respective masks.
-
-
 
 \begin{equation}\label{eq:06}
 \text{Matrix AA's mask for positions 1 and 3} = \ldots0000111100001111
@@ -448,30 +443,26 @@ respective masks.
 \end{equation}
 
 Once defined the mask we can apply it to matrices $A$ and $B$. We use the mask
-by applying the boolean function AND. Let tempA and tempB the recovered
+by applying the boolean function AND. Let $tempA$ and $tempB$ the recovered
 elements. The recovering process is illustrated below. Note that only the
 positions where the mask is $1$ are retained.
 
-%\begin{equation}\label{eq:10}
   \begin{align*}
-   A[1,1]			&=	\ldots0001|0011|0101|1000\\
+   A[1,1]		&=	\ldots0001|0011|0101|1000\\
    \text{mask A}	&=	\ldots0000|1111|0000|1111\\
-   tempA 			&=	\ldots0000|0011|0000|1000
+   tempA 		&=	\ldots0000|0011|0000|1000
   \end{align*}
-%\end{equation}
 
-%\begin{equation}\label{eq:11}
   \begin{align*}
-   B[1,1]			&= \ldots00001|00011|00111|01001 \\
+   B[1,1]		&= \ldots00001|00011|00111|01001 \\
    \text{mask B}	&= \ldots00000|11111|00000|11111 \\
-   tempB 			&= \ldots00000|00011|00000|01001
+   tempB 		&= \ldots00000|00011|00000|01001
   \end{align*}
-%\end{equation}
 
 \paragraph{Addition}
 
 Suppose we want to add both matrices and store it in a matrix $S$. for that the
-blocks of tempA and tempB must have the same length. As for the addition we
+blocks of $tempA$ and $tempB$ must have the same length. As for the addition we
 need, in the worst case, an extra bit, the block length of the resulting
 bitstring will be 6. The string from each matrix, padded on the left towards
 this new length,  are shown in equations \ref{eq:12} and \ref{eq:13}.
@@ -510,34 +501,33 @@ $S[3,1]$.
  S[3,1]&=\ldots010111|100101|001100|001100
 \end{align*}
 
-Therefore, as the final result of the operation $S= A +
-B$ we have:
+Therefore, as the final result of the operation $S= A + B$, we have:
 
 \begin{align}
-	S &= \begin{bmatrix}
-			549649\\ 
-			274889\\ 
-			6181644
-		\end{bmatrix}
+	S &=\begin{bmatrix}
+	      549649\\ 
+	      274889\\ 
+	      6181644
+	    \end{bmatrix}
         =
-         \begin{bmatrix}
-			\ldots000010000110001100010001\\
-			\ldots000001000011000111001001\\
-			\ldots010111100101001100001100
-		\end{bmatrix}
-      \\ \nonumber
-      &= \begin{bmatrix}
-\ldots\underbrace{000010}_{2}\underbrace{000110}_{6}\underbrace{001100}_{12}
-\underbrace{010001}_{17}\\	
- \ldots\underbrace{001101}_{13}\underbrace{010001}_{17}\underbrace{010100}_{20}
-\underbrace{011000}_{24}\\
- \ldots\underbrace{010111}_{23}\underbrace{100101}_{37}\underbrace{001100}_{12}
-\underbrace{001100}_{12}
-		\end{bmatrix}
+        \begin{bmatrix}
+	    \ldots000010000110001100010001\\
+	    \ldots000001000011000111001001\\
+	    \ldots010111100101001100001100
+	\end{bmatrix}
+      \\ \nonumber      
+      &=\begin{bmatrix}
+  \ldots\underbrace{000010}_{2}\underbrace{000110}_{6}\underbrace{001100}_{12}
+  \underbrace{010001}_{17}\\	
+  \ldots\underbrace{001101}_{13}\underbrace{010001}_{17}\underbrace{010100}_{20}
+  \underbrace{011000}_{24}\\
+  \ldots\underbrace{010111}_{23}\underbrace{100101}_{37}\underbrace{001100}_{12}
+  \underbrace{001100}_{12}
+	\end{bmatrix}
 \end{align}
 
 \paragraph{Subtraction}
-To perform the subtraction, we need to use C2 notation. Supose  we need to
+To perform the subtraction, we need to use C2 notation. Suppose  we need to
 calculate $D = B - A$. This operation can be done in the same way, by
 converting it to an addition: $D = B + (-A)$, where $-A$ will be converted to
 C2 (equation \ref{eq:ac2}). Note the elements will be calculated with six
@@ -545,95 +535,96 @@ digits.
 
 \begin{align}\label{eq:ac2}
 	-A &= \begin{bmatrix}
-			4952\\ 
-			52841\\ 
-			14251
-		\end{bmatrix} 
+		4952\\ 
+		52841\\ 
+		14251
+	      \end{bmatrix} 
         =
         \begin{bmatrix}
-   			\ldots111111111101111011111000\\ 
-			\ldots110100110010111010110111\\ 
-			\ldots111101111001110110110101
-		\end{bmatrix}
+	  \ldots111111111101111011111000\\ 
+	  \ldots110100110010111010110111\\ 
+	  \ldots111101111001110110110101
+	\end{bmatrix}
         \\\nonumber
-        &= \begin{bmatrix}
- \ldots\underbrace{111111}_{-1}\underbrace{111101}_{-3}\underbrace{111011}_{-5}
+        &=\begin{bmatrix}
+\ldots\underbrace{111111}_{-1}\underbrace{111101}_{-3}\underbrace{111011}_{-5}
 \underbrace{111000}_{-8}\\
 \ldots\underbrace{110100}_{-12}\underbrace{110010}_{-14}\underbrace{111010}_{-6}
 \underbrace{110111}_{-9}\\
 \ldots\underbrace{111101}_{-3}\underbrace{111001}_{-7}\underbrace{110110}_{-10}
 \underbrace{110101}_{-11}
-		\end{bmatrix}
+	  \end{bmatrix}
 \end{align}
 
 Now we apply the masks as before, but before we need to convert to C2 as well,
 in order to perform the addition.
 
 To exemplify, let's examine closely the operations $B[1,1] + (-A[1,1])$,
-$B[2,1] + (-A[2,1])$ and $B[3,1] + (-A[3,1])$. We use tempB to store each line
+$B[2,1] + (-A[2,1])$ and $B[3,1] + (-A[3,1])$. We use $tempB$ to store each line
 of the matrix B converted to C2. The numbers $1$ marked in the bitstring, are
 overflows and must be removed. The result is shown below:
 
 \begin{align*}
 	tempB	&=\ldots000001|000011|000111|001001\\
-+(-A[1,1])	&=\ldots111111|111101|111011|111000\\
+    +(-A[1,1])	&=\ldots111111|111101|111011|111000\\
 	D[1,1]
 &=\ldots\sout{1}000000|\sout{1}000000|\sout{1}000010|\sout{1}000001
 \end{align*}
 
 \begin{align*}
-	tempB &= \ldots000001|000011|001110|001111\\
-+(-A[2,1])&= \ldots110100|110010|111010|110111\\ 
-D[2,1]	  &= \ldots110101|110101|\sout{1}001000|\sout{1}000110
+	tempB 	&= \ldots000001|000011|001110|001111\\
+      +(-A[2,1])&= \ldots110100|110010|111010|110111\\ 
+      D[2,1]	&= \ldots110101|110101|\sout{1}001000|\sout{1}000110
 \end{align*}
 
 \begin{align*}
-tempB	  &= \ldots010100|011110|000010|000001 \\
-+(-A[3,1])&= \ldots111101|111001|110110|110101\\ 
-D[3,1]	  &= \ldots\sout{1}010001|\sout{1}110111|\sout{1}111000|110110
+    tempB	&= \ldots010100|011110|000010|000001 \\
+    +(-A[3,1])	&= \ldots111101|111001|110110|110101\\ 
+    D[3,1]	&= \ldots\sout{1}010001|\sout{1}110111|\sout{1}111000|110110
 \end{align*}
 
 After the removal of the overflows, matrix $D$ becomes:
 
 \begin{align}
-	D &= \begin{bmatrix}
-			129\\ 
-			14111238\\ 
-			4685366
-		\end{bmatrix} 
+	D &=\begin{bmatrix}
+		129\\ 
+		14111238\\ 
+		4685366
+	    \end{bmatrix} 
         =
         \begin{bmatrix}
-   			\ldots000000000000000010000001 \\
-			\ldots110101110101001000000110 \\
-			\ldots010001110111111000110110
-		\end{bmatrix}
-      \\\nonumber
-        &=  \begin{bmatrix}
- \ldots\underbrace{000000}_{0}\underbrace{000000}_{0}\underbrace{000010}_{2}
+	  \ldots000000000000000010000001 \\
+	  \ldots110101110101001000000110 \\
+	  \ldots010001110111111000110110
+	\end{bmatrix}
+	\\\nonumber
+	&=\begin{bmatrix}
+\ldots\underbrace{000000}_{0}\underbrace{000000}_{0}\underbrace{000010}_{2}
 \underbrace{000001}_{1} \\ 			 
- \ldots\underbrace{110101}_{-11}\underbrace{110101}_{-11}\underbrace{001000}_{8}
+\ldots\underbrace{110101}_{-11}\underbrace{110101}_{-11}\underbrace{001000}_{8}
 \underbrace{000110}_{6} \\
- \ldots\underbrace{010001}_{17}\underbrace{110111}_{23}\underbrace{111000}_{-8}
+\ldots\underbrace{010001}_{17}\underbrace{110111}_{23}\underbrace{111000}_{-8}
 \underbrace{110110}_{-10}
-		\end{bmatrix}
+	  \end{bmatrix}
 \end{align}
 
 \paragraph{Multiplication}
+
 Let's now examine matrix multiplication. Consider the product $P = A \times
 B^{t}$, where $B^t$ is the transpose of B. Thus the product becomes:
 
 \begin{equation}
 	P = A \times B = \begin{bmatrix}
-			1 & 3 & 5 & 8\\ 
-			12 &14  & 6 & 9\\ 
-			3 & 7 & 10 & 11
+		1 & 3 & 5 & 8\\ 
+		12 &14  & 6 & 9\\ 
+		3 & 7 & 10 & 11
 		\end{bmatrix}
         \times
 		\begin{bmatrix}
-			1 & 1  & 20\\ 
-            3 & 3  & 30\\
-            7 & 14 & 2\\
-            9 & 15 & 1
+		  1 & 1  & 20\\ 
+		  3 & 3  & 30\\
+		  7 & 14 & 2\\
+		  9 & 15 & 1
 		\end{bmatrix}
 \end{equation}
 
@@ -642,57 +633,55 @@ and $\times\times$ to denote the multiplication of bitstring matrices, the
 compressed product becomes:
 
 \begin{equation}\label{eq:prodbs}
-	P = AA \times BB = \begin{bmatrix}
-			4952\\ 
-			52841\\ 
-			14251
-		\end{bmatrix} 
+	P = AA \times BB =\begin{bmatrix}
+			    4952\\ 
+			    52841\\ 
+			    14251
+			  \end{bmatrix} 
         \times\times
-        \begin{bmatrix}
-			36073 & 36303 & 686145
-		\end{bmatrix}
+	\begin{bmatrix}
+	  36073 & 36303 & 686145
+	\end{bmatrix}
 \end{equation}
-
 
 \begin{equation}
 	P = AA \times BB = 
     	\begin{bmatrix}
-
 \ldots\underbrace{0001}_{1}\underbrace{0011}_{3}\underbrace{0101}_{5}\underbrace
 {1000}_{8}\\
-
 \ldots\underbrace{1100}_{12}\underbrace{1110}_{14}\underbrace{0110}_{6}
-\underbrace{1001}_{9}\\ 
-
+\underbrace{1001}_{9}\\
 \ldots\underbrace{0011}_{3}\underbrace{0111}_{7}\underbrace{1010}_{10}
 \underbrace{1011}_{11}
-		\end{bmatrix}
+	\end{bmatrix}
 \end{equation}
+
 \begin{small}
-\begin{equation}
-        \times\times \\
-        \begin{bmatrix}\mathsf{
+  \begin{equation}
+	  \times\times \\
+	  \begin{bmatrix}\mathsf{
 \ldots\underbrace{00001}_{1}\underbrace{00011}_{3}\underbrace{00111}_{7}
 \underbrace{01001}_{9}}  &\mathsf{
 \ldots\underbrace{00001}_{1}\underbrace{00011}_{3}\underbrace{01110}_{14}
 \underbrace{01111}_{15}} & \mathsf{
 \ldots\underbrace{10100}_{20}\underbrace{11110}_{30}\underbrace{00010}_{2}
 \underbrace{00001}_{1}}
-        \end{bmatrix}\nonumber
-\end{equation}
+	  \end{bmatrix}\nonumber
+  \end{equation}
 \end{small}
+
 To calculate $P[1,1]$ which in uncompressed form is $1 \times 1 + 3 \times 3 + 5
 \times 7 + 8 \times 9$, we first must extract the numbers from the bitstrings
 and then proceed with the linear combination. The extraction will make use of
-masks as described before. Let tempA and tempB store the values of blocks 1 and
-3 of AA[1,1] and BB[1,1]. Now we need to determine the size of the blocks
+masks as described before. Let $tempA$ and $tempB$ store the values of blocks 1 
+and 3 of AA[1,1] and BB[1,1]. Now we need to determine the size of the blocks
 (bit-length) containing each element of the resulting matrix. As demonstrated
 before, in the worst case, the product will have a bit-length which is the sum
 of the bit-lengths of the operands. For this example this length is $4+5=9$,
 however, we also have three additions for each element,adding a total of 3
 extra bits, thus we end up with a bit-length of 12 for each element of the
-product. Having determined the bit-length of the product, we can now we can do
-the actual calculations and store the results.
+product. Having determined the bit-length of the product, we can now \todo{we 
+can - removi} do the actual calculations and store the results.
 
 The linear combination of elements which generates $P[1,1]$ is detailed below.
 We use temporary variables $tempP_i$ to store the products before adding them,
@@ -727,8 +716,6 @@ where $i$ is the product being calculated.
  tempP_4&= \ldots001001000
 \end{align*}
 
-
-
 \begin{align*}
  tempP1&= \ldots0000000001 \\
  tempP2&= \ldots0000001001 \\
@@ -748,7 +735,6 @@ where $i$ is the product being calculated.
 \end{align*}
 
 So, $P[1,1]$ is $000001010101$, and the entire matrix $P$ becomes:
-
 
 \begin{align}
 	P &= \begin{bmatrix}
@@ -773,7 +759,7 @@ So, $P[1,1]$ is $000001010101$, and the entire matrix $P$ becomes:
         \end{bmatrix}
 \end{align}
 
-Again we can see that P is already in compressed form, which confirms that the
+Again, we can see that P is already in compressed form, which confirms that the
 entire operation was conducted without decompressing the data.
 
 The division operation with matrices will be described in a subsequent paper
