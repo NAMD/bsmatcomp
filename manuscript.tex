@@ -803,9 +803,127 @@ analysis.
 These results show that a good compression is guaranteed when bit-lengths are 
 distributed according to the tested distributions regardless of sample size. 
 
-\todo{Parei aqui}
 
-\section{Conclusion}
+\section*{Library Implementation }
+
+The methodology employed in this this paper includes the SM method, which was implemented in a library for Fortran. The 
+overloaded operations were assignment, addition, subtraction, multiplication, transpose, and maximum of a matrix. 
+Although only few significant operations of matrices presented ovearload, any other operation can be performed, since 
+the methods for inserting and collecting an element in a matrix of bitstring were implemented. With these two methods, 
+as long as they are properly adapted into algorithms, it becomes possible to implement any other desired operation.
+
+The method was also extended to allow for the allocation of real and integer numbers, besides positive integers, inside 
+the matrix bistring. Some adjustments were made so that the other groups of numbers could be represented. In order to 
+represent the integers with signs, it is necessary to use two's complement, as it is applied to thein accordance to 
+traditional methods.
+
+The SM method uses a range of bits to store the values in such a way that
+the size or number of bits used is important to represent the highest value in the bitstring matrix. The adaptation 
+consists in determining the largest value to be stored considering the absolute value of the number. That done,
+when the number is negative, it is necessary to rewrite it since, due to the sign, this will be written in the form of 
+two's complement. The purpose of this conversion is to optimize library processing. Take the following as an example: 
+the number 5, when represented in a 32-bit integer, is defined as:
+
+\begin{equation}\nonumber
+ 5 = 00000000 00000000 00000000 00000101
+\end{equation}
+
+However, if the number is negative, this is represented in the form of two's complement. Therefore, the number -5 is 
+represented as:
+
+\begin{equation}\nonumber
+ -5 = 11111111 11111111 11111111 11111011
+\end{equation}
+
+Note that the bit positioned more to the left should be used to inform that the number is -5. For the purpose of 
+optimization of the library, it was chosen to conversion of positive numbers to negative numbers and use of 1 
+bit to represent the sign. (Dúvidas aqui)
+
+Observe que os bits posicionados mais à esquerda devem ser utilizados para 
+informar que o número é o -5. Para efeito de otimização da biblioteca, foi 
+escolhido a conversão dos números negativos para positivos e a utilização de 1 
+bit para representar o sinal.
+
+In turn, in order to represent real numbers, a conversion procedure of real numbers to integer numbers was used. The 
+real number is multiplied by a power of ten and is then immediately truncated. The real numbers in a binary system of 64 
+bits are represented using a bit to represent the sign of the number, 11 bits to the exponent, and 52 bits to the 
+mantissa. Note that 1 bit is still used implicitly, according to the IEEE-754 standard. In summary, the mantissa is 
+represented in the base $2^{-1}$, $2^{-2}$, $2^{-3}$, $\hdots$, $2^{-52}$. Depending on the value to be represented, 
+loss of information can take place, which is related to the accuracy of the type used. In this case, considering a real 
+number with double precision, the demand of 64 bits to represent each one occurs, and in some cases, the number to be 
+represented is an approximation. As an example, consider that the number to be stored is 1.109. Following the 
+traditional system, the number 1,109 is represented by
+
+\begin{equation}\nonumber
+  0011111111110001101111100111011011001000101101000011100101011000
+\end{equation}
+
+We consider that the power used is $10^3$, that is, the number which needs to be stored would be 1109. In binary, that 
+number is represented by 10001010101. Note that the number of bits required is smaller, but depending on numerical 
+accuracy, the compression methods suggested are ineffective. When the power of 10 is used, it must be applied across the 
+matrix. This conversion allows the proposed methods to be applied to a set of real numbers. It should be taken into 
+account that the greater the power of 10 used, which is associated with the conversion of the real number, the larger 
+the set of bits will be required to represent the converted number. This affects the efficiency of data compression. The 
+use of the library to represent real numbers is conditioned to a study of the necessary level of precision to solve the 
+problem.
+
+
+\section*{Library Application}
+
+In order to create an application, some elementary matrix operations. Different operations have been performed by 
+measuring the execution time of each. We basically, considered the attribution of a constant to all the elements of a 
+matrix; the addition, subtraction and multiplication of the elements of a matrix by a constant, the addition, 
+subtraction and multiplication of matrices. In addition to that, the calculation of  the transposed matrix and the 
+maximum an array were also considered. This measure was used to evaluate the efficiency of the method implemented when 
+compared to traditional methods.
+
+One of the characteristics of bitstring matrices is that the operations per column, in the case of implementation in 
+Fortran, can be parallelized. This reduces the execution time, compared to traditional methods. Therefore, in order to 
+achieve this optimization, threads implementations were used for the implemented operations.
+
+As a test methodology, all the described operations were also compared to traditional methods. The matrix dimensions n x 
+n used were $n = 1,000$, $6,000$, $11,000$ to $20,000$. We emphasize that the first matrix,  created with a 1,000 
+dimension has $10^6$ elements, while the one with a 20,000 dimension has $4 \times 10^8$ elements. With the increase of 
+the size of the matrices, a larger amount of memory must be reserved to allocate the numbers. The compression effect of 
+the matrices can be verified in the results since by the proposed method the matrix is ​​directly loaded into the main 
+memory, avoiding the need for access to the secondary memory.
+
+Another library application was the implementation of the algorithm in order to deal with the problem of arrays of 
+collaborative filtering \cite{cf}. These arrays have large dimensions due to the number of users and products. Each 
+element of this matrix stores the rating of a user with respect to a specific product. With this information, it is 
+possible to specify a product for a determined customer.
+
+The manipulation of these matrices, depending on the amount of memory to be allocated, are one of the possible 
+applications of the methods proposed in this work, since it promotes the compression and data allocation in the main 
+memory. The allocation of the matrix within the main memory makes the access time to the elements much smaller than when 
+the matrix is stored in secondary memory. This latter type of storage is used in some already mentioned techniques. As 
+an example, let us examine the manipulation of a CF matrix, evaluating the access time to the elements and especially 
+the size of the memory required to run such operation. The algorithms applied to this matrix were the average per-use 
+and the bias from mean \cite{cf}, this last one of the simplest algorithms for predicting the rate of users.
+
+An example of the application of the methodology presented is shown in Figure \ref{cf}. In this figure, the matrix with 
+normal and bitstring formats are displayed. In both matrices, the information is represented and can be accessed. 
+Therefore, it becomes possible to apply the selected algorithms.
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[scale=0.4,trim=5cm 0cm 5cm 0cm,clip]{cf}
+  \caption{Illustration of the process of the bistring model application to matrices of collaborative filttering of the 
+algorithms per use average (PUA) and of the bias from mean (BFM) in a matrix represented in the traditional and 
+bitstring formats.}
+  \label{cf}
+\end{figure}
+
+
+
+Falar dos dados do GraphLab, os usados foram o do netflix, e medir o tempo 
+médio da executacao por umas 10 vezes.
+
+Os dados utilizados nos testes realizados estão disponíveis em XXX. Esses dados 
+correspondem a ....
+
+\section*{Conclusion}
+
 In this paper, we have focused in the compression of matrix data, since this is
 one of the most important application the authors foresee. However, the
 compression methodology presented can be applied to any numerical data
@@ -817,9 +935,13 @@ present details about the implementation of the compression algorithm, and
 benchmarks on classical linear algebra tasks such as those in
 Linpack\cite{dongarra1979linpack}.
 
-For the compression calculations presented in this paper we limited bit-lenght of integers to 64 bits. However the compression would work in the same way as discussed for computer architectures with larger word sizes.
+For the compression calculations presented in this paper we limited bit-lenght of integers to 64 bits. However the 
+compression would work in the same way as discussed for computer architectures with larger word sizes. 
 
-Representation of floating point numbers is also possible within the proposed compression framework, but at the expense of precision in their representation. Although this may sound like a limitation, when we take into consideration that most experimental data have fewer ``significant'' digits than the maximal precision available in modern computers, fairly good compression may still be achievable for floats.
+Representation of floating point numbers is also possible within the proposed compression framework, but at the expense 
+of precision in their representation. Although this may sound like a limitation, when we take into consideration that 
+most experimental data have fewer ``significant'' digits than the maximal precision available in modern computers, 
+fairly good compression may still be achievable for floats. 
 
 % You may title this section "Methods" or "Models". 
 % "Models" is not a valid title for PLoS ONE authors. However, PLoS ONE
