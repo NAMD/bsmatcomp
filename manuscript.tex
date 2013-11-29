@@ -99,6 +99,7 @@ a way that they retain their mathematical properties. Considerable compression
 of the data is also achieved in the process Thus allowing for the computation of
 much larger linear problems within the same memory constraints when compared
 with the traditional representation of matrices.
+
 % Please keep the Author Summary between 150 and 200 words
 % Use first person. PLoS ONE authors please skip this step. 
 % Author Summary not valid for PLoS ONE submissions.   
@@ -882,11 +883,13 @@ Fortran, can be parallelized. This reduces the execution time, compared to tradi
 achieve this optimization, threads implementations were used for the implemented operations.
 
 As a test methodology, all the described operations were also compared to traditional methods. The matrix dimensions n x 
-n used were $n = 1,000$, $6,000$, $11,000$ to $20,000$. We emphasize that the first matrix,  created with a 1,000 
-dimension has $10^6$ elements, while the one with a 20,000 dimension has $4 \times 10^8$ elements. With the increase of 
-the size of the matrices, a larger amount of memory must be reserved to allocate the numbers. The compression effect of 
-the matrices can be verified in the results since by the proposed method the matrix is ​​directly loaded into the main 
-memory, avoiding the need for access to the secondary memory.
+n used were $n = 10$, $100$, $1,000$, $10,000$, $20,000$ to $100,000$, by $10,000$. We emphasize that the matrix,  
+created with a 1,000 dimension has $10^6$ elements, while the one with a 100,000 dimension has $1 \times 10^{10}$ 
+elements. With the increase of the size of the matrices, a larger amount of memory must be reserved to allocate the 
+numbers. The compression effect of the matrices can be verified in the results since by the proposed method the matrix 
+is ​​directly loaded into the main memory, avoiding the need for access to the secondary memory.
+
+Inserir os resultados
 
 Another library application was the implementation of the algorithm in order to deal with the problem of arrays of 
 collaborative filtering \cite{cf}. These arrays have large dimensions due to the number of users and products. Each 
@@ -914,13 +917,9 @@ bitstring formats.}
   \label{cf}
 \end{figure}
 
+Inserir o segundo conjunto de resultados aqui.
 
 
-Falar dos dados do GraphLab, os usados foram o do netflix, e medir o tempo 
-médio da executacao por umas 10 vezes.
-
-Os dados utilizados nos testes realizados estão disponíveis em XXX. Esses dados 
-correspondem a ....
 
 \section*{Conclusion}
 
