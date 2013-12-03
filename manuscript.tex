@@ -632,7 +632,7 @@ The efficiency of the VLB method is influenced by the relative size of the
 bit-length groups. In this first example, we considered only two groups, each 
 comprised of half the matrix elements. Let's now vary the relative frequency of 
 the groups, $\frac{f_i}{rc}$, while sticking to two groups. Let's 
-also\todo{Acho que tinha que tirar esse Let's also, talvez colocar Now, we are 
+also \todo{Acho que tinha que tirar esse Let's also, talvez colocar Now, we are 
 going to} assume that $\frac{f_i}{rc}$ is a good approximation to the 
 probability of a given bit-length in a matrix, which we will denote by $p_i$.
 
@@ -840,11 +840,6 @@ Note that the bit positioned more to the left should be used to inform that the 
 optimization of the library, it was chosen to conversion of positive numbers to negative numbers and use of 1 
 bit to represent the sign. (Dúvidas aqui)
 
-Observe que os bits posicionados mais à esquerda devem ser utilizados para 
-informar que o número é o -5. Para efeito de otimização da biblioteca, foi 
-escolhido a conversão dos números negativos para positivos e a utilização de 1 
-bit para representar o sinal.
-
 In turn, in order to represent real numbers, a conversion procedure of real numbers to integer numbers was used. The 
 real number is multiplied by a power of ten and is then immediately truncated. The real numbers in a binary system of 64 
 bits are represented using a bit to represent the sign of the number, 11 bits to the exponent, and 52 bits to the 
@@ -889,7 +884,7 @@ elements. With the increase of the size of the matrices, a larger amount of memo
 numbers. The compression effect of the matrices can be verified in the results since by the proposed method the matrix 
 is ​​directly loaded into the main memory, avoiding the need for access to the secondary memory.
 
-Inserir os resultados
+XXXXXXXXX
 
 Another library application was the implementation of the algorithm in order to deal with the problem of arrays of 
 collaborative filtering \cite{cf}. These arrays have large dimensions due to the number of users and products. Each 
@@ -904,22 +899,11 @@ an example, let us examine the manipulation of a CF matrix, evaluating the acces
 the size of the memory required to run such operation. The algorithms applied to this matrix were the average per-use 
 and the bias from mean \cite{cf}, this last one of the simplest algorithms for predicting the rate of users.
 
-An example of the application of the methodology presented is shown in Figure \ref{cf}. In this figure, the matrix with 
-normal and bitstring formats are displayed. In both matrices, the information is represented and can be accessed. 
+An example of the application of the methodology presented is shown in Figure \ref{fig22}. In this figure, the matrix 
+with normal and bitstring formats are displayed. In both matrices, the information is represented and can be accessed. 
 Therefore, it becomes possible to apply the selected algorithms.
 
-\begin{figure}[h]
-  \centering
-  \includegraphics[scale=0.4,trim=5cm 0cm 5cm 0cm,clip]{cf}
-  \caption{Illustration of the process of the bistring model application to matrices of collaborative filttering of the 
-algorithms per use average (PUA) and of the bias from mean (BFM) in a matrix represented in the traditional and 
-bitstring formats.}
-  \label{cf}
-\end{figure}
-
-Inserir o segundo conjunto de resultados aqui.
-
-
+yyyyyyyyyyyyyy
 
 \section*{Conclusion}
 
@@ -1082,6 +1066,143 @@ constant bit-length.}
   \label{fig:2021}
 \end{figure}
 
+\begin{figure}[h]
+  \centering
+  \includegraphics[scale=0.4,trim=5cm 0cm 5cm 0cm,clip]{fig22}
+  \caption{Illustration of the process of the bistring model application to matrices of collaborative filttering of the 
+algorithms per use average (PUA) and of the bias from mean (BFM) in a matrix represented in the traditional and 
+bitstring formats.}
+  \label{fig22}
+\end{figure}
+
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[scale=0.6,clip]{fig23}
+  \caption{Tempo de processamento do método Per User Average em função do número de linhas de uma matriz com 3,000 
+colunas. A linha verde na vetical indica que o momento aproximado que o método tradicional demanda acesso a disco para 
+armazenar a matriz a ser analisada, onerando o processo. O método de bitstring consegue representar a matriz 
+integralmente na memória, sem a necessiada de acesso a disco.}
+  \label{fig23}
+\end{figure}
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[scale=0.6,clip]{fig24}
+  \caption{Tempo de processamento do método Per User Average em função do número de linhas de uma matriz com 3,000 
+colunas. A linha verde na vetical indica que o momento aproximado que o método tradicional demanda acesso a disco para 
+armazenar a matriz a ser analisada, onerando o processo. Para dimensões inferiores a aproximadamente 400 liinhas, o 
+método tracional é mais rápido que o de bitstring, ressaltando que o custo computacional dos dois métodos é linear.}
+  \label{fig24}
+\end{figure}
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[scale=0.6,clip]{fig25}
+  \caption{Relação entre o tempo de processamento pelo método de bisttring e o método tracional em função do número de 
+linhas de uma matriz com 3,000 colunas. Verifica-se que para a matriz com um número inferior a aproximadamente 400 
+linhas, o método tradicional é mais rápido, porém quando o número de linhas é superior, o método de bitstring é mais 
+rápido, por causa da representação compactada em  memória da matriz.}
+  \label{fig25}
+\end{figure}
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[scale=0.6,clip]{fig26}
+  \caption{xxx.}
+  \label{fig23}
+\end{figure}
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[scale=0.6,clip]{fig27}
+  \caption{xxx.}
+  \label{fig24}
+\end{figure}
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[scale=0.6,clip]{fig28}
+  \caption{xxx.}
+  \label{fig25}
+\end{figure}
+
+
+
+\begin{figure}[h]
+  \centering
+  \subfigure[$A=5$]{
+  \includegraphics[scale=0.4,clip]{fig29}
+  }
+  \subfigure[$A=A+5$]{
+  \includegraphics[scale=0.4,clip]{fig30}
+  }
+  \subfigure[$A=A+A$]{
+  \includegraphics[scale=0.4,clip]{fig31}
+  }
+  \subfigure[$A=A-8$]{
+  \includegraphics[scale=0.4,clip]{fig32}
+  }
+  \caption{Z}
+  \label{fig:29303132}
+\end{figure}
+
+\begin{figure}[h]
+  \centering
+  \subfigure[$A=5$]{
+  \includegraphics[scale=0.4,clip]{fig33}
+  }
+  \subfigure[$A=A+5$]{
+  \includegraphics[scale=0.4,clip]{fig34}
+  }
+  \subfigure[$A=A+A$]{
+  \includegraphics[scale=0.4,clip]{fig35}
+  }
+  \subfigure[$A=A-8$]{
+  \includegraphics[scale=0.4,clip]{fig36}
+  }
+  \caption{Z}
+  \label{fig:33343536}
+\end{figure}
+
+\begin{figure}[h]
+  \centering
+  \subfigure[$A=5$]{
+   \includegraphics[scale=0.4,clip]{fig37}
+  }
+  \subfigure[$A=A+5$]{
+   \includegraphics[scale=0.4,clip]{fig38}
+  }
+  \subfigure[$A=A+A$]{
+   \includegraphics[scale=0.4,clip]{fig39}
+  }
+  \subfigure[$A=A-8$]{
+   \includegraphics[scale=0.4,clip]{fig40}
+  }
+  \caption{R}
+  \label{fig:37383940}
+\end{figure}
+
+\begin{figure}[h]
+  \centering
+  \subfigure[$A=5$]{
+   \includegraphics[scale=0.4,clip]{fig41}
+  }
+  \subfigure[$A=A+5$]{
+   \includegraphics[scale=0.4,clip]{fig42}
+  }
+  \subfigure[$A=A+A$]{
+   \includegraphics[scale=0.4,clip]{fig43}
+  }
+  \subfigure[$A=A-8$]{
+   \includegraphics[scale=0.4,clip]{fig44}
+  }
+  \caption{R}
+  \label{fig:41424344}
+\end{figure}
+
+
+
 %\begin{figure}[!ht]
 %\begin{center}
 %%\includegraphics[width=4in]{figure_name.2.eps}
@@ -1094,6 +1215,7 @@ constant bit-length.}
 %\label{Figure_label}
 %\end{figure}
 
+\newpage
 
 \section*{Tables}
 %\begin{table}[!ht]
