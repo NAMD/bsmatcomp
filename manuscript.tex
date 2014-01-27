@@ -884,8 +884,28 @@ elements. With the increase of the size of the matrices, a larger amount of memo
 numbers. The compression effect of the matrices can be verified in the results since by the proposed method the matrix 
 is ​​directly loaded into the main memory, avoiding the need for access to the secondary memory.
 
-Resultados de 23 até 38
+In Figures \ref{fig:23242526} and \ref{fig:27282930} the results from the processing time (in milliseconds) 
+for the operations that involved only integer ($Z$) and positive integer numbers ($Z^+$) are represented. 
+The traditional method (Normal) and the Bitstring method (Bitstring $Z$, integer numbers and Bitstring Zp, 
+positive integer numbers) were used. The operations were attribution ($A=5$, A is a matrix with dimension n by n); 
+sum of the elements of a matrix with a constant ($A=A+5$); sum of matrices ($A=A+A$); andsubtraction of the elements 
+of a matrix with a constant ($A=A-8$). These operations are represented in Figure \ref{fig:23242526}. 
+Figure \ref{fig:27282930}, in turn, shows the results for the multiplicationoperations of matrices ($A = A \times A$); 
+for the multiplication of the the elements of a matrix by a constant ($A=A \times 2$); 
+and for the calculation of transpose and maximum of a matrix.
 
+The results show that the bitstring method is faster than the traditional ones only for the attribution.
+This occurs because the element of the matrix is used more than once to store the numbers, differently 
+from the traditional method. Due to the number of manipulations  the bitstring method does, the other 
+operations  demand more time to be processed, but this can be optimized. When applied to positive integers, 
+the bitstring model works faster than when applied to integers because it does not need to do operations 
+related to the signals.
+
+The results for the real numbers are represented in Figures \ref{fig:31323334} and \ref{fig:35363738}. 
+By repeating the operations tested in the integer numbers, it was possible to see that the bitstring method 
+cannot overcome the traditional method. This happensbecause its application to  the real numbers, as alternative 
+to maintain the compression, asks for a conversion of real to integer numbers in order for them to be stored and 
+when accessed, another conversion is made. This is a problem from the implementation process, but it can be optimized.
 
 Another library application was the implementation of the algorithm in order to deal with the problem of arrays of 
 collaborative filtering \cite{cf}. These arrays have large dimensions due to the number of users and products. Each 
@@ -904,7 +924,46 @@ An example of the application of the methodology presented is shown in Figure \r
 with normal and bitstring formats are displayed. In both matrices, the information is represented and can be accessed. 
 Therefore, it becomes possible to apply the selected algorithms.
 
-Resultados de 39 até 46
+In order to test a possible model application, we considered a matrix with the following dimensions: 95,000 users 
+(lines) by 3,000 movies (columns), with the ratings for Netflix’s movies
+\footnote{http://graphlab.org/downloads/datasets/}. In order to evaluate a larger dataset, we modified the 
+NetFlix data so we could increase the dimension of the matrix to be analyzed. The 95,000 users correspond to 
+thelines of the matrix. In orderto gradually increase the number of lines, we performed consecutive re-samplings 
+and added them to the original matrix . As a results, we obtained a  matrix with 600,000 lines and 3,000 columns. 
+The operations used with the matrix were the Per User Average (PUA) and the rating estimation of a movie i using 
+the Bias From Mean (BFM) \cite{cf}. The analyses were  made, considering the created matrix with different dimensions, 
+with n from 40,000 to 600,000 by 20,000. It is important to emphasize that the number of columns is constant and 
+equal to 3,000. The implementations of this problem were made in Fortran and both the developedlibrary based in 
+the method SM and in the traditional form were used. Codes were inserted in the library in order to optimize the 
+multicore processing using threads. No additional configuration was necessary to use the multicore processing. 
+since the library detects the characteristics of the processor uses them in the simulations. In turn, for the 
+traditional implementation, weused the optimization process and parallelization, which are made available by 
+the processor,as the vectorization and multicore parallelization.
+
+The results are represented in Figures \ref{fig39}, \ref{fig40} and \ref{fig41} for the PUA Method and in Figures 26, 27 and 28 for the 
+BFM Methods.  A computer with 8 GB of RAM Memory, 16 GB of swap, processor core i7 model 870\todo{confirmar modelo}
+and operational 
+system Linux Debian 7.0 was used to perform this simulation. In Figure \ref{fig39}, it is possible to verify the approximate 
+moment  when the  the storage in disk (swaap) begins to be used. This is indicated by the vertical green line. 
+At this moment, the bitstring method becomes faster than the traditional method because it does not require disk 
+storage due tocompressed memory representation. Note that, in the Figure \ref{fig40}, the traditional method is faster 
+than the bitstring one before the beginning of the disk access. However, after it becomes necessary use the disk 
+so that the matrix can be accessed and stored, , the traditional method  becames slower (Figura \ref{fig41}). 
+These results 
+indicate that the bistring method can promote the optimization of the memory use because the access to the main 
+memories (RAM and cache) are faster than the access to secondary memories (disk). In Figures \ref{fig42}, 
+\ref{fig43} and \ref{fig44} the 
+results of the processing time for  the BFM method are represented. Once again, a vertical green line indicates 
+the approximate moment when the disk access begins. There is a difference in relation to the PUA method since the 
+BMF method uses the PUA values to perform its calculation. Therefore, the BMF method demands more memory to be 
+processed, which reduces the matrix dimensions involved in the process, represented in the main memory. As 
+indicated in Figure \ref{fig41}, for the PUA method, and Figure \ref{fig44}, for the BMF method, it is possible 
+to verify that 
+before the access to the disk, the traditional method is faster than the bitstring one, but once the access 
+is initiated,  the bitstring method becames faster.
+
+In spite of the simplicity of the application, it is relevant since  it allows for large-sized matrices to be 
+allocated in memory and manipulated.
 
 \section*{Conclusion}
 
@@ -1090,112 +1149,141 @@ bitstring formats.}
   \subfigure[$A=A-8$]{
   \includegraphics[scale=0.4,clip]{fig26}
   }
-  \caption{Z}
+  \caption{Processing time of the following operations: attribution ($A=5$, A is the matrix with an n by n dimension); 
+  element sum of a matrix with a constant ($A=A+5$);sum of matrices ($A=A+A$); and subtraction of the elements of a 
+  matrix by a constant ($A=A-8$) involving integer numbers ($Z$) and positive integer numbers ($Z^+$). The bitstring 
+  method presented the best overall performance only for the attribution operations, because the storage of 
+  different numbers occurs in one element of a matrix, which reduces the accessing time. For the other operations, 
+  the bitstring method is slower due to the number ofoperations which are necessary to be  executed in order to 
+  access the elements. This can still be optimized in the implemented library.}
   \label{fig:23242526}
 \end{figure}
 
 \begin{figure}[h]
   \centering
-  \subfigure[$A=5$]{
+  \subfigure[$A = A \times A$]{
   \includegraphics[scale=0.4,clip]{fig27}
   }
-  \subfigure[$A=A+5$]{
+  \subfigure[$A=A \times 2$]{
   \includegraphics[scale=0.4,clip]{fig28}
   }
-  \subfigure[$A=A+A$]{
+  \subfigure[$transpose(A)$]{
   \includegraphics[scale=0.4,clip]{fig29}
   }
-  \subfigure[$A=A-8$]{
+  \subfigure[$maximum(A)$]{
   \includegraphics[scale=0.4,clip]{fig30}
   }
-  \caption{Z}
+  \caption{Processing time of matrix multiplication ($A = A \times A$, A is the matrix with a n by n dimension), 
+  element multiplication of matrix by constant ($A=A \times 2$), the calculation of transpose and maximum of a 
+  matrix involve integer numbers ($Z$) and positive integer numbers ($Z^+$). In this cases, the traditional 
+  method was faster than the bitstring model.}
   \label{fig:27282930}
 \end{figure}
 
 \begin{figure}[h]
   \centering
-  \subfigure[$A=5$]{
+  \subfigure[$A=5.0000$]{
    \includegraphics[scale=0.4,clip]{fig31}
   }
-  \subfigure[$A=A+5$]{
+  \subfigure[$A=A+5.0000$]{
    \includegraphics[scale=0.4,clip]{fig32}
   }
   \subfigure[$A=A+A$]{
    \includegraphics[scale=0.4,clip]{fig33}
   }
-  \subfigure[$A=A-8$]{
+  \subfigure[$A=A-8.0000$]{
    \includegraphics[scale=0.4,clip]{fig34}
   }
-  \caption{R}
+  \caption{Processing time of the following operations: attribution ($A=5.0000$, A is the matrix with an n by n dimension); 
+  element sum of a matrix with a constant ($A=A+5.000$);sum of matrices ($A=A+A$); and subtraction of the elements of a 
+  matrix by a constant ($A=A-8.0000$) involving real numbers ($R$) and positive integer numbers ($R^+$). The bitstring 
+  method presented the best overall performance only for the attribution operations, because the storage of 
+  different numbers occurs in one element of a matrix, which reduces the accessing time. For the other operations, 
+  the bitstring method is slower due to the number ofoperations which are necessary to be  executed in order to 
+  access the elements. This can still be optimized in the implemented library.}
   \label{fig:31323334}
 \end{figure}
 
 \begin{figure}[h]
   \centering
-  \subfigure[$A=5$]{
+  \subfigure[$A = A \times A$]{
    \includegraphics[scale=0.4,clip]{fig35}
   }
-  \subfigure[$A=A+5$]{
+  \subfigure[$A=A \times 2$]{
    \includegraphics[scale=0.4,clip]{fig36}
   }
-  \subfigure[$A=A+A$]{
+  \subfigure[$transpose(A)$]{
    \includegraphics[scale=0.4,clip]{fig37}
   }
-  \subfigure[$A=A-8$]{
+  \subfigure[$maximum(A)$]{
    \includegraphics[scale=0.4,clip]{fig38}
   }
-  \caption{R}
+  \caption{Processing time of matrix multiplication ($A = A \times A$, A is the matrix with a n by n dimension), 
+  element multiplication of matrix by constant ($A=A \times 2.0000$), the calculation of transpose and maximum of a 
+  matrix involve integer numbers ($R$) and positive integer numbers ($R^+$). In this cases, the traditional 
+  method was faster than the bitstring model.}
   \label{fig:35363738}
 \end{figure}
 
 \begin{figure}[h]
   \centering
   \includegraphics[scale=0.6,clip]{fig39}
-  \caption{Tempo de processamento do método Per User Average em função do número de linhas de uma matriz com 3,000 
-colunas. A linha verde na vetical indica que o momento aproximado que o método tradicional demanda acesso a disco para 
-armazenar a matriz a ser analisada, onerando o processo. O método de bitstring consegue representar a matriz 
-integralmente na memória, sem a necessiada de acesso a disco.}
+  \caption{Processing time for the Per User Average method (PUA) in function of the numbers of linesof a matrix 
+  with 3,000 columns. The vertical green line indicates the approximate moment when the traditional method  
+  demands  disk access in order to store the matrix to be analyzed, which  overloads the process. The bitstring 
+  method fully represents a matrix  in memory, without the necessity to access the  disk.}
   \label{fig39}
 \end{figure}
 
 \begin{figure}[h]
   \centering
   \includegraphics[scale=0.6,clip]{fig40}
-  \caption{Tempo de processamento do método Per User Average em função do número de linhas de uma matriz com 3,000 
-colunas. A linha verde na vetical indica que o momento aproximado que o método tradicional demanda acesso a disco para 
-armazenar a matriz a ser analisada, onerando o processo. Para dimensões inferiores a aproximadamente 400 liinhas, o 
-método tracional é mais rápido que o de bitstring, ressaltando que o custo computacional dos dois métodos é linear.}
+  \caption{Processing time for the Per User Average method (PUA) in function of the  numbers of lines of a matrix 
+  with 3,000 columns.  The vertical green line indicates the approximate moment when the traditional method  
+  demands disk access in order to store the matrixto be analyzed, which  overloads the process. For dimensions 
+  inferior to approximately 400 lines, the traditional method is faster than the bitstring one. It is important 
+  to emphasize that the computational cost of both methods is linear.}
   \label{fig40}
 \end{figure}
 
 \begin{figure}[h]
   \centering
   \includegraphics[scale=0.6,clip]{fig41}
-  \caption{Relação entre o tempo de processamento pelo método de bisttring e o método tracional em função do número de 
-linhas de uma matriz com 3,000 colunas. Verifica-se que para a matriz com um número inferior a aproximadamente 400 
-linhas, o método tradicional é mais rápido, porém quando o número de linhas é superior, o método de bitstring é mais 
-rápido, por causa da representação compactada em  memória da matriz.}
+  \caption{Relation between the processing time using the bitstring method and the traditional method in function 
+  of the line numbers of a matrix with 3,000 columns. It is possible to verify that for a matrix with less than 400 
+  lines, the traditional method is faster. However, when the number of lines is greater  than 400 lines, the best 
+  method is the bitstring because of the compressed representation in the matrix memory.}
   \label{fig41}
 \end{figure}
 
 \begin{figure}[h]
   \centering
   \includegraphics[scale=0.6,clip]{fig42}
-  \caption{xxx.}
-  \label{fig43}
+  \caption{Processing time for the Bias From Mean method (BMF) in function of the numbers of linesof a matrix 
+  with 3,000 columns. The vertical green line indicates the approximate moment when the traditional method  
+  demands  disk access in order to store the matrix to be analyzed, which  overloads the process. The bitstring 
+  method fully represents a matrix  in memory, without the necessity to access the  disk.}
+  \label{fig42}
 \end{figure}
 
 \begin{figure}[h]
   \centering
   \includegraphics[scale=0.6,clip]{fig43}
-  \caption{xxx.}
+  \caption{Processing time for the Bias From Mean method (BMF) in function of the  numbers of lines of a matrix 
+  with 3,000 columns.  The vertical green line indicates the approximate moment when the traditional method  
+  demands disk access in order to store the matrixto be analyzed, which  overloads the process. For dimensions 
+  inferior to approximately 400 lines, the traditional method is faster than the bitstring one. It is important 
+  to emphasize that the computational cost of both methods is linear.}
   \label{fig43}
 \end{figure}
 
 \begin{figure}[h]
   \centering
   \includegraphics[scale=0.6,clip]{fig44}
-  \caption{xxx.}
+  \caption{Relation between the processing time using the bitstring method and the traditional method in function 
+  of the line numbers of a matrix with 3,000 columns. It is possible to verify that for a matrix with less than 400 
+  lines, the traditional method is faster. However, when the number of lines is greater  than 400 lines, the best 
+  method is the bitstring because of the compressed representation in the matrix memory.}
   \label{fig44}
 \end{figure}
 
@@ -1214,6 +1302,8 @@ rápido, por causa da representação compactada em  memória da matriz.}
 %\end{figure}
 
 \newpage
+
+\clearpage
 
 \section*{Tables}
 %\begin{table}[!ht]
