@@ -177,10 +177,10 @@ of bits of variable length. The methods resemble the arithmetic
 coding\cite{bodden2007arithmetic} algorithm, but is cheaper to compute. We 
 describe the process of compression and decompression, and study their 
 efficiency under different applications. We also discuss the efficiency of the 
-compression as a function of the distribution of the elements of the matrix. 
-\todo{Inseri isso} Also presented are some results in relation to the 
-traditional method of matrix allocation. We also consider the 
-arithmetic operations to measure the efficiency of the proposed methodology.
+compression as a function of the distribution of the elements of the 
+matrix, some results comparing our method with the traditional method of matrix 
+allocation, and arithmetic operations as a benchmark measure the efficiency of 
+operating with bitstring-compressed matrices.
 
 \section*{Methods}
 
@@ -191,18 +191,15 @@ operations, we need to maintain the structure of the matrix, ie, the ability
 to access any element given its row $i$ and column $j$ and also the numeric 
 nature of its elements. In order to achieve compression, we decided to exploit 
 inefficiencies in the conventional way matrices are allocated in memory. 
-\todo{adicionei aqui} The analyzes presented in this article, in the first 
-moment, are related to arrays of positive integers, but can be applied to 
-integers and real numbers with some adaptations, which are presented in due 
-course. \todo{removi isso The examples in this paper will be restricted to 
-matrices with positive integer elements, but}	
+ The analyses presented in this article concern arrays of positive integers, 
+but can be applied to signed integers and real numbers with few adaptations. 
 
 The compression method is as follows. Let $M_{r \times c}$ be a matrix, in which 
 $r$ is the number of rows and $c$ the number of columns. Each element of this 
 matrix, called $m_{ij}$, is a positive integer. In digital computers, all 
 information is stored as binary code (base 2 numbers). However, the conventional 
 way to store arrays of integers is on a memory block sequence of fixed size 
-(power of 2 numbers of bit), one for each element. The maximum size of a block 
+(power of 2 number of bits), one for each element. The maximum size of a block 
 is equal to the word size of the processor, which for most current CPUs is 64 
 bits. Some special number such as complex number may be encoded as two blocks 
 instead of one. The size of the chunk of memory allocated to each number will 
@@ -236,7 +233,7 @@ it. We will use capital roman letters to denote uncompressed matrices and the
 corresponding lower case letter for the compressed version.
 
 \begin{equation} \label{eq:01}
- b(\sup M) \approx \begin{cases}
+ b(\sup M) = \begin{cases}
 	1, &  \text{ if } \sup M \in \{0,1\} \\ 
 	\lfloor \log_2(\sup M)  \rfloor + 1,  & \text{ if } \sup M > 1  
 	\end{cases}
@@ -388,8 +385,8 @@ we require a second bitstring.
 
  We used a total of 87 bits to store matrix $m$ with the VLB method instead of 
 80 bits using the SM method. However, as shall be seen later, the VLB method 
-will be the most efficient for most matrices. \todo{adicionei} With the method 
-VLB the resulting matrix is smaller than the original matrix.
+will be the most efficient for most matrices. With the VLB 
+method the resulting matrix is smaller than the original matrix.
  
 \subsection*{Compression Efficiency}
  Compression efficiency depends of the data being compressed. Below, a formula 
@@ -420,8 +417,7 @@ As we see in \ref{eq:15}, $\eta_1$ does not depend on size of the matrix, only
 on the bit-length of $\max M$. If $b(\max M)=64$, $\eta_1$ is 0, ie, no 
 compression is possible. On the other extreme, if the matrix is composed 
 exclusively of 0s and 1s, maximal compression is achievable, 
-$\eta_1=0.9843$.\todo{Alterei a proporção para 0.98, pois é o maior valor que 
-pode ser obtido.}
+$\eta_1=0.9843$.
  
 \subsubsection*{VLB Method}
  
@@ -459,7 +455,7 @@ obtaining (\ref{eq:17}).
 For this method, the highest value obtained for the data compression is 0.9687, 
 when b = 1 and k = 1. However, the lower value is defined by a range of values, 
 ​​such that the value of $k = \frac{\sum_{i=1}^{g}  b_i \times f_i}{rc} - 64$. 
-\todo{Adicionei esse trecho para ficar igual ao SM}
+
 
 % Results and Discussion can be combined.
 \section*{Results}
@@ -588,8 +584,8 @@ some numbers. In specific cases, where the variance in the data null or too
 small, method I will be more efficient. As a matter of fact, for matrices where 
 all elements have the same bit-length, SM method  will always be better, 
 regardless of bit-length (Figures \ref{fig20} and \ref{fig21}). There are only 
-exception, if for bit-length 64, where neither method is able to compress the 
-data. \todo{Alterei a última frase}
+one exception: for bit-length 64, where neither method is able to compress 
+the data. 
 
 \section*{Discussion}
 
@@ -597,8 +593,8 @@ data. \todo{Alterei a última frase}
 
 To determine the best compression method to apply, it's necessary to inspect the 
 distribution of bit-lengths of matrix elements. When matrix elements are small 
-or have nearly-constant bit-length, the SM Method is better\todo{alterei de 
-best para better}, otherwise, the VLB method should be chosen.
+or have nearly-constant bit-length, the SM method is better, otherwise, the VLB 
+method should be chosen.
 
 As an example, let $M_{r\times c}$ be a integer matrix, such that the half of 
 its elements have bit-length $1$ and the other half $64$. Recalling Equation 
@@ -631,9 +627,8 @@ a compression of $38.29\%$.
 The efficiency of the VLB method is influenced by the relative size of the 
 bit-length groups. In this first example, we considered only two groups, each 
 comprised of half the matrix elements. Let's now vary the relative frequency of 
-the groups, $\frac{f_i}{rc}$, while sticking to two groups. Let's 
-also \todo{Acho que tinha que tirar esse Let's also, talvez colocar Now, we are 
-going to} assume that $\frac{f_i}{rc}$ is a good approximation to the 
+the groups, $\frac{f_i}{rc}$, while sticking to two groups. Here, we assume 
+that $\frac{f_i}{rc}$ is a good approximation to the 
 probability of a given bit-length in a matrix, which we will denote by $p_i$.
 
 With this definition, we can rewrite the Equation \ref{eq:17}, which becomes 
@@ -794,31 +789,41 @@ with $k=7$,  the efficiency becomes:
 This result is in accordance to Table \ref{tab:06}.
 
 \paragraph{Numerical Estimates:}
-The results for this simulation can be seen in \ref{tab:06}. Note that 
+The results for this simulation can be seen in table \ref{tab:06}. Note that 
 increasing the number of bits to represent numbers increases, there is a loss of 
 efficiency in the compression process. In this case, we did not simulate for 
 $\lambda=64$ since a large portion of the samples would fall above the maximum 
-bit-length, but \todo{coloquei ", but", aqui} we are considering for this 
-analysis. 
+bit-length. 
 
 These results show that a good compression is guaranteed when bit-lengths are 
 distributed according to the tested distributions regardless of sample size. 
 
 
-\section*{Library Implementation }
+\section*{Implementation }\todo{acho que esta seção toda deve ir para o 
+material suplementar.}
 
-The methodology employed in this this paper includes the SM method, which was implemented in a library for Fortran. The 
-overloaded operations were assignment, addition, subtraction, multiplication, transpose, and maximum of a matrix. 
-Although only few significant operations of matrices presented ovearload, any other operation can be performed, since 
-the methods for inserting and collecting an element in a matrix of bitstring were implemented. With these two methods, 
-as long as they are properly adapted into algorithms, it becomes possible to implement any other desired operation.
+This paper proposes the bitstring-compression methodologies. The SM 
+method was implemented as a Fortran library which is available under an 
+open-source license\todo{colocar o link para o repositório aqui}. The 
+implementation extends the standard Matrix type of Fortran, overloading 
+operators such as assignment, addition, subtraction, multiplication, transpose, 
+and maximum of a matrix. 
+Although only few significant matrix operations have been ovearloaded in this 
+example implementation, any other operation can be performed, since 
+the methods for inserting and collecting an element in a matrix of bitstring 
+were also implemented. With these two methods, as long as they are properly 
+adapted into algorithms, it is possible to implement any other desired 
+operation.
 
-The method was also extended to allow for the allocation of real and integer numbers, besides positive integers, inside 
-the matrix bistring. Some adjustments were made so that the other groups of numbers could be represented. In order to 
-represent the integers with signs, it is necessary to use two's complement, as it is applied to thein accordance to 
-traditional methods.
+The SM method was also extended to allow for the allocation of real and 
+signed integer matrices, besides positive integer ones. Some adjustments were 
+made so that the other types of numbers could be represented. In order to 
+represent the signed integers, it was necessary to use two's complement, as it 
+is applied to thein accordance to traditional methods\todo{acho que esta 
+explicação ficou muito solta. Não precisamos explica a implementação no 
+artigo, podemos colocar na documentação do código}.
 
-The SM method uses a range of bits to store the values in such a way that
+The SM method uses a fixed number of bits to store the values in such a way that
 the size or number of bits used is important to represent the highest value in the bitstring matrix. The adaptation 
 consists in determining the largest value to be stored considering the absolute value of the number. That done,
 when the number is negative, it is necessary to rewrite it since, due to the sign, this will be written in the form of 
@@ -864,7 +869,7 @@ use of the library to represent real numbers is conditioned to a study of the ne
 problem.
 
 
-\section*{Library Application}
+\section*{Library Application}\todo{Também deve ir para o material suplementar}
 
 In order to create an application, some elementary matrix operations. Different operations have been performed by 
 measuring the execution time of each. We basically, considered the attribution of a constant to all the elements of a 

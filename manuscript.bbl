@@ -72,6 +72,12 @@ Bodden E, Clasen M, Kneis J (2007) Arithmetic coding revealed.
   Computer Science, (McGill University, Montr{\'e}al.
 \bibAnnoteFile{bodden2007arithmetic}
 
+\bibitem{cf}
+Lemire D, Maclachlan A (2007) Slope one predictors for online rating-based
+  collaborative filtering.
+\newblock CoRR abs/cs/0702144.
+\bibAnnoteFile{cf}
+
 \bibitem{teseCrysttian}
 Paix\~{a}o CA (2012) Bitstring model for study of the propagation Dengue fever.
 \newblock Phd thesis, Federal University of Lavras.

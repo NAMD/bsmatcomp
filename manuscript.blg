@@ -1,49 +1,49 @@
-This is BibTeX, Version 0.99d (TeX Live 2012/Debian)
+This is BibTeX, Version 0.99d (TeX Live 2013/Debian)
 Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
 The top-level auxiliary file: manuscript.aux
 The style file: plos2009.bst
 Database file #1: plos.bib.bib
 Reallocated singl_function (elt_size=4) to 100 items from 50.
 Warning--empty pages in bodden2007arithmetic
-You've used 12 entries,
+You've used 13 entries,
             2441 wiz_defined-function locations,
-            617 strings with 6245 characters,
-and the built_in function-call counts, 7684 in all, are:
-= -- 677
-> -- 108
+            622 strings with 6366 characters,
+and the built_in function-call counts, 8148 in all, are:
+= -- 719
+> -- 116
 < -- 2
-+ -- 54
-- -- 27
-* -- 592
-:= -- 892
-add.period$ -- 28
-call.type$ -- 12
-change.case$ -- 15
++ -- 58
+- -- 29
+* -- 626
+:= -- 952
+add.period$ -- 30
+call.type$ -- 13
+change.case$ -- 16
 chr.to.int$ -- 0
-cite$ -- 25
-duplicate$ -- 801
-empty$ -- 836
-format.name$ -- 34
-if$ -- 1730
+cite$ -- 27
+duplicate$ -- 851
+empty$ -- 883
+format.name$ -- 37
+if$ -- 1832
 int.to.chr$ -- 0
-int.to.str$ -- 12
-missing$ -- 123
-newline$ -- 76
-num.names$ -- 12
-pop$ -- 195
+int.to.str$ -- 13
+missing$ -- 131
+newline$ -- 81
+num.names$ -- 13
+pop$ -- 204
 preamble$ -- 1
 purify$ -- 0
 quote$ -- 0
-skip$ -- 86
+skip$ -- 90
 stack$ -- 0
-substring$ -- 899
-swap$ -- 231
+substring$ -- 947
+swap$ -- 245
 text.length$ -- 2
 text.prefix$ -- 0
 top$ -- 0
 type$ -- 0
 warning$ -- 1
-while$ -- 51
-width$ -- 14
-write$ -- 148
+while$ -- 55
+width$ -- 15
+write$ -- 159
 (There was 1 warning)
