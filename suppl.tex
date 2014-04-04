@@ -51,7 +51,7 @@
 In this supplementary material we will explore basic arithmetic operations
 (addition, subtraction, division and multiplication) over the elements of
 bitstring compressed arrays. We will consider integer matrices compressed via
-both the SM and the VLB methods, \todo{inseri esse texto} but the proposed 
+both the SM and the VLB methods, but the proposed 
 methods can be applied to integers and real numbers with sign.
 
 In these operations, the most important aspect is the bit-length of the result
@@ -61,9 +61,8 @@ more space to store and the operation in itself gets more complex, as in place
 operations are not possible. In the following examples, we will explore these
 kinds of operations.
 
-It also presents an application of the developed library. The results of 
-operations implemented and implementation are presented in a matrix problem of 
-collaborative filtering.\todo{Inseri para colocar a parte da implementação.}
+It also presents an application of the developed library. We apply our 
+implementation to classical machine learning problem: collaborative filtering.
 
 \subsection{Operations with Scalars}
 
@@ -102,10 +101,10 @@ longer.
 \todo{Traduzi o título que estava em português.}
 \begin{table}[ht]
     \centering
-    \caption{Comparison of the sum in binary and decimal base.}
+    \caption{Comparing binary and decimal sum of 7+7.}
     \begin{tabular}{crrrc}
     \hline
-    	  & Decimal & & Binario & Bit-length \\
+    	  & Decimal & & Binary & Bit-length \\
     \hline      
     Carry & 	& & \textit{1110} & \\
     $n_1$ & 7   & & 111 & 3 \\
@@ -123,7 +122,7 @@ This fact alone generates the need for an extra bit to represent the sign ($+$
 or $-$). The usual way to achieve this is to use the  two's complement
 \cite{flores1963logic} representation which has the advantage of making the
 addition subtraction and multiplication operation the same as those for unsigned
-binary numbers. This algorithm \todo{removi is what} is actually implemented in 
+binary numbers. This algorithm is actually implemented in 
 CPUs. To exemplify let's subtract $7$ from $10$. To make use of the
 same algorithm of the sum , we represent the operation as $10+(-7)$. First we
 need to convert the operands to two's complement representation (C2):
@@ -328,7 +327,7 @@ operands;
 \item Division: Requires the same bit-length as the dividend;
 \end{itemize}
 
-\todo{adicionei esse trecho - As can be seen in} As can be seen in figure 
+As can be seen in figure 
 \ref{fig:bitlength}, the bit-lengths of results of the four
 operations with integer operands up to 8 bits in length. The conclusions listed
 above, are visually emphasized in the figures.
@@ -694,8 +693,8 @@ before, in the worst case, the product will have a bit-length which is the sum
 of the bit-lengths of the operands. For this example this length is $4+5=9$,
 however, we also have three additions for each element,adding a total of 3
 extra bits, thus we end up with a bit-length of 12 for each element of the
-product. Having determined the bit-length of the product, we can now \todo{we 
-can - removi} do the actual calculations and store the results.
+product. Having determined the bit-length of the product, we can now do the 
+actual calculations and store the results.
 
 The linear combination of elements which generates $P[1,1]$ is detailed below.
 We use temporary variables $tempP_i$ to store the products before adding them,
@@ -789,9 +788,7 @@ operations with bitstring compressed scalars and matrices.
 
 This paper proposes the bitstring-compression methodologies. The SM 
 method was implemented as a Fortran library which is available under an 
-open-source license\todo{colocar o link para o repositório aqui}\todo{Acho 
-melhor mandar para o artigo e anexar a biblioteca, para depois disponibilizar 
-o código.}. The 
+open-source license. The 
 implementation extends the standard Matrix type of Fortran, overloading 
 operators such as assignment, addition, subtraction, multiplication, transpose, 
 and maximum of a matrix. 
@@ -804,13 +801,8 @@ operation.
 
 The SM method was also extended to allow for the allocation of real and 
 signed integer matrices, besides positive integer ones. Some adjustments were 
-made so that the other types of numbers could be represented. In order to 
-represent the signed integers, it was necessary to use two's complement, as it 
-is applied to thein accordance to traditional methods\todo{acho que esta 
-explicação ficou muito solta. Não precisamos explica a implementação no 
-artigo, podemos colocar na documentação do código}. \todo{Eu deixaria, pois é 
-apenas um apontamento com relação as operações, pois no arquivo que 
-compartilhei com você eu coloco os códigos fontes com comentários.}
+made so that the other types of numbers could be represented. \todo{removi 
+``in order to represent...''}
 
 The SM method uses a fixed number of bits to store the values in such a way that
 the size or number of bits used is important to represent the highest value in 
@@ -1016,7 +1008,7 @@ The results are represented in Figures \ref{fig39}, \ref{fig40} and \ref{fig41}
 for the PUA Method and in Figures 
 \ref{fig42}, \ref{fig43} and \ref{fig44} for the 
 BFM Methods.  A computer with 8 GB of RAM Memory, 16 GB of swap, processor core 
-i7 model 870  \todo{confirmar modelo}
+i7 model 870
 and operational 
 system Linux Debian 7.0 was used to perform this simulation. In Figure 
 \ref{fig39}, it is possible to verify the approximate 
